@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pattern Weaver</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #0c0c1e; /* Deep dark blue */
+            color: #e0f7fa; /* Light cyan text */
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            padding: 20px;
+            overflow: auto;
+            box-sizing: border-box;
+        }
+
+        .game-container {
+            background-color: #1a1a3a; /* Slightly lighter deep blue */
+            border: 2px solid #00c4ff; /* Bright blue border */
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0, 196, 255, 0.4), inset 0 0 15px rgba(0, 196, 255, 0.2);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #8afff0; /* Neon aqua */
+            text-shadow: 0 0 15px rgba(138, 255, 240, 0.7);
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-align: center;
+        }
+
+        .game-area {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            justify-content: center;
+            gap: 30px;
+            width: 100%;
+        }
+
+        .grid-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            flex-grow: 1;
+            min-width: 300px; /* Ensure grids don't get too small */
+            max-width: 400px; /* Max width for individual grid */
+        }
+
+        .grid-section h2 {
+            color: #00e676; /* Bright green */
+            font-size: 1.5em;
+            text-shadow: 0 0 8px rgba(0, 230, 118, 0.5);
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        canvas {
+            background-color: #08081a; /* Even darker for canvas background */
+            border: 2px solid #00c4ff; /* Matching border */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 196, 255, 0.3);
+            display: block;
+            touch-action: none; /* Disable default touch actions */
+            transition: transform 0.2s ease-in-out;
+        }
+        canvas:hover {
+            transform: scale(1.01);
+        }
+
+        .info-panel {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            padding: 10px 0;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.1em;
+            color: #b3e5fc; /* Light blue for info */
+            background-color: #263238; /* Darker grey */
+            border-radius: 10px;
+            border: 1px solid #455a64;
+        }
+        .info-item span {
+            color: #8afff0; /* Neon aqua for numbers */
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(138, 255, 240, 0.5);
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        button {
+            background: linear-gradient(145deg, #00c4ff, #007bb2); /* Blue gradient */
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            flex: 1 1 auto; /* Allow buttons to grow and shrink */
+            min-width: 120px;
+            max-width: 200px;
+        }
+        button:hover {
+            background: linear-gradient(145deg, #007bb2, #00c4ff);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        button.active-tool {
+            background: linear-gradient(145deg, #00e676, #00b050); /* Green for active tool */
+            box-shadow: 0 0 20px rgba(0, 230, 118, 0.8), inset 0 0 10px rgba(0, 230, 118, 0.5);
+            transform: scale(1.05);
+        }
+
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #1a1a3a;
+            border: 2px solid #ff0052; /* Red for alert/win */
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            font-size: 1.3em;
+            box-shadow: 0 0 40px rgba(255, 0, 82, 0.7);
+            z-index: 1000;
+            display: none;
+            max-width: 80%;
+            color: #ffebee;
+        }
+        .message-box h2 {
+            color: #ff0052;
+            margin-bottom: 20px;
+            font-size: 2em;
+            text-shadow: 0 0 10px rgba(255, 0, 82, 0.8);
+        }
+        .message-box button {
+            background: linear-gradient(145deg, #ff0052, #cc0042);
+            margin-top: 30px;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-family: 'Orbitron', sans-serif;
+            border-radius: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .game-area {
+                flex-direction: column;
+                align-items: center;
+            }
+            .grid-section {
+                width: 90%;
+            }
+            .game-container {
+                padding: 20px;
+                gap: 15px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .grid-section h2 {
+                font-size: 1.2em;
+            }
+            .info-panel {
+                font-size: 0.9em;
+                flex-direction: column;
+                gap: 5px;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 0.9em;
+                min-width: unset;
+                max-width: unset;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h1>Pattern Weaver</h1>
+
+        <div class="info-panel">
+            <div class="info-item">Moves: <span id="moves-display">0</span></div>
+            <div class="info-item">Best: <span id="best-moves-display">N/A</span></div>
+        </div>
+
+        <div class="game-area">
+            <div class="grid-section">
+                <h2 id="target-grid-title">Target Pattern</h2>
+                <canvas id="targetGridCanvas"></canvas>
+            </div>
+            <div class="grid-section">
+                <h2 id="player-grid-title">Your Pattern</h2>
+                <canvas id="playerGridCanvas"></canvas>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="toggle-cell-btn" data-tool="toggleCell" class="active-tool">Toggle Cell</button>
+            <button id="toggle-row-btn" data-tool="toggleRow">Toggle Row</button>
+            <button id="toggle-col-btn" data-tool="toggleColumn">Toggle Col</button>
+            <button id="invert-grid-btn" data-tool="invertGrid">Invert Grid</button>
+            <button id="new-game-btn">New Game</button>
+        </div>
+    </div>
+
+    <div id="messageBox" class="message-box">
+        <h2 id="messageTitle"></h2>
+        <p id="messageText"></p>
+        <button id="messageButton">OK</button>
+    </div>
+
+    <script>
+        // --- DOM Elements ---
+        const targetGridCanvas = document.getElementById('targetGridCanvas');
+        const playerGridCanvas = document.getElementById('playerGridCanvas');
+        const movesDisplay = document.getElementById('moves-display');
+        const bestMovesDisplay = document.getElementById('best-moves-display');
+        const newGameButton = document.getElementById('new-game-btn');
+        const toolButtons = document.querySelectorAll('.controls button[data-tool]');
+        const messageBox = document.getElementById('messageBox');
+        const messageTitle = document.getElementById('messageTitle');
+        const messageText = document.getElementById('messageText');
+        const messageButton = document.getElementById('messageButton');
+
+        // --- Game Configuration ---
+        const GRID_SIZE = 12; // e.g., 10x10 grid
+        const CELL_SIZE = 30; // Size of each cell in pixels
+        const CANVAS_SIZE = GRID_SIZE * CELL_SIZE;
+
+        // --- Game State Variables ---
+        let targetGrid = []; // 2D array representing the target pattern (boolean: true for active, false for inactive)
+        let playerGrid = []; // 2D array representing the player's current pattern
+        let moves = 0;
+        let bestMoves = localStorage.getItem('patternWeaverBestMoves') ? parseInt(localStorage.getItem('patternWeaverBestMoves')) : Infinity;
+        let currentTool = 'toggleCell'; // Default tool
+
+        // --- Canvas Contexts ---
+        const targetCtx = targetGridCanvas.getContext('2d');
+        const playerCtx = playerGridCanvas.getContext('2d');
+
+        // --- Initialization ---
+        function initializeCanvas() {
+            targetGridCanvas.width = CANVAS_SIZE;
+            targetGridCanvas.height = CANVAS_SIZE;
+            playerGridCanvas.width = CANVAS_SIZE;
+            playerGridCanvas.height = CANVAS_SIZE;
+            updateBestMovesDisplay(); // Update best score on load
+        }
+
+        /**
+         * Initializes both target and player grids with default states.
+         * Target grid gets a random pattern. Player grid starts empty.
+         */
+        function initializeGrids() {
+            targetGrid = createRandomPattern(GRID_SIZE);
+            playerGrid = Array(GRID_SIZE).fill(0).map(() => Array(GRID_SIZE).fill(false)); // All cells off
+        }
+
+        // --- Game Logic Functions ---
+
+        /**
+         * Generates a random boolean pattern for the grid.
+         * @param {number} size - The size of the grid (e.g., 10 for a 10x10 grid).
+         * @returns {boolean[][]} A 2D array of booleans.
+         */
+        function createRandomPattern(size) {
+            const pattern = [];
+            for (let i = 0; i < size; i++) {
+                pattern[i] = [];
+                for (let j = 0; j < size; j++) {
+                    pattern[i][j] = Math.random() > 0.5; // 50% chance to be true (on)
+                }
+            }
+            return pattern;
+        }
+
+        /**
+         * Draws the grid on the specified canvas context.
+         * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+         * @param {boolean[][]} gridData - The 2D array representing the grid state.
+         * @param {string} activeColor - Color for 'on' cells.
+         * @param {string} inactiveColor - Color for 'off' cells.
+         */
+        function drawGrid(ctx, gridData, activeColor, inactiveColor) {
+            ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE); // Clear canvas
+            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = '#2d2d55'; // Grid line color
+
+            for (let row = 0; row < GRID_SIZE; row++) {
+                for (let col = 0; col < GRID_SIZE; col++) {
+                    const x = col * CELL_SIZE;
+                    const y = row * CELL_SIZE;
+
+                    ctx.beginPath();
+                    ctx.rect(x, y, CELL_SIZE, CELL_SIZE);
+                    ctx.fillStyle = gridData[row][col] ? activeColor : inactiveColor;
+                    ctx.fill();
+                    ctx.stroke(); // Draw grid lines
+                    ctx.closePath();
+                }
+            }
+        }
+
+        /**
+         * Toggles the state of a specific cell in the player's grid.
+         * @param {number} row - The row index.
+         * @param {number} col - The column index.
+         */
+        function toggleCell(row, col) {
+            if (row >= 0 && row < GRID_SIZE && col >= 0 && col < GRID_SIZE) {
+                playerGrid[row][col] = !playerGrid[row][col];
+            }
+        }
+
+        /**
+         * Toggles the state of all cells in a specific row.
+         * @param {number} row - The row index.
+         */
+        function toggleRow(row) {
+            if (row >= 0 && row < GRID_SIZE) {
+                for (let col = 0; col < GRID_SIZE; col++) {
+                    playerGrid[row][col] = !playerGrid[row][col];
+                }
+            }
+        }
+
+        /**
+         * Toggles the state of all cells in a specific column.
+         * @param {number} col - The column index.
+         */
+        function toggleColumn(col) {
+            if (col >= 0 && col < GRID_SIZE) {
+                for (let row = 0; row < GRID_SIZE; row++) {
+                    playerGrid[row][col] = !playerGrid[row][col];
+                }
+            }
+        }
+
+        /**
+         * Inverts the state of all cells in the entire player's grid.
+         */
+        function invertGrid() {
+            for (let row = 0; row < GRID_SIZE; row++) {
+                for (let col = 0; col < GRID_SIZE; col++) {
+                    playerGrid[row][col] = !playerGrid[row][col];
+                }
+            }
+        }
+
+        /**
+         * Checks if the player's grid matches the target grid.
+         * @returns {boolean} True if patterns match, false otherwise.
+         */
+        function checkWinCondition() {
+            for (let row = 0; row < GRID_SIZE; row++) {
+                for (let col = 0; col < GRID_SIZE; col++) {
+                    if (playerGrid[row][col] !== targetGrid[row][col]) {
+                        return false; // Mismatch found
+                    }
+                }
+            }
+            return true; // All cells match
+        }
+
+        /**
+         * Updates the display for current moves and best score.
+         */
+        function updateMovesDisplay() {
+            movesDisplay.textContent = moves;
+        }
+
+        /**
+         * Updates the best moves display from localStorage.
+         */
+        function updateBestMovesDisplay() {
+            if (bestMoves === Infinity) {
+                bestMovesDisplay.textContent = 'N/A';
+            } else {
+                bestMovesDisplay.textContent = bestMoves;
+            }
+        }
+
+        /**
+         * Shows a custom message box.
+         * @param {string} title - Title of the message.
+         * @param {string} text - Content of the message.
+         * @param {function} [callback] - Optional callback when button is clicked.
+         */
+        function showMessageBox(title, text, callback) {
+            messageTitle.textContent = title;
+            messageText.textContent = text;
+            messageBox.style.display = 'block';
+            messageButton.onclick = () => {
+                hideMessageBox();
+                if (callback) callback();
+            };
+        }
+
+        /**
+         * Hides the message box.
+         */
+        function hideMessageBox() {
+            messageBox.style.display = 'none';
+        }
+
+        // --- Event Handlers ---
+
+        /**
+         * Handles clicks on the player grid canvas.
+         * @param {MouseEvent} event - The mouse event.
+         */
+        function handlePlayerGridClick(event) {
+            const rect = playerGridCanvas.getBoundingClientRect();
+            const scaleX = playerGridCanvas.width / rect.width;    // Relationship between canvas pixels and CSS pixels
+            const scaleY = playerGridCanvas.height / rect.height;  // for responsive canvas
+
+            const mouseX = (event.clientX - rect.left) * scaleX;
+            const mouseY = (event.clientY - rect.top) * scaleY;
+
+            const col = Math.floor(mouseX / CELL_SIZE);
+            const row = Math.floor(mouseY / CELL_SIZE);
+
+            if (row < 0 || row >= GRID_SIZE || col < 0 || col >= GRID_SIZE) {
+                return; // Click outside grid boundaries
+            }
+
+            // Apply the selected tool
+            switch (currentTool) {
+                case 'toggleCell':
+                    toggleCell(row, col);
+                    break;
+                case 'toggleRow':
+                    toggleRow(row);
+                    break;
+                case 'toggleColumn':
+                    toggleColumn(col);
+                    break;
+                case 'invertGrid': // This tool is applied globally, not per-click on grid
+                    // Should be handled by its own button, not by grid click
+                    return;
+            }
+            moves++;
+            draw();
+            checkGameStatus();
+        }
+
+        /**
+         * Handles clicks on tool buttons.
+         * @param {MouseEvent} event - The mouse event.
+         */
+        function handleToolButtonClick(event) {
+            toolButtons.forEach(btn => btn.classList.remove('active-tool')); // Remove active from all
+            const clickedButton = event.currentTarget;
+            const tool = clickedButton.dataset.tool;
+
+            if (tool === 'invertGrid') {
+                invertGrid();
+                moves++;
+                draw();
+                checkGameStatus();
+            } else {
+                currentTool = tool;
+                clickedButton.classList.add('active-tool'); // Add active to the clicked one
+            }
+        }
+
+        /**
+         * Checks the game status for a win.
+         */
+        function checkGameStatus() {
+            if (checkWinCondition()) {
+                let message = `You matched the pattern in ${moves} moves!`;
+                if (moves < bestMoves) {
+                    bestMoves = moves;
+                    localStorage.setItem('patternWeaverBestMoves', bestMoves);
+                    message += `\nNew best score!`;
+                }
+                showMessageBox("Pattern Matched!", message, newGame);
+            }
+        }
+
+        /**
+         * Starts a new game: resets moves, generates new patterns, and redraws.
+         */
+        function newGame() {
+            moves = 0;
+            initializeGrids();
+            draw();
+            updateMovesDisplay();
+            updateBestMovesDisplay(); // In case best moves changed from last game
+            // Reset tool selection to default
+            toolButtons.forEach(btn => btn.classList.remove('active-tool'));
+            document.getElementById('toggle-cell-btn').classList.add('active-tool');
+            currentTool = 'toggleCell';
+            hideMessageBox(); // Ensure message box is hidden when starting new game via button
+        }
+
+        /**
+         * Main drawing function to render both grids.
+         */
+        function draw() {
+            drawGrid(targetCtx, targetGrid, '#00e676', '#1a1a3a'); // Target: green active, dark background
+            drawGrid(playerCtx, playerGrid, '#00c4ff', '#1a1a3a'); // Player: blue active, dark background
+            updateMovesDisplay();
+        }
+
+        // --- Event Listeners ---
+        playerGridCanvas.addEventListener('click', handlePlayerGridClick);
+        newGameButton.addEventListener('click', newGame);
+        toolButtons.forEach(button => {
+            button.addEventListener('click', handleToolButtonClick);
+        });
+
+        // Resize canvas elements on window resize for responsiveness
+        window.addEventListener('resize', () => {
+            // Re-initialize canvases to adjust to new scaled sizes
+            initializeCanvas();
+            draw(); // Redraw content to fit new canvas size
+        });
+
+        // --- Game Start ---
+        window.onload = function() {
+            initializeCanvas(); // Set up canvas dimensions
+            newGame(); // Start the first game
+        };
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echoes of Tomorrow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #0d1117; /* Dark GitHub-like background */
+            color: #c9d1d9; /* Light gray text */
+            font-family: 'Roboto Mono', monospace;
+            margin: 0;
+            overflow: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .game-container {
+            background-color: #161b22; /* Slightly lighter dark background */
+            border: 2px solid #30363d;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2), 0 0 40px rgba(0, 255, 255, 0.1);
+            width: 100%;
+            max-width: 900px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        #narrative-display {
+            background-color: #010409; /* Even darker for the display area */
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 300px;
+            max-height: 500px;
+            overflow-y: auto;
+            white-space: pre-wrap; /* Preserve whitespace and wrap text */
+            font-size: 1em;
+            line-height: 1.6;
+            color: #8b949e; /* Faded text for narrative */
+            scrollbar-width: thin;
+            scrollbar-color: #444 #222;
+        }
+        #narrative-display::-webkit-scrollbar {
+            width: 8px;
+        }
+        #narrative-display::-webkit-scrollbar-track {
+            background: #222;
+            border-radius: 10px;
+        }
+        #narrative-display::-webkit-scrollbar-thumb {
+            background-color: #444;
+            border-radius: 10px;
+            border: 2px solid #222;
+        }
+
+        .player-action {
+            color: #58a6ff; /* Blue for player actions */
+            font-weight: bold;
+        }
+        .system-response {
+            color: #c9d1d9; /* Standard text for AI response */
+        }
+        .initial-prompt {
+            color: #79c0ff; /* Brighter blue for the initial prompt */
+            font-weight: bold;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+        #player-input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1em;
+            outline: none;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+            resize: vertical; /* Allow vertical resizing */
+            min-height: 40px;
+            max-height: 150px;
+        }
+        #player-input::placeholder {
+            color: #8b949e;
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: #238636; /* GitHub green button */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            white-space: nowrap; /* Prevent text wrapping on button */
+        }
+        button:hover {
+            background-color: #2ea043;
+            transform: translateY(-1px);
+        }
+        button:active {
+            background-color: #2c974b;
+            transform: translateY(0);
+        }
+        button:disabled {
+            background-color: #30363d;
+            color: #8b949e;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .loading-indicator {
+            text-align: center;
+            color: #79c0ff;
+            font-size: 1.1em;
+            margin-top: 10px;
+            display: none;
+        }
+        .loading-indicator::after {
+            content: ' .';
+            animation: loading-dots 1s infinite steps(1, end);
+        }
+
+        @keyframes loading-dots {
+            0% { content: ' .'; }
+            33% { content: ' ..'; }
+            66% { content: ' ...'; }
+            100% { content: ' .'; }
+        }
+
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #161b22;
+            border: 2px solid #e36209; /* Orange border for errors */
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            font-size: 1.2em;
+            box-shadow: 0 0 20px rgba(227, 98, 9, 0.5);
+            z-index: 1000;
+            display: none;
+            max-width: 90%;
+        }
+        .message-box h2 {
+            color: #e36209;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        .message-box button {
+            background-color: #e36209;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h1>Echoes of Tomorrow</h1>
+        <div id="narrative-display"></div>
+        <div class="input-area">
+            <textarea id="player-input" placeholder="What do you do?" rows="1"></textarea>
+            <button id="submit-action">Submit</button>
+        </div>
+        <div id="loading-indicator" class="loading-indicator">Generating response</div>
+    </div>
+
+    <div id="messageBox" class="message-box">
+        <h2 id="messageTitle"></h2>
+        <p id="messageText"></p>
+        <button id="messageButton">Close</button>
+    </div>
+
+    <script>
+        // DOM Elements
+        const narrativeDisplay = document.getElementById('narrative-display');
+        const playerInput = document.getElementById('player-input');
+        const submitButton = document.getElementById('submit-action');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const messageBox = document.getElementById('messageBox');
+        const messageTitle = document.getElementById('messageTitle');
+        const messageText = document.getElementById('messageText');
+        const messageButton = document.getElementById('messageButton');
+
+        // Game State
+        let chatHistory = [];
+        let isGenerating = false;
+
+        // API Configuration (API Key is handled by the Canvas environment)
+        const apiKey = ""; // Your provided API key
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+        // Initial Game Prompt
+        const initialPrompt = "You wake up in a strange, dimly lit chamber. A faint, rhythmic hum resonates from the walls. You have no memory of how you got here. What is the first thing you do?";
+
+        /**
+         * Displays a message box with a title and text.
+         * @param {string} title - The title of the message.
+         * @param {string} text - The main content of the message.
+         */
+        function showMessageBox(title, text) {
+            messageTitle.textContent = title;
+            messageText.textContent = text;
+            messageBox.style.display = 'block';
+            messageButton.onclick = hideMessageBox;
+        }
+
+        /**
+         * Hides the message box.
+         */
+        function hideMessageBox() {
+            messageBox.style.display = 'none';
+        }
+
+        /**
+         * Appends text to the narrative display with appropriate styling.
+         * @param {string} text - The text to append.
+         * @param {string} type - 'player', 'system', or 'initial' for styling.
+         */
+        function appendToNarrative(text, type) {
+            const p = document.createElement('p');
+            p.textContent = text;
+            if (type === 'player') {
+                p.classList.add('player-action');
+                p.innerHTML = `<span class="prompt-prefix">></span> ${text}`; // Add a '>' prefix for player actions
+            } else if (type === 'system') {
+                p.classList.add('system-response');
+            } else if (type === 'initial') {
+                p.classList.add('initial-prompt');
+            }
+            narrativeDisplay.appendChild(p);
+            // Scroll to the bottom to show the latest narrative
+            narrativeDisplay.scrollTop = narrativeDisplay.scrollHeight;
+        }
+
+        /**
+         * Auto-resizes the textarea based on its content.
+         */
+        function autoResizeTextarea() {
+            playerInput.style.height = 'auto';
+            playerInput.style.height = playerInput.scrollHeight + 'px';
+        }
+
+        /**
+         * Handles the submission of player's action.
+         */
+        async function submitAction() {
+            const playerAction = playerInput.value.trim();
+
+            if (!playerAction) {
+                showMessageBox("Input Required", "Please type an action to continue your adventure!");
+                return;
+            }
+
+            if (isGenerating) {
+                showMessageBox("Please Wait", "The AI is still generating the previous response. Please wait a moment.");
+                return;
+            }
+
+            isGenerating = true;
+            submitButton.disabled = true;
+            playerInput.disabled = true;
+            loadingIndicator.style.display = 'block';
+
+            appendToNarrative(playerAction, 'player');
+            chatHistory.push({ role: "user", parts: [{ text: playerAction }] });
+            playerInput.value = '';
+            autoResizeTextarea(); // Reset textarea height
+
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error("API Error:", errorData);
+                    showMessageBox("API Error", `Failed to get response from AI. Please try again. Error: ${errorData.error.message || response.statusText}`);
+                    appendToNarrative("\n[The connection flickers... Something went wrong with the narrative stream. Please try a different action.]", 'system');
+                    return;
+                }
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const aiResponseText = result.candidates[0].content.parts[0].text;
+                    appendToNarrative(aiResponseText, 'system');
+                    chatHistory.push({ role: "model", parts: [{ text: aiResponseText }] });
+                } else {
+                    console.warn("Unexpected API response structure:", result);
+                    showMessageBox("AI Response Error", "The AI generated an unexpected response. Please try a different action.");
+                    appendToNarrative("\n[The narrative seems to have diverged into static. Try another path.]", 'system');
+                }
+
+            } catch (error) {
+                console.error("Fetch Error:", error);
+                showMessageBox("Network Error", `Could not connect to the AI. Check your internet connection or try again later. Details: ${error.message}`);
+                appendToNarrative("\n[A critical error occurred in the simulation. Perhaps the threads of fate are entangled. Try again.]", 'system');
+            } finally {
+                isGenerating = false;
+                submitButton.disabled = false;
+                playerInput.disabled = false;
+                loadingIndicator.style.display = 'none';
+                playerInput.focus(); // Keep focus on input for quick next action
+            }
+        }
+
+        // Event Listeners
+        submitButton.addEventListener('click', submitAction);
+        playerInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) { // Submit on Enter, allow Shift+Enter for new line
+                e.preventDefault(); // Prevent default new line
+                submitAction();
+            }
+        });
+        playerInput.addEventListener('input', autoResizeTextarea);
+        messageButton.addEventListener('click', hideMessageBox);
+
+
+        // Initialize the game
+        function initializeGame() {
+            // Display the initial prompt
+            appendToNarrative(initialPrompt, 'initial');
+            chatHistory.push({ role: "model", parts: [{ text: initialPrompt }] });
+            playerInput.focus();
+        }
+
+        // Start the game when the window loads
+        window.onload = initializeGame;
+
+    </script>
+</body>
+</html>
