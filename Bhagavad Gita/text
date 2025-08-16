@@ -1,0 +1,1 @@
+6..18 | ForEach-Object { New-Item -ItemType File -Name "chapter-$_.html" } - cmd
