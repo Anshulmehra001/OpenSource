@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The AI Nexus: A Curated Directory of 50+ Intelligent Tools</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --glow-color: rgba(13, 110, 253, 0.5);
+            --background-color: #121212;
+            --surface-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --subtle-text-color: #a0a0a0;
+            --border-color: #333;
+            --free-color: #00e676;
+            --freemium-color: #ff9800;
+            --paid-color: #ff5252;
+            --open-source-color: #9c27b0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 25px 40px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #ffffff;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            text-align: center;
+            color: #fff;
+            text-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color);
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 60px;
+            margin-bottom: 40px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: radial-gradient(circle, #1a1a1a, var(--background-color) 70%);
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: var(--subtle-text-color);
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+        }
+
+        nav {
+            background: rgba(30, 30, 30, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: var(--text-color);
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: 500;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1em;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        nav a:hover {
+            color: #fff;
+            text-shadow: 0 0 8px var(--glow-color);
+        }
+
+        section {
+            margin-bottom: 50px;
+            padding-top: 40px; /* Offset for sticky nav */
+            margin-top: -40px; /* Negative margin to balance the padding */
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .tool-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            text-decoration: none; /* Remove underline from link */
+            color: inherit; /* Inherit text color */
+        }
+
+        .tool-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px var(--glow-color), 0 0 30px rgba(13, 110, 253, 0.2);
+        }
+
+        .tool-card:hover h4 {
+            color: var(--primary-color);
+        }
+
+        .tool-card h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+            color: #fff;
+            transition: color 0.3s;
+        }
+
+        .tool-card p {
+            color: var(--subtle-text-color);
+            margin-bottom: 15px;
+        }
+
+        .tool-card .best-for {
+            font-style: italic;
+            color: #c0c0c0;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+
+        .tool-card .features {
+            list-style-type: none;
+            padding-left: 0;
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        .tool-card .features li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.9em;
+        }
+
+        .tool-card .features li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .tool-card .pricing {
+            font-weight: bold;
+            font-family: 'Space Grotesk', sans-serif;
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.05);
+            margin-top: auto;
+        }
+
+        .pricing.free { color: var(--free-color); }
+        .pricing.freemium { color: var(--freemium-color); }
+        .pricing.paid { color: var(--paid-color); }
+        .pricing.open-source { color: var(--open-source-color); }
+
+        .info-box {
+            background-color: var(--surface-color);
+            border-left: 5px solid var(--primary-color);
+            padding: 20px 25px;
+            margin: 25px 0;
+            border-radius: 5px;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            font-size: 0.9em;
+        }
+        .legend span {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            border-top: 1px solid var(--border-color);
+            color: var(--subtle-text-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header id="home">
+            <h1>The AI Nexus</h1>
+            <p>Your curated directory of intelligent tools. Discover over 50 of the best AI platforms designed to amplify your creativity, productivity, and innovation.</p>
+        </header>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#writing">Writing & Content</a>
+            <a href="#visuals">Visuals & Audio</a>
+            <a href="#code">Code & Development</a>
+            <a href="#business">Business & Productivity</a>
+        </nav>
+
+        <main>
+            <section id="editors-picks">
+                <h2>Editor's Picks: Standout Tools</h2>
+                <div class="grid-container">
+                    <a href="https://www.perplexity.ai/" target="_blank" rel="noopener noreferrer" class="tool-card">
+                        <h4>Perplexity AI</h4>
+                        <p class="best-for">Researchers, students, and anyone needing cited, accurate answers.</p>
+                        <p>A conversational search engine that gives direct, sourced answers. It's revolutionizing research by combining the best of search engines and chatbots.</p>
+                        <p class="pricing freemium">Freemium</p>
+                    </a>
+                    <a href="https://leonardo.ai/" target="_blank" rel="noopener noreferrer" class="tool-card">
+                        <h4>Leonardo.Ai</h4>
+                        <p class="best-for">Digital artists, game developers, and creative hobbyists.</p>
+                        <p>An incredibly versatile and user-friendly AI art generator. Its generous daily free credits and powerful fine-tuned models make it the best starting point for exploring AI imagery.</p>
+                        <p class="pricing freemium">Freemium</p>
+                    </a>
+                    <a href="https://elevenlabs.io/" target="_blank" rel="noopener noreferrer" class="tool-card">
+                        <h4>ElevenLabs</h4>
+                        <p class="best-for">Content creators, podcasters, and video producers needing narration.</p>
+                        <p>The gold standard for realistic text-to-speech and voice cloning. The quality is so high it's nearly indistinguishable from human speech.</p>
+                        <p class="pricing freemium">Freemium</p>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Writing & Content Section -->
+            <section id="writing">
+                <h2>AI for Writing & Content</h2>
+                <div class="grid-container">
+                    <a href="https://openai.com/chatgpt/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>ChatGPT</h4><p class="best-for">General purpose writing, brainstorming, and coding help.</p><ul class="features"><li>Versatile conversational AI for a wide range of tasks.</li><li>Plus version offers advanced models like GPT-4.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Google Gemini</h4><p class="best-for">Researching current events and real-time information.</p><ul class="features"><li>Connects to Google Search for up-to-date answers.</li><li>Excellent for summarizing articles and planning.</li></ul><p class="pricing free">Free</p></a>
+                    <a href="https://www.jasper.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Jasper</h4><p class="best-for">Marketing teams and content creators focused on brand voice.</p><ul class="features"><li>Creates high-quality marketing copy and blog posts.</li><li>"Brand Voice" feature learns your style for consistent output.</li></ul><p class="pricing paid">Paid</p></a>
+                    <a href="https://www.copy.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Copy.ai</h4><p class="best-for">Social media managers and email marketers.</p><ul class="features"><li>Offers a wide range of templates for different types of copy.</li><li>"Infobase" feature stores and reuses key product info.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://www.grammarly.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Grammarly</h4><p class="best-for">Everyone - students, professionals, and casual writers.</p><ul class="features"><li>Checks for grammar, spelling, and punctuation errors.</li><li>Premium offers tone suggestions, clarity, and plagiarism checks.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://www.notion.so/product/ai" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Notion AI</h4><p class="best-for">Notion users looking to boost productivity.</p><ul class="features"><li>Summarizes long documents and meeting notes.</li><li>Drafts content directly within your Notion workspace.</li></ul><p class="pricing paid">Paid Add-on</p></a>
+                    <a href="https://quillbot.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>QuillBot</h4><p class="best-for">Students, academics, and writers needing to rephrase content.</p><ul class="features"><li>Advanced paraphrasing tool to rewrite sentences.</li><li>Includes summarizer, citation generator, and grammar checker.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://www.sudowrite.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Sudowrite</h4><p class="best-for">Fiction authors, screenwriters, and creative storytellers.</p><ul class="features"><li>AI brainstorming partner for plot points and characters.</li><li>"Write" feature continues your story in your style.</li></ul><p class="pricing paid">Paid</p></a>
+                    <a href="https://www.deepl.com/write" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>DeepL Write</h4><p class="best-for">Professionals and non-native speakers aiming for fluency.</p><ul class="features"><li>AI writing companion that corrects grammar and suggests stylistic improvements.</li><li>Helps make your writing sound more natural and professional.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://www.wordtune.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Wordtune</h4><p class="best-for">Users who want multiple rephrasing options for their text.</p><ul class="features"><li>Offers several alternative ways to phrase your sentences.</li><li>Can change tone, shorten, or expand your text.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://claude.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Claude</h4><p class="best-for">Handling large documents and complex reasoning tasks.</p><ul class="features"><li>AI assistant from Anthropic known for its large context window.</li><li>Excellent for summarizing books, reports, and codebases.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://surferseo.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Surfer SEO</h4><p class="best-for">SEO specialists aiming for first-page rankings.</p><ul class="features"><li>Analyzes top-ranking content to provide writing guidelines.</li><li>Scores your content in real-time based on SEO factors.</li></ul><p class="pricing paid">Paid</p></a>
+                </div>
+            </section>
+
+            <!-- Image, Video & Audio Section -->
+            <section id="visuals">
+                <h2>AI for Image, Video & Audio</h2>
+                <div class="grid-container">
+                    <a href="https://www.midjourney.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Midjourney</h4><p class="best-for">Digital artists seeking the highest quality, artistic visuals.</p><ul class="features"><li>Produces hyper-realistic and cinematic images.</li><li>Operates through a Discord community server.</li></ul><p class="pricing paid">Paid</p></a>
+                    <a href="https://runwayml.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Runway</h4><p class="best-for">Videographers and creative professionals.</p><ul class="features"><li>"Gen-2" model generates video from text prompts.</li><li>Advanced AI magic tools like object removal and motion tracking.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://www.adobe.com/sensei/generative-ai/firefly.html" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Adobe Firefly</h4><p class="best-for">Photographers and designers in the Adobe ecosystem.</p><ul class="features"><li>"Generative Fill" in Photoshop seamlessly adds or removes objects.</li><li>Trained on Adobe Stock, making it commercially safe.</li></ul><p class="pricing paid">Paid (via Adobe CC)</p></a>
+                    <a href="https://stability.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Stable Diffusion</h4><p class="best-for">Developers, researchers, and tech-savvy artists.</p><ul class="features"><li>Open-source model offers maximum control and customization.</li><li>Can be run locally on your own hardware for free.</li></ul><p class="pricing open-source">Open Source</p></a>
+                    <a href="https://www.topazlabs.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Topaz Labs AI</h4><p class="best-for">Photographers and videographers needing to enhance quality.</p><ul class="features"><li>Includes Gigapixel AI for upscaling images without losing quality.</li><li>Video AI enhances, de-noises, and sharpens video footage.</li></ul><p class="pricing paid">Paid (One-time purchase)</p></a>
+                    <a href="https://www.suno.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Suno AI</h4><p class="best-for">Musicians and hobbyists looking to create original music.</p><ul class="features"><li>Generates full songs (lyrics, instruments, and vocals) from text prompts.</li><li>Choose from a wide variety of genres and styles.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://www.descript.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Descript</h4><p class="best-for">Podcasters and video editors who want an intuitive workflow.</p><ul class="features"><li>Edits video and audio by editing the transcribed text.</li><li>"Studio Sound" feature removes background noise.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://podcast.adobe.com/enhance" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Adobe Podcast</h4><p class="best-for">Anyone needing to clean up voice recordings.</p><ul class="features"><li>Incredible "Enhance Speech" feature makes audio sound studio-quality.</li><li>Completely web-based and free to use.</li></ul><p class="pricing free">Free</p></a>
+                    <a href="https://pika.art/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Pika</h4><p class="best-for">Creating short, expressive video clips from text or images.</p><ul class="features"><li>Generates high-quality video in various styles.</li><li>Can animate existing images or generate from scratch.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://krea.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Krea AI</h4><p class="best-for">Designers looking for real-time creative tools.</p><ul class="features"><li>Real-time image generation that changes as you type.</li><li>Includes AI upscaling and video generation tools.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://magnific.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Magnific AI</h4><p class="best-for">Enhancing and upscaling images with incredible detail.</p><ul class="features"><li>AI upscaler that can add new, realistic details to images.</li><li>Popular for transforming low-resolution images into high-res art.</li></ul><p class="pricing paid">Paid</p></a>
+                    <a href="https://lumalabs.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Luma AI</h4><p class="best-for">Creating 3D models and scenes from videos.</p><ul class="features"><li>"Genie" model generates 3D models from text prompts.</li><li>Capture realistic 3D scenes using your phone's camera.</li></ul><p class="pricing freemium">Freemium</p></a>
+                </div>
+            </section>
+
+            <!-- Code & Development Section -->
+            <section id="code">
+                <h2>AI for Code & Development</h2>
+                <div class="grid-container">
+                    <a href="https://github.com/features/copilot" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>GitHub Copilot</h4><p class="best-for">Virtually all developers, from students to professionals.</p><ul class="features"><li>AI pair programmer that provides real-time code suggestions.</li><li>Integrates directly into popular IDEs like VS Code.</li></ul><p class="pricing paid">Paid (Free for students)</p></a>
+                    <a href="https://replit.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Replit</h4><p class="best-for">Beginners, educators, and those needing a cloud-based IDE.</p><ul class="features"><li>Full-featured IDE that runs in your browser.</li><li>"GhostWriter" AI helps write, explain, and debug code.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://aws.amazon.com/codewhisperer/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Amazon CodeWhisperer</h4><p class="best-for">Developers, especially those working in the AWS ecosystem.</p><ul class="features"><li>Provides code suggestions and autocompletions.</li><li>Built-in security scanner finds and suggests fixes.</li></ul><p class="pricing free">Free for Individuals</p></a>
+                    <a href="https://v0.dev/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>v0.dev by Vercel</h4><p class="best-for">Front-end developers using React and Tailwind CSS.</p><ul class="features"><li>Generates React components and UI from text prompts.</li><li>Iterate on designs by describing changes in natural language.</li></ul><p class="pricing freemium">Freemium (Credit-based)</p></a>
+                    <a href="https://cursor.sh/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Cursor</h4><p class="best-for">Developers who want a deeply integrated AI coding experience.</p><ul class="features"><li>An "AI-first" code editor built on top of VS Code.</li><li>Chat with your entire codebase to ask questions and make edits.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://www.mintlify.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Mintlify</h4><p class="best-for">Development teams needing to create high-quality documentation.</p><ul class="features"><li>Reads your code and automatically writes documentation for it.</li><li>Ensures documentation is always up-to-date with your code.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://www.tabnine.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Tabnine</h4><p class="best-for">Development teams who want a self-hosted, private AI.</p><ul class="features"><li>AI assistant that learns your coding patterns for personalized suggestions.</li><li>Can be hosted on-premises to ensure code privacy.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://sourcegraph.com/cody" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Sourcegraph Cody</h4><p class="best-for">Developers working with large, complex codebases.</p><ul class="features"><li>AI assistant that understands your entire codebase.</li><li>Helps find code and answer questions about how it works.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://www.bito.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Bito AI</h4><p class="best-for">Developers looking for a multi-purpose AI toolkit.</p><ul class="features"><li>Helps generate code, create tests, and explain concepts.</li><li>Works inside your IDE or as a Chrome extension.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://www.durable.co/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Durable</h4><p class="best-for">Small business owners needing a website quickly.</p><ul class="features"><li>AI website builder that creates a full website in under a minute.</li><li>Includes CRM and invoicing tools.</li></ul><p class="pricing paid">Paid</p></a>
+                    <a href="https://jam.dev/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Jam</h4><p class="best-for">QA testers and developers for faster bug reporting.</p><ul class="features"><li>Automatically captures console logs, network requests, and browser info in bug reports.</li><li>AI helps summarize bugs and suggest engineering tasks.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://www.blackbox.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Blackbox AI</h4><p class="best-for">Developers looking for code snippets from any source.</p><ul class="features"><li>Finds code snippets from videos, images, or text prompts.</li><li>Can answer coding questions and help with autocompletion.</li></ul><p class="pricing freemium">Freemium</p></a>
+                </div>
+            </section>
+
+            <!-- Business & Productivity Section -->
+            <section id="business">
+                <h2>AI for Business & Productivity</h2>
+                <div class="grid-container">
+                    <a href="https://tome.app/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Tome</h4><p class="best-for">Entrepreneurs and professionals creating presentations.</p><ul class="features"><li>Generates entire, multi-slide presentations from a single prompt.</li><li>A modern, narrative-focused alternative to PowerPoint.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://gamma.app/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Gamma</h4><p class="best-for">Anyone needing to create polished documents or websites quickly.</p><ul class="features"><li>Creates beautiful and interactive presentations, docs, and web pages.</li><li>AI designer formats your content automatically.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://fireflies.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Fireflies.ai</h4><p class="best-for">Teams that have frequent virtual meetings.</p><ul class="features"><li>AI assistant that joins, transcribes, and summarizes your calls.</li><li>Creates a searchable knowledge base of all your meetings.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://www.synthesia.io/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Synthesia</h4><p class="best-for">Corporate training, sales, and marketing video production.</p><ul class="features"><li>Creates professional videos with realistic AI avatars and voices.</li><li>Turns simple text scripts into videos in minutes.</li></ul><p class="pricing paid">Paid</p></a>
+                    <a href="https://miro.com/ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Miro AI</h4><p class="best-for">Teams using Miro for brainstorming and collaboration.</p><ul class="features"><li>Summarizes complex mind maps and sticky notes with one click.</li><li>Generates new ideas for brainstorming sessions.</li></ul><p class="pricing paid">Paid Add-on</p></a>
+                    <a href="https://www.decktopus.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Decktopus</h4><p class="best-for">Users who need to create professional presentations very quickly.</p><ul class="features"><li>AI presentation generator focused on speed and consistency.</li><li>Keeps your design consistent across all slides automatically.</li></ul><p class="pricing paid">Paid</p></a>
+                    <a href="https://zapier.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Zapier</h4><p class="best-for">Automating repetitive tasks between different web apps.</p><ul class="features"><li>Connects thousands of apps (like Gmail, Slack, Trello).</li><li>AI features help you build complex automation workflows ("Zaps").</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://clickup.com/features/ai" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>ClickUp AI</h4><p class="best-for">Project managers and teams using the ClickUp platform.</p><ul class="features"><li>Summarizes long task threads and comments.</li><li>Generates action items and subtasks automatically.</li></ul><p class="pricing paid">Paid Add-on</p></a>
+                    <a href="https://beautiful.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Beautiful.ai</h4><p class="best-for">Design-conscious professionals wanting perfect slides.</p><ul class="features"><li>AI applies design rules automatically to keep slides beautiful.</li><li>Smart templates adapt as you add content.</li></ul><p class="pricing paid">Paid</p></a>
+                    <a href="https://tldv.io/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>tldv.io</h4><p class="best-for">Teams who want to share key meeting moments.</p><ul class="features"><li>AI meeting recorder for Zoom and Google Meet.</li><li>Lets you timestamp, edit, and share clips from meetings.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://krisp.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Krisp.ai</h4><p class="best-for">Remote workers in noisy environments.</p><ul class="features"><li>AI-powered noise cancellation for calls and meetings.</li><li>Removes background noise from both your mic and your speakers.</li></ul><p class="pricing freemium">Freemium</p></a>
+                    <a href="https://www.usemotion.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Motion</h4><p class="best-for">Busy professionals and people with ADHD.</p><ul class="features"><li>Uses AI to automatically plan your day on your calendar.</li><li>Creates a prioritized task list and schedules tasks for you.</li></ul><p class="pricing paid">Paid</p></a>
+                    <a href="https://slidebean.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Slidebean</h4><p class="best-for">Startups and founders creating investor pitch decks.</p><ul class="features"><li>AI helps arrange your content into a compelling pitch deck.</li><li>Offers dozens of templates for business proposals and decks.</li></ul><p class="pricing paid">Paid</p></a>
+                    <a href="https://looka.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Looka</h4><p class="best-for">New businesses needing a brand identity.</p><ul class="features"><li>AI-powered logo maker that generates dozens of options.</li><li>Creates a full brand kit, including social media assets.</li></ul><p class="pricing paid">Paid</p></a>
+                </div>
+            </section>
+
+            <section class="info-box">
+                <h3>A Note on Responsible AI Use</h3>
+                <p>AI is a powerful tool, but it's not infallible. Always fact-check AI-generated information, especially statistics and critical data. Be mindful of potential biases in AI outputs and strive for originality by adding your own unique perspective. Use these tools to augment your intelligence, not replace it. Human oversight is the key to creating high-quality, ethical, and valuable work.</p>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 The AI Nexus. A curated directory for educational purposes.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
