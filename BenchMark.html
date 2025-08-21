@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HobbyHive: Your Creative Project Tracker</title>
+    <title>BENCHMARK: Your Creative Project Tracker</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Manrope:wght@800&display=swap" rel="stylesheet">
@@ -143,7 +143,7 @@
 
     <div class="container">
         <header class="header">
-            <div class="logo">HobbyHive</div>
+            <div class="logo">BENCHMARK</div>
             <div class="header-actions">
                 <button class="icon-button" id="theme-toggle" title="Toggle Theme"></button>
                 <button class="icon-button" id="import-btn" title="Import Data"></button>
@@ -367,7 +367,7 @@
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = `hobbyhive_backup_${new Date().toISOString().slice(0, 10)}.json`;
+                    a.download = `BENCHMARK_backup_${new Date().toISOString().slice(0, 10)}.json`;
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
