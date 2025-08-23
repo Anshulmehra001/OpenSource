@@ -29,9 +29,15 @@ A complete walkthrough of the machine learning lifecycle, from core concepts to 
 ➡️ View the Blockchain & Web3 Guide
 
 An ultimate guide to understanding blockchain, smart contracts, crypto, and the decentralized internet.
+
 ☣️ Malware Guide
+
 ➡️ View the Malware Guide
+
 An advanced educational look into malware types, lifecycles, and analysis for cybersecurity students.
+
 ⚛️ QuantumLeap
+
 ➡️ View the Quantum Tech Guide
+
 A deep dive into the fascinating world of quantum computing, communication, and its future impact.
