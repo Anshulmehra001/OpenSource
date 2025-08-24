@@ -41,3 +41,15 @@ An advanced educational look into malware types, lifecycles, and analysis for cy
 ➡️ View the Quantum Tech Guide
 
 A deep dive into the fascinating world of quantum computing, communication, and its future impact.
+
+🤖 AI Dev Tools: The Ultimate Directory for Developers
+
+This repository contains a self-contained, single-page website that serves as a comprehensive directory of AI-powered tools for software developers. The guide is a detailed resource designed to help you discover and choose the best tools to accelerate your workflow.
+
+🚀 How to View
+
+Simply click on the link below. GitHub can render the HTML file directly in your browser.
+
+💻 The Guide
+
+➡️ View the AI Dev Tools Guide
