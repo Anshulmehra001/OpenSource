@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI/CD & DevOps Guide | OpenSource Tech Guides</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="shared.js" defer></script>
+    <style>
+        :root {
+            --primary-color: #d35400; /* CI/CD Orange */
+            --glow-color: rgba(211, 84, 0, 0.6);
+            --background-color: #0a0a0a;
+            --surface-color: #1a1a1a;
+            --card-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --subtle-text-color: #a0a0a0;
+            --border-color: #333;
+            --accent-gradient: linear-gradient(135deg, #d35400, #e67e22);
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        header {
+            background: var(--surface-color);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        .section {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .card {
+            background: var(--card-color);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px var(--glow-color);
+        }
+        .card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        pre {
+            background: #000;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Space Grotesk', monospace;
+        }
+        code {
+            font-family: 'Space Grotesk', monospace;
+        }
+        .pipeline-visualization {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: var(--surface-color);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+        .pipeline-stage {
+            text-align: center;
+            color: var(--subtle-text-color);
+        }
+        .pipeline-stage i {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+        .pipeline-arrow {
+            font-size: 2rem;
+            color: var(--border-color);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>CI/CD & DevOps Guide</h1>
+    </header>
+
+    <div class="container">
+        <!-- Introduction -->
+        <section class="section">
+            <h2 class="section-title">The DevOps Revolution</h2>
+            <p>DevOps is a set of practices that combines software development (Dev) and IT operations (Ops). It aims to shorten the systems development life cycle and provide continuous delivery with high software quality. CI/CD is the backbone of the modern DevOps environment.</p>
+        </section>
+
+        <!-- Core Concepts -->
+        <section class="section">
+            <h2 class="section-title">Core CI/CD Concepts</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Continuous Integration (CI)</h3>
+                    <p>The practice of automating the integration of code changes from multiple contributors into a single software project. Developers merge their changes back to the main branch as often as possible. Each merge triggers an automated build and test sequence.</p>
+                </div>
+                <div class="card">
+                    <h3>Continuous Delivery (CD)</h3>
+                    <p>An extension of CI where code changes are automatically built, tested, and prepared for a release to production. It expands upon CI by deploying all code changes to a testing and/or production environment after the build stage.</p>
+                </div>
+                <div class="card">
+                    <h3>Continuous Deployment (CD)</h3>
+                    <p>A further step where every change that passes all stages of your production pipeline is released to your customers. There's no human intervention, and only a failed test will prevent a new change from being deployed to production.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- The CI/CD Pipeline -->
+        <section class="section">
+            <h2 class="section-title">The CI/CD Pipeline</h2>
+            <p>A CI/CD pipeline is a series of steps that must be performed in order to deliver a new version of software. It's a manifestation of the "path to production."</p>
+            <div class="pipeline-visualization">
+                <div class="pipeline-stage">
+                    <i class="fas fa-code-branch"></i>
+                    <p>Commit</p>
+                </div>
+                <div class="pipeline-arrow">&rarr;</div>
+                <div class="pipeline-stage">
+                    <i class="fas fa-cogs"></i>
+                    <p>Build</p>
+                </div>
+                <div class="pipeline-arrow">&rarr;</div>
+                <div class="pipeline-stage">
+                    <i class="fas fa-vial"></i>
+                    <p>Test</p>
+                </div>
+                <div class="pipeline-arrow">&rarr;</div>
+                <div class="pipeline-stage">
+                    <i class="fas fa-box-open"></i>
+                    <p>Package</p>
+                </div>
+                <div class="pipeline-arrow">&rarr;</div>
+                <div class="pipeline-stage">
+                    <i class="fas fa-rocket"></i>
+                    <p>Deploy</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Tools -->
+        <section class="section">
+            <h2 class="section-title">Essential DevOps Tools</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Jenkins</h3>
+                    <p>An open-source automation server that enables developers to reliably build, test, and deploy their software. Highly extensible with thousands of plugins.</p>
+                </div>
+                <div class="card">
+                    <h3>GitHub Actions</h3>
+                    <p>Automate, customize, and execute your software development workflows right in your GitHub repository. You can discover, create, and share actions to perform any job you'd like.</p>
+                </div>
+                <div class="card">
+                    <h3>GitLab CI/CD</h3>
+                    <p>A part of GitLab, it provides a complete CI/CD toolchain out-of-the-box. It's known for its tight integration with the GitLab ecosystem.</p>
+                </div>
+                <div class="card">
+                    <h3>Docker</h3>
+                    <p>A platform for developing, shipping, and running applications in containers. Containers package up code and all its dependencies, ensuring the application works reliably in any computing environment.</p>
+                </div>
+                <div class="card">
+                    <h3>Kubernetes</h3>
+                    <p>An open-source system for automating deployment, scaling, and management of containerized applications. It groups containers that make up an application into logical units for easy management.</p>
+                </div>
+                <div class="card">
+                    <h3>Terraform</h3>
+                    <p>An infrastructure as code (IaC) tool that lets you build, change, and version infrastructure safely and efficiently. It can manage existing and popular service providers as well as custom in-house solutions.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Example: GitHub Actions -->
+        <section class="section">
+            <h2 class="section-title">Example: GitHub Actions Workflow</h2>
+            <p>Here is a simple example of a GitHub Actions workflow file (e.g., `.github/workflows/ci.yml`) for a Node.js project. This workflow triggers on every push to the `main` branch.</p>
+            <pre><code>
+name: Node.js CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run tests
+      run: npm test
+            </code></pre>
+            <p>This workflow defines a single job, `build`, that runs on an Ubuntu environment. It tests the project against three different Node.js versions. The steps check out the code, set up the specified Node.js version, install dependencies using `npm ci` (a faster, more reliable version of `npm install` for CI), and finally run the tests.</p>
+        </section>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Site Map - OpenSource Tech Guides</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+body { font-family: system-ui, Arial, sans-serif; margin:0; background:#0f1115; color:#e2e6ea; line-height:1.6; }
+header { padding:1.2rem 1.5rem; background:#181b21; border-bottom:1px solid #2a2f37; }
+header h1 { margin:0; font-size:1.4rem; }
+main { max-width:1000px; margin:0 auto; padding:2rem 1.5rem 4rem; }
+section { margin-bottom:2.5rem; }
+h2 { font-size:1rem; letter-spacing:.5px; text-transform:uppercase; margin:0 0 .6rem; color:#6aa9ff; }
+ul { list-style:none; padding:0; margin:0; display:grid; gap:.5rem; }
+li a { display:flex; justify-content:space-between; align-items:center; text-decoration:none; background:#1c2027; padding:.75rem 1rem; border:1px solid #2a2f37; border-radius:8px; color:#d0d6dc; font-size:.85rem; transition:.25s; }
+li a:hover { background:#232831; border-color:#3a4450; }
+.badge { font-size:.55rem; letter-spacing:.6px; background:#253041; padding:.25rem .5rem; border-radius:30px; text-transform:uppercase; color:#8aa3bd; }
+footer { text-align:center; padding:2rem 1rem 3rem; font-size:.7rem; opacity:.7; }
+.search { margin:1.5rem 0 2.2rem; }
+.search input { width:100%; padding:.75rem 1rem; background:#1a1e24; border:1px solid #2a2f37; border-radius:10px; color:#e2e6ea; font-size:.85rem; }
+.search input:focus { outline:none; border-color:#3d7dff; box-shadow:0 0 0 3px rgba(61,125,255,.2); }
+.hidden { display:none !important; }
+</style>
+</head>
+<body>
+<header><h1>OpenSource Tech Guides – Site Map</h1></header>
+<main>
+  <p>This site map lists every available guide for quick access, search, and assistive technology support.</p>
+  <div class="search"><input id="s" placeholder="Filter guides..." aria-label="Filter guides" /></div>
+
+  <section>
+    <h2>Guides</h2>
+    <ul id="list">
+      <li><a href="index.html">Portal <span class="badge">home</span></a></li>
+      <li><a href="AI Nexus.html">AI Nexus <span class="badge">ai</span></a></li>
+      <li><a href="CyberGuard.html">CyberGuard <span class="badge">security</span></a></li>
+      <li><a href="DataDriven.html">DataDriven <span class="badge">ai</span></a></li>
+      <li><a href="Web3Navigator.html">Web3Navigator <span class="badge">emerging</span></a></li>
+      <li><a href="Malware.html">Malware Analysis <span class="badge">security</span></a></li>
+      <li><a href="QuantumLeap.html">QuantumLeap <span class="badge">emerging</span></a></li>
+      <li><a href="AI Devtools.html">AI Dev Tools <span class="badge">productivity</span></a></li>
+      <li><a href="Excel Guide.html">Excel Mastery <span class="badge">productivity</span></a></li>
+      <li><a href="Word Guide.html">Word Mastery <span class="badge">productivity</span></a></li>
+      <li><a href="Theory of Computation.html">Theory of Computation <span class="badge">theory</span></a></li>
+      <li><a href="Git & GitHub Mastery.html">Git & GitHub Mastery <span class="badge">foundations</span></a></li>
+      <li><a href="Data Structures & Algorithms Essentials.html">DS & Algorithms <span class="badge">foundations</span></a></li>
+      <li><a href="Programming Foundations (Python).html">Python Foundations <span class="badge">foundations</span></a></li>
+      <li><a href="Linux Command Line.html">Linux Command Line <span class="badge">foundations</span></a></li>
+      <li><a href="Networking Fundamentals.html">Networking Fundamentals <span class="badge">foundations</span></a></li>
+      <li><a href="Web Development Fundamentals.html">Web Dev Fundamentals <span class="badge">foundations</span></a></li>
+      <li><a href="SQL Practice Hub.html">SQL Practice Hub <span class="badge">foundations</span></a></li>
+      <li><a href="API Design & Development Guide.html">API Design & Development <span class="badge">foundations</span></a></li>
+      <li><a href="Docker & Containerization Guide.html">Docker & Containerization <span class="badge">foundations</span></a></li>
+      <li><a href="System Design & Architecture.html">System Design & Architecture <span class="badge">architecture</span></a></li>
+      <li><a href="CI-CD Guide.html">CI/CD & DevOps <span class="badge">devops</span></a></li>
+    </ul>
+  </section>
+</main>
+<footer>&copy; 2025 OpenSource Tech Guides – Site Map.</footer>
+<script>
+const input=document.getElementById('s'); const items=[...document.querySelectorAll('#list li')];
+input.addEventListener('input',()=>{ const q=input.value.toLowerCase(); items.forEach(li=>{ const t=li.textContent.toLowerCase(); li.classList.toggle('hidden', q && !t.includes(q)); }); });
+</script>
+</body>
+</html>

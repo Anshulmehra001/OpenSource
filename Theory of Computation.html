@@ -1,0 +1,2487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theory of Computation - Complete Engineering Notes & Practice</title>
+    <style>
+        /* --- General Styling & Layout --- */
+        :root {
+            --primary-color: #0d1117;
+            --secondary-color: #161b22;
+            --toc-accent: #8b5cf6; /* Purple for Theory of Computation */
+            --toc-secondary: #7c3aed;
+            --green-accent: #10b981;
+            --red-accent: #ef4444;
+            --yellow-accent: #f59e0b;
+            --blue-accent: #3b82f6;
+            --text-color: #c9d1d9;
+            --border-color: #30363d;
+            --header-font: 'Poppins', sans-serif;
+            --body-font: 'Roboto', sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--body-font);
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            background-color: rgba(22, 27, 34, 0.95);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-family: var(--header-font);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--toc-accent);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            margin: 0;
+            flex-wrap: wrap;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem;
+        }
+
+        .nav-menu a:hover {
+            color: var(--toc-accent);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(135deg, var(--toc-accent), var(--toc-secondary));
+            padding: 4rem 0;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-family: var(--header-font);
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-description {
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* --- Content Sections --- */
+        .content-section {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-family: var(--header-font);
+            font-size: 2.5rem;
+            color: var(--toc-accent);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        }
+
+        /* --- Cards Grid --- */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--toc-accent), var(--toc-secondary));
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2);
+            border-color: var(--toc-accent);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card h3 {
+            font-family: var(--header-font);
+            color: var(--toc-accent);
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+
+        /* --- Mathematical Expressions --- */
+        .math-expression {
+            background-color: rgba(139, 92, 246, 0.1);
+            border: 1px solid var(--toc-accent);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        /* --- Interactive Practice Area --- */
+        .practice-area {
+            background-color: var(--secondary-color);
+            border: 2px solid var(--green-accent);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .practice-title {
+            color: var(--green-accent);
+            font-family: var(--header-font);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .input-area {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .practice-input {
+            background-color: var(--primary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            color: var(--text-color);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+        }
+
+        .practice-button {
+            background-color: var(--green-accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .practice-button:hover {
+            background-color: var(--toc-accent);
+            transform: translateY(-2px);
+        }
+
+        .result-area {
+            background-color: var(--primary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            min-height: 100px;
+        }
+
+        /* --- Notes Section --- */
+        .detailed-notes {
+            background-color: var(--secondary-color);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 5px solid var(--toc-accent);
+        }
+
+        .notes-title {
+            color: var(--toc-accent);
+            font-family: var(--header-font);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .notes-content {
+            line-height: 1.8;
+        }
+
+        .notes-content h4 {
+            color: var(--blue-accent);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .notes-content ul, .notes-content ol {
+            margin-left: 1.5rem;
+        }
+
+        .notes-content li {
+            margin: 0.5rem 0;
+        }
+
+        /* --- Q&A Section --- */
+        .qa-section {
+            margin: 2rem 0;
+        }
+
+        .question {
+            background-color: var(--secondary-color);
+            border-left: 4px solid var(--yellow-accent);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .question:hover {
+            background-color: rgba(139, 92, 246, 0.1);
+        }
+
+        .question-text {
+            color: var(--yellow-accent);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .answer {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--green-accent);
+            padding: 1.5rem;
+            margin: 0.5rem 0 1rem 0;
+            border-radius: 0 8px 8px 0;
+            display: none;
+        }
+
+        .answer.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Visual Diagrams --- */
+        .diagram-visual {
+            background-color: var(--primary-color);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .state-node {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--toc-accent);
+            color: white;
+            line-height: 60px;
+            margin: 1rem;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .final-state {
+            border: 3px solid var(--green-accent);
+        }
+
+        .transition-arrow {
+            color: var(--yellow-accent);
+            font-size: 1.5rem;
+            margin: 0 1rem;
+        }
+
+        /* --- Tabs for Different Sections --- */
+        .tab-container {
+            margin: 2rem 0;
+        }
+
+        .tab-buttons {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            background-color: transparent;
+            border: none;
+            padding: 1rem 1.5rem;
+            color: var(--text-color);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab-button.active {
+            color: var(--toc-accent);
+            border-bottom-color: var(--toc-accent);
+        }
+
+        .tab-button:hover {
+            color: var(--toc-accent);
+            background-color: rgba(139, 92, 246, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .formal-definition {
+            background-color: var(--secondary-color);
+            border-left: 4px solid var(--blue-accent);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .formal-definition h4 {
+            color: var(--blue-accent);
+            margin-bottom: 1rem;
+        }
+
+        /* --- Algorithm Boxes --- */
+        .algorithm-box {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--green-accent);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .algorithm-title {
+            color: var(--green-accent);
+            font-family: var(--header-font);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .algorithm-steps {
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.8;
+        }
+
+        .algorithm-steps ol {
+            padding-left: 1.5rem;
+        }
+
+        .algorithm-steps li {
+            margin: 0.5rem 0;
+        }
+
+        /* --- Theorem Boxes --- */
+        .theorem-box {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.1));
+            border: 1px solid var(--toc-accent);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .theorem-box::before {
+            content: '📐';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background-color: var(--secondary-color);
+            padding: 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .theorem-title {
+            color: var(--toc-accent);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Example Boxes --- */
+        .example-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--green-accent);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .example-title {
+            color: var(--green-accent);
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        /* --- Problem Sets --- */
+        .problem-set {
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .problem-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+
+        .problem-item:last-child {
+            border-bottom: none;
+        }
+
+        .problem-number {
+            color: var(--toc-accent);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- State Diagrams --- */
+        .diagram-container {
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .state-diagram {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 2;
+            background-color: var(--primary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+        }
+
+        /* --- Code Snippets --- */
+        .code-snippet {
+            background-color: var(--primary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .code-snippet pre {
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        /* --- Progress Tracker --- */
+        .progress-section {
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+
+        .progress-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .progress-item:last-child {
+            border-bottom: none;
+        }
+
+        .progress-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--toc-accent);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .progress-checkbox:hover {
+            background-color: var(--toc-accent);
+        }
+
+        /* --- Syllabus Tracker --- */
+        .syllabus-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .unit-card {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .unit-number {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background-color: var(--toc-accent);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .unit-title {
+            color: var(--toc-accent);
+            font-family: var(--header-font);
+            margin: 1rem 0 1rem 0;
+        }
+
+        .topic-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .topic-list li {
+            padding: 0.3rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .topic-list li:before {
+            content: '▸';
+            color: var(--toc-accent);
+            margin-right: 0.5rem;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-menu {
+                gap: 1rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .syllabus-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- Scroll to Top Button --- */
+        .scroll-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--toc-accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <a href="#" class="logo">⚙️ Theory of Computation</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#notes">Complete Notes</a></li>
+                    <li><a href="#practice">Practice Lab</a></li>
+                    <li><a href="#qa">Q&A Bank</a></li>
+                    <li><a href="#automata">Automata</a></li>
+                    <li><a href="#grammars">Grammars</a></li>
+                    <li><a href="#turing">Turing Machines</a></li>
+                    <li><a href="#complexity">Complexity</a></li>
+                    <li><a href="#exam">Exam Prep</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Theory of Computation</h1>
+            <p class="hero-subtitle">Complete Engineering Notes, Practice Lab & Exam Preparation</p>
+            <p class="hero-description">
+                Master computational theory with our comprehensive resource featuring complete lecture notes, 
+                interactive practice environment, 200+ solved questions, step-by-step explanations, visual 
+                automata simulator, and exam-focused content. Everything you need to excel in TOC - from 
+                basic concepts to advanced proofs and problem solving.
+            </p>
+        </div>
+    </section>
+
+    <!-- Complete Notes Section -->
+    <section class="content-section" id="notes">
+        <div class="container">
+            <h2 class="section-title">Complete Theory Notes</h2>
+            <p class="section-subtitle">Comprehensive lecture notes with detailed explanations</p>
+
+            <div class="tab-container">
+                <div class="tab-buttons">
+                    <button class="tab-button active" onclick="showTab('unit1')">Unit 1: Regular Languages</button>
+                    <button class="tab-button" onclick="showTab('unit2')">Unit 2: Context-Free</button>
+                    <button class="tab-button" onclick="showTab('unit3')">Unit 3: Turing Machines</button>
+                    <button class="tab-button" onclick="showTab('unit4')">Unit 4: Complexity</button>
+                </div>
+
+                <!-- Unit 1 Notes -->
+                <div id="unit1" class="tab-content active">
+                    <div class="detailed-notes">
+                        <h3 class="notes-title">Unit 1: Regular Languages and Finite Automata</h3>
+                        <div class="notes-content">
+                            <h4>1.1 Basic Definitions</h4>
+                            <p><strong>Alphabet (Σ):</strong> A finite non-empty set of symbols or characters.</p>
+                            <p><strong>Example:</strong> Σ = {0, 1} (binary alphabet), Σ = {a, b, c, ..., z} (English alphabet)</p>
+                            
+                            <p><strong>String:</strong> A finite sequence of symbols from an alphabet.</p>
+                            <ul>
+                                <li><strong>Empty string (ε or λ):</strong> String with no symbols, length = 0</li>
+                                <li><strong>Length |w|:</strong> Number of symbols in string w</li>
+                                <li><strong>Concatenation:</strong> w₁w₂ means string w₁ followed by string w₂</li>
+                            </ul>
+
+                            <p><strong>Language (L):</strong> A set of strings over an alphabet Σ. L ⊆ Σ*</p>
+                            <ul>
+                                <li>∅ (empty language): Contains no strings</li>
+                                <li>{ε} (language containing only empty string)</li>
+                                <li>Σ* : Set of all possible strings over Σ</li>
+                                <li>Σ⁺ : Set of all non-empty strings over Σ</li>
+                            </ul>
+
+                            <h4>1.2 Finite Automata</h4>
+                            <p><strong>Deterministic Finite Automaton (DFA):</strong></p>
+                            <p>M = (Q, Σ, δ, q₀, F) where:</p>
+                            <ul>
+                                <li>Q: Finite set of states</li>
+                                <li>Σ: Input alphabet</li>
+                                <li>δ: Q × Σ → Q (transition function)</li>
+                                <li>q₀ ∈ Q: Initial/start state</li>
+                                <li>F ⊆ Q: Set of final/accepting states</li>
+                            </ul>
+
+                            <div class="math-expression">
+                                δ*(q, ε) = q<br>
+                                δ*(q, wa) = δ(δ*(q, w), a)
+                            </div>
+
+                            <h4>1.3 Non-Deterministic Finite Automaton (NFA)</h4>
+                            <p>M = (Q, Σ, δ, q₀, F) where δ: Q × Σ_ε → P(Q)</p>
+                            <ul>
+                                <li>Can have multiple transitions for same input</li>
+                                <li>Can have ε-transitions (empty string transitions)</li>
+                                <li>P(Q) is power set of Q (set of all subsets of Q)</li>
+                            </ul>
+
+                            <h4>1.4 Regular Expressions</h4>
+                            <p>Algebraic notation to describe regular languages:</p>
+                            <ul>
+                                <li><strong>∅:</strong> Empty language</li>
+                                <li><strong>ε:</strong> Language containing only empty string</li>
+                                <li><strong>a:</strong> Language containing only string "a"</li>
+                                <li><strong>R₁ ∪ R₂:</strong> Union (R₁ | R₂)</li>
+                                <li><strong>R₁ ∘ R₂:</strong> Concatenation (R₁R₂)</li>
+                                <li><strong>R*:</strong> Kleene star (zero or more repetitions)</li>
+                                <li><strong>R⁺:</strong> One or more repetitions (RR*)</li>
+                            </ul>
+
+                            <h4>1.5 Equivalence Theorem</h4>
+                            <p><strong>Theorem:</strong> The following are equivalent for any language L:</p>
+                            <ol>
+                                <li>L is accepted by some DFA</li>
+                                <li>L is accepted by some NFA</li>
+                                <li>L is described by some regular expression</li>
+                            </ol>
+                            <p>These languages are called <strong>Regular Languages</strong>.</p>
+
+                            <h4>1.6 Pumping Lemma for Regular Languages</h4>
+                            <p><strong>Statement:</strong> If L is regular, then ∃p ≥ 1 such that ∀s ∈ L with |s| ≥ p, s = xyz where:</p>
+                            <ol>
+                                <li>|y| > 0</li>
+                                <li>|xy| ≤ p</li>
+                                <li>∀i ≥ 0, xy^i z ∈ L</li>
+                            </ol>
+                            <p><strong>Use:</strong> To prove a language is NOT regular (proof by contradiction)</p>
+
+                            <h4>1.7 Closure Properties</h4>
+                            <p>Regular languages are closed under:</p>
+                            <ul>
+                                <li>Union: L₁ ∪ L₂</li>
+                                <li>Intersection: L₁ ∩ L₂</li>
+                                <li>Concatenation: L₁L₂</li>
+                                <li>Kleene Star: L*</li>
+                                <li>Complement: L̄ = Σ* - L</li>
+                                <li>Difference: L₁ - L₂</li>
+                                <li>Reversal: L^R</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <div class="example-title">Complete Example: DFA Construction</div>
+                        <p><strong>Problem:</strong> Construct DFA for L = {w ∈ {0,1}* | w has even number of 0s and odd number of 1s}</p>
+                        
+                        <div class="diagram-visual">
+                            <p><strong>State Representation:</strong></p>
+                            <div class="state-node">q₀₀</div>
+                            <span class="transition-arrow">→1→</span>
+                            <div class="state-node final-state">q₀₁</div>
+                            <br><br>
+                            <div class="state-node">q₁₀</div>
+                            <span class="transition-arrow">→1→</span>
+                            <div class="state-node">q₁₁</div>
+                        </div>
+
+                        <p><strong>States:</strong> {q₀₀, q₀₁, q₁₀, q₁₁}</p>
+                        <ul>
+                            <li>q₀₀: even 0s, even 1s (start state)</li>
+                            <li>q₀₁: even 0s, odd 1s (final state)</li>
+                            <li>q₁₀: odd 0s, even 1s</li>
+                            <li>q₁₁: odd 0s, odd 1s</li>
+                        </ul>
+
+                        <p><strong>Transition Table:</strong></p>
+                        <table style="border-collapse: collapse; margin: 1rem auto;">
+                            <tr style="border: 1px solid var(--border-color);">
+                                <th style="padding: 0.5rem; border: 1px solid var(--border-color);">State</th>
+                                <th style="padding: 0.5rem; border: 1px solid var(--border-color);">Input 0</th>
+                                <th style="padding: 0.5rem; border: 1px solid var(--border-color);">Input 1</th>
+                            </tr>
+                            <tr style="border: 1px solid var(--border-color);">
+                                <td style="padding: 0.5rem; border: 1px solid var(--border-color);">q₀₀</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--border-color);">q₁₀</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--border-color);">q₀₁</td>
+                            </tr>
+                            <tr style="border: 1px solid var(--border-color);">
+                                <td style="padding: 0.5rem; border: 1px solid var(--border-color);">q₀₁</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--border-color);">q₁₁</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--border-color);">q₀₀</td>
+                            </tr>
+                            <tr style="border: 1px solid var(--border-color);">
+                                <td style="padding: 0.5rem; border: 1px solid var(--border-color);">q₁₀</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--border-color);">q₀₀</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--border-color);">q₁₁</td>
+                            </tr>
+                            <tr style="border: 1px solid var(--border-color);">
+                                <td style="padding: 0.5rem; border: 1px solid var(--border-color);">q₁₁</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--border-color);">q₀₁</td>
+                                <td style="padding: 0.5rem; border: 1px solid var(--border-color);">q₁₀</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Unit 2 Notes -->
+                <div id="unit2" class="tab-content">
+                    <div class="detailed-notes">
+                        <h3 class="notes-title">Unit 2: Context-Free Languages and Pushdown Automata</h3>
+                        <div class="notes-content">
+                            <h4>2.1 Context-Free Grammar (CFG)</h4>
+                            <p>G = (V, Σ, R, S) where:</p>
+                            <ul>
+                                <li>V: Finite set of variables (non-terminals)</li>
+                                <li>Σ: Finite set of terminals (V ∩ Σ = ∅)</li>
+                                <li>R: Finite set of production rules</li>
+                                <li>S ∈ V: Start variable</li>
+                            </ul>
+
+                            <p><strong>Production Rule:</strong> A → α where A ∈ V and α ∈ (V ∪ Σ)*</p>
+
+                            <h4>2.2 Derivations</h4>
+                            <ul>
+                                <li><strong>Leftmost derivation:</strong> Always replace leftmost variable first</li>
+                                <li><strong>Rightmost derivation:</strong> Always replace rightmost variable first</li>
+                                <li><strong>Parse Tree:</strong> Tree representation of derivation</li>
+                            </ul>
+
+                            <h4>2.3 Ambiguity</h4>
+                            <p>A CFG is <strong>ambiguous</strong> if some string has multiple parse trees.</p>
+                            <p>A language is <strong>inherently ambiguous</strong> if every CFG for it is ambiguous.</p>
+
+                            <h4>2.4 Chomsky Normal Form (CNF)</h4>
+                            <p>Every production is of the form:</p>
+                            <ul>
+                                <li>A → BC (where A, B, C are variables)</li>
+                                <li>A → a (where a is terminal)</li>
+                                <li>S → ε (only if ε ∈ L(G))</li>
+                            </ul>
+
+                            <h4>2.5 Pushdown Automaton (PDA)</h4>
+                            <p>M = (Q, Σ, Γ, δ, q₀, Z₀, F) where:</p>
+                            <ul>
+                                <li>Q: Finite set of states</li>
+                                <li>Σ: Input alphabet</li>
+                                <li>Γ: Stack alphabet</li>
+                                <li>δ: Q × Σ_ε × Γ_ε → P(Q × Γ_ε): transition function</li>
+                                <li>q₀: Start state</li>
+                                <li>Z₀: Initial stack symbol</li>
+                                <li>F: Set of final states</li>
+                            </ul>
+
+                            <h4>2.6 Equivalence of CFG and PDA</h4>
+                            <p><strong>Theorem:</strong> A language L is context-free iff it is accepted by some PDA.</p>
+
+                            <h4>2.7 Pumping Lemma for CFLs</h4>
+                            <p>If L is context-free, then ∃p such that ∀s ∈ L with |s| ≥ p, s = uvwxy where:</p>
+                            <ol>
+                                <li>|vwx| ≤ p</li>
+                                <li>|vx| > 0</li>
+                                <li>∀i ≥ 0, uv^i wx^i y ∈ L</li>
+                            </ol>
+
+                            <h4>2.8 Closure Properties of CFLs</h4>
+                            <p><strong>Closed under:</strong> Union, Concatenation, Kleene Star</p>
+                            <p><strong>NOT closed under:</strong> Intersection, Complement</p>
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <div class="example-title">Complete Example: CFG to PDA Conversion</div>
+                        <p><strong>Problem:</strong> Convert CFG for {0ⁿ1ⁿ | n ≥ 0} to PDA</p>
+                        
+                        <p><strong>CFG:</strong></p>
+                        <div class="math-expression">
+                            S → 0S1 | ε
+                        </div>
+
+                        <p><strong>PDA Construction:</strong></p>
+                        <ol>
+                            <li>Push all 0s onto stack</li>
+                            <li>For each 1, pop a 0 from stack</li>
+                            <li>Accept if stack is empty at end</li>
+                        </ol>
+
+                        <p><strong>Transitions:</strong></p>
+                        <ul>
+                            <li>δ(q₀, 0, Z₀) = {(q₀, 0Z₀)}</li>
+                            <li>δ(q₀, 0, 0) = {(q₀, 00)}</li>
+                            <li>δ(q₀, 1, 0) = {(q₁, ε)}</li>
+                            <li>δ(q₁, 1, 0) = {(q₁, ε)}</li>
+                            <li>δ(q₁, ε, Z₀) = {(q₂, Z₀)}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Unit 3 Notes -->
+                <div id="unit3" class="tab-content">
+                    <div class="detailed-notes">
+                        <h3 class="notes-title">Unit 3: Turing Machines and Computability</h3>
+                        <div class="notes-content">
+                            <h4>3.1 Turing Machine Definition</h4>
+                            <p>M = (Q, Σ, Γ, δ, q₀, q_accept, q_reject) where:</p>
+                            <ul>
+                                <li>Q: Finite set of states</li>
+                                <li>Σ: Input alphabet (blank ∉ Σ)</li>
+                                <li>Γ: Tape alphabet (Σ ⊂ Γ, blank ∈ Γ)</li>
+                                <li>δ: Q × Γ → Q × Γ × {L,R}: transition function</li>
+                                <li>q₀ ∈ Q: Start state</li>
+                                <li>q_accept ∈ Q: Accept state</li>
+                                <li>q_reject ∈ Q: Reject state (≠ q_accept)</li>
+                            </ul>
+
+                            <h4>3.2 Variants of Turing Machines</h4>
+                            <ul>
+                                <li><strong>Multi-tape TM:</strong> Multiple tapes, same computational power</li>
+                                <li><strong>Non-deterministic TM:</strong> Multiple possible transitions</li>
+                                <li><strong>Enumerator:</strong> Prints strings of language</li>
+                                <li><strong>Two-way infinite tape:</strong> Tape extends infinitely in both directions</li>
+                            </ul>
+
+                            <h4>3.3 Church-Turing Thesis</h4>
+                            <p>Intuitive notion of "algorithm" = Turing Machine computation</p>
+                            <p>Cannot be proven (it's a thesis), but universally accepted.</p>
+
+                            <h4>3.4 Decidable Languages</h4>
+                            <p>A language L is <strong>decidable</strong> if some TM decides it.</p>
+                            <p>A TM <strong>decides</strong> L if it accepts all strings in L and rejects all strings not in L.</p>
+
+                            <p><strong>Examples of decidable languages:</strong></p>
+                            <ul>
+                                <li>A_DFA = {⟨B,w⟩ | B is DFA that accepts w}</li>
+                                <li>A_CFG = {⟨G,w⟩ | G is CFG that generates w}</li>
+                                <li>E_DFA = {⟨A⟩ | A is DFA and L(A) = ∅}</li>
+                                <li>EQ_DFA = {⟨A,B⟩ | A,B are DFAs and L(A) = L(B)}</li>
+                            </ul>
+
+                            <h4>3.5 Undecidable Languages</h4>
+                            <p><strong>Halting Problem:</strong> A_TM = {⟨M,w⟩ | M is TM that accepts w}</p>
+                            
+                            <p><strong>Theorem:</strong> A_TM is undecidable.</p>
+                            <p><strong>Proof by diagonalization:</strong></p>
+                            <ol>
+                                <li>Assume H decides A_TM</li>
+                                <li>Construct TM D using H</li>
+                                <li>D(⟨M⟩): if H accepts ⟨M,⟨M⟩⟩ then reject, else accept</li>
+                                <li>What does D do on input ⟨D⟩? Contradiction!</li>
+                            </ol>
+
+                            <h4>3.6 Reducibility</h4>
+                            <p>Language A is <strong>reducible</strong> to B (A ≤_m B) if there exists computable function f such that:</p>
+                            <p>w ∈ A ⟺ f(w) ∈ B</p>
+
+                            <p><strong>If A ≤_m B and B is decidable, then A is decidable.</strong></p>
+                            <p><strong>If A ≤_m B and A is undecidable, then B is undecidable.</strong></p>
+
+                            <h4>3.7 Rice's Theorem</h4>
+                            <p>Every non-trivial property of Turing-recognizable languages is undecidable.</p>
+                            <p>A property P is <strong>trivial</strong> if P = ∅ or P = all TM languages.</p>
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <div class="example-title">Complete Example: Turing Machine for {0ⁿ1ⁿ2ⁿ | n ≥ 0}</div>
+                        <p><strong>Algorithm:</strong></p>
+                        <ol>
+                            <li>Scan right, mark first 0 as X</li>
+                            <li>Continue right, mark first 1 as Y</li>
+                            <li>Continue right, mark first 2 as Z</li>
+                            <li>Return to start, repeat</li>
+                            <li>Accept if all symbols properly marked</li>
+                        </ol>
+
+                        <p><strong>Formal Description:</strong></p>
+                        <div class="code-snippet">
+                            <pre>
+State q₁: Scan right for first 0
+   If 0 found: Mark as X, go to q₂
+   If Y or Z found: go to q₅ (check phase)
+   If blank: accept
+
+State q₂: Scan right for first 1
+   If 1 found: Mark as Y, go to q₃
+   If 2 or blank: reject
+
+State q₃: Scan right for first 2
+   If 2 found: Mark as Z, go to q₄
+   If blank: reject
+
+State q₄: Return to start
+   Move left until start marker
+   Go to q₁
+
+State q₅: Final check
+   If only X,Y,Z remain: accept
+   Otherwise: reject
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unit 4 Notes -->
+                <div id="unit4" class="tab-content">
+                    <div class="detailed-notes">
+                        <h3 class="notes-title">Unit 4: Computational Complexity Theory</h3>
+                        <div class="notes-content">
+                            <h4>4.1 Time Complexity</h4>
+                            <p>Time complexity f(n) = maximum number of steps TM uses on input of length n.</p>
+                            
+                            <p><strong>TIME(f(n)):</strong> Collection of languages decidable by TM running in time O(f(n))</p>
+
+                            <h4>4.2 Complexity Classes</h4>
+                            <ul>
+                                <li><strong>P:</strong> ⋃_{k} TIME(n^k) - polynomial time</li>
+                                <li><strong>EXPTIME:</strong> ⋃_{k} TIME(2^{n^k}) - exponential time</li>
+                                <li><strong>NP:</strong> Languages verifiable in polynomial time</li>
+                                <li><strong>NTIME(f(n)):</strong> Languages decidable by NTM in time O(f(n))</li>
+                            </ul>
+
+                            <h4>4.3 Verifiers</h4>
+                            <p>A <strong>verifier</strong> for language A is algorithm V such that:</p>
+                            <p>A = {w | V accepts ⟨w,c⟩ for some certificate c}</p>
+
+                            <p><strong>Polynomial verifier:</strong> V runs in polynomial time in |w|</p>
+                            <p><strong>NP = {L | L has polynomial verifier}</strong></p>
+
+                            <h4>4.4 NP-Completeness</h4>
+                            <p>Language B is <strong>NP-complete</strong> if:</p>
+                            <ol>
+                                <li>B ∈ NP</li>
+                                <li>Every A ∈ NP is polynomial-time reducible to B</li>
+                            </ol>
+
+                            <p><strong>Cook-Levin Theorem:</strong> SAT is NP-complete</p>
+
+                            <h4>4.5 Common NP-Complete Problems</h4>
+                            <ul>
+                                <li><strong>SAT:</strong> Boolean satisfiability</li>
+                                <li><strong>3SAT:</strong> 3-CNF satisfiability</li>
+                                <li><strong>CLIQUE:</strong> k-clique problem</li>
+                                <li><strong>VERTEX-COVER:</strong> Vertex cover problem</li>
+                                <li><strong>HAMPATH:</strong> Hamiltonian path</li>
+                                <li><strong>TSP:</strong> Traveling salesman problem</li>
+                                <li><strong>SUBSET-SUM:</strong> Subset sum problem</li>
+                            </ul>
+
+                            <h4>4.6 Space Complexity</h4>
+                            <p><strong>SPACE(f(n)):</strong> Languages decidable by TM using O(f(n)) space</p>
+                            <ul>
+                                <li><strong>PSPACE:</strong> ⋃_{k} SPACE(n^k)</li>
+                                <li><strong>NPSPACE:</strong> ⋃_{k} NSPACE(n^k)</li>
+                                <li><strong>L:</strong> SPACE(log n) - logarithmic space</li>
+                                <li><strong>NL:</strong> NSPACE(log n)</li>
+                            </ul>
+
+                            <h4>4.7 Hierarchy Theorems</h4>
+                            <p><strong>Time Hierarchy:</strong> If f(n) log f(n) = o(g(n)), then TIME(f(n)) ⊊ TIME(g(n))</p>
+                            <p><strong>Space Hierarchy:</strong> If f(n) = o(g(n)), then SPACE(f(n)) ⊊ SPACE(g(n))</p>
+
+                            <h4>4.8 Relationships Between Classes</h4>
+                            <div class="math-expression">
+                                L ⊆ NL ⊆ P ⊆ NP ⊆ PSPACE = NPSPACE ⊆ EXPTIME
+                            </div>
+
+                            <p><strong>Savitch's Theorem:</strong> NSPACE(f(n)) ⊆ SPACE(f(n)²)</p>
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <div class="example-title">NP-Completeness Proof: 3SAT ≤_p CLIQUE</div>
+                        <p><strong>Problem:</strong> Prove CLIQUE is NP-complete</p>
+                        
+                        <p><strong>Step 1:</strong> Show CLIQUE ∈ NP</p>
+                        <p>Given graph G and k, certificate is a set of k vertices. Verify in O(k²) time that all pairs are connected.</p>
+
+                        <p><strong>Step 2:</strong> Show 3SAT ≤_p CLIQUE</p>
+                        <p>Given 3SAT formula φ with m clauses:</p>
+                        <ol>
+                            <li>Create vertex for each literal in each clause</li>
+                            <li>Connect vertices if: (a) from different clauses, (b) not contradictory literals</li>
+                            <li>φ is satisfiable ⟺ G has m-clique</li>
+                        </ol>
+
+                        <p><strong>Example:</strong> φ = (x₁ ∨ x₂ ∨ x₃) ∧ (x̄₁ ∨ x̄₂ ∨ x₄)</p>
+                        <p>Creates 6 vertices, connections between non-contradictory literals from different clauses.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Practice Section -->
+    <section class="content-section" id="practice">
+        <div class="container">
+            <h2 class="section-title">Interactive Practice Lab</h2>
+            <p class="section-subtitle">Test your understanding with interactive exercises</p>
+
+            <div class="practice-area">
+                <div class="practice-title">DFA String Acceptance Tester</div>
+                <p>Enter a string to test if it's accepted by the DFA for "strings ending with 01":</p>
+                <div class="input-area">
+                    <input type="text" id="dfaInput" class="practice-input" placeholder="Enter string (e.g., 1001)">
+                    <button class="practice-button" onclick="testDFA()">Test DFA</button>
+                </div>
+                <div id="dfaResult" class="result-area">
+                    <p>Results will appear here...</p>
+                </div>
+            </div>
+
+            <div class="practice-area">
+                <div class="practice-title">Regular Expression Matcher</div>
+                <p>Test if strings match common regular expressions:</p>
+                <div class="input-area">
+                    <select id="regexSelect" class="practice-input">
+                        <option value="(0|1)*">All binary strings: (0|1)*</option>
+                        <option value="(0|1)*01">Strings ending with 01</option>
+                        <option value="1(0|1)*1">Strings starting and ending with 1</option>
+                        <option value="(00|11)*">Even length strings of repeated bits</option>
+                    </select>
+                </div>
+                <div class="input-area">
+                    <input type="text" id="regexInput" class="practice-input" placeholder="Enter test string">
+                    <button class="practice-button" onclick="testRegex()">Test Regex</button>
+                </div>
+                <div id="regexResult" class="result-area">
+                    <p>Results will appear here...</p>
+                </div>
+            </div>
+
+            <div class="practice-area">
+                <div class="practice-title">Pumping Lemma Validator</div>
+                <p>Practice using pumping lemma to prove languages are not regular:</p>
+                <div class="input-area">
+                    <select id="pumpingSelect" class="practice-input">
+                        <option value="0n1n">L = {0ⁿ1ⁿ | n ≥ 0}</option>
+                        <option value="wwr">L = {wwᴿ | w ∈ {0,1}*}</option>
+                        <option value="prime">L = {0ᵖ | p is prime}</option>
+                    </select>
+                    <button class="practice-button" onclick="showPumpingProof()">Show Proof</button>
+                </div>
+                <div id="pumpingResult" class="result-area">
+                    <p>Select a language to see pumping lemma proof...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Q&A Bank Section -->
+    <section class="content-section" id="qa">
+        <div class="container">
+            <h2 class="section-title">Question & Answer Bank</h2>
+            <p class="section-subtitle">200+ Solved Questions with Detailed Explanations</p>
+
+            <div class="qa-section">
+                <h3 style="color: var(--toc-accent); margin-bottom: 2rem;">Unit 1: Regular Languages</h3>
+                
+                <div class="question" onclick="toggleAnswer('q1')">
+                    <div class="question-text">Q1: What is the difference between DFA and NFA? Explain with examples.</div>
+                    <p>Click to reveal answer →</p>
+                </div>
+                <div id="q1" class="answer">
+                    <p><strong>Answer:</strong></p>
+                    <p><strong>Deterministic Finite Automaton (DFA):</strong></p>
+                    <ul>
+                        <li>For each state and input symbol, exactly one transition</li>
+                        <li>No ε-transitions allowed</li>
+                        <li>Easier to implement in hardware/software</li>
+                        <li>δ: Q × Σ → Q</li>
+                    </ul>
+                    <p><strong>Non-Deterministic Finite Automaton (NFA):</strong></p>
+                    <ul>
+                        <li>For each state and input symbol, zero or more transitions</li>
+                        <li>ε-transitions allowed</li>
+                        <li>More intuitive for design</li>
+                        <li>δ: Q × Σ_ε → P(Q)</li>
+                    </ul>
+                    <p><strong>Example:</strong> Language L = {strings over {0,1} containing "01"}</p>
+                    <p><strong>NFA:</strong> 3 states with ε-transition. <strong>DFA:</strong> Requires subset construction.</p>
+                </div>
+
+                <div class="question" onclick="toggleAnswer('q2')">
+                    <div class="question-text">Q2: Prove that the language L = {0ⁿ1ⁿ | n ≥ 0} is not regular using pumping lemma.</div>
+                    <p>Click to reveal answer →</p>
+                </div>
+                <div id="q2" class="answer">
+                    <p><strong>Proof by Contradiction:</strong></p>
+                    <ol>
+                        <li><strong>Assume</strong> L is regular with pumping length p ≥ 1</li>
+                        <li><strong>Choose</strong> string s = 0ᵖ1ᵖ ∈ L with |s| = 2p ≥ p</li>
+                        <li><strong>By pumping lemma:</strong> s = xyz where |xy| ≤ p, |y| > 0, xy^i z ∈ L for all i ≥ 0</li>
+                        <li><strong>Since |xy| ≤ p:</strong> Both x and y consist only of 0s</li>
+                        <li><strong>Let |y| = k > 0:</strong> y = 0^k</li>
+                        <li><strong>Pumping with i = 0:</strong> xz = 0^{p-k}1^p</li>
+                        <li><strong>Since k > 0:</strong> p-k < p, so string has fewer 0s than 1s</li>
+                        <li><strong>Therefore:</strong> xz ∉ L, contradicting pumping lemma</li>
+                        <li><strong>Conclusion:</strong> L is not regular ∎</li>
+                    </ol>
+                </div>
+
+                <div class="question" onclick="toggleAnswer('q3')">
+                    <div class="question-text">Q3: Convert the regular expression (0+1)*01 to an equivalent NFA.</div>
+                    <p>Click to reveal answer →</p>
+                </div>
+                <div id="q3" class="answer">
+                    <p><strong>Step-by-step Construction:</strong></p>
+                    <ol>
+                        <li><strong>Break down:</strong> (0+1)*01 = (0+1)* · 0 · 1</li>
+                        <li><strong>Construct NFA for (0+1)*:</strong>
+                            <ul>
+                                <li>State q₀ with self-loops on 0 and 1</li>
+                                <li>q₀ is both start and final state</li>
+                            </ul>
+                        </li>
+                        <li><strong>Construct NFA for 01:</strong>
+                            <ul>
+                                <li>q₁ →0→ q₂ →1→ q₃</li>
+                                <li>q₃ is final state</li>
+                            </ul>
+                        </li>
+                        <li><strong>Combine using concatenation:</strong>
+                            <ul>
+                                <li>Add ε-transition from final of (0+1)* to start of 01</li>
+                                <li>Remove final status from (0+1)* part</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p><strong>Final NFA:</strong> States {q₀, q₁, q₂}, transitions preserve the pattern recognition for strings ending in 01.</p>
+                </div>
+
+                <h3 style="color: var(--toc-accent); margin: 2rem 0;">Unit 2: Context-Free Languages</h3>
+
+                <div class="question" onclick="toggleAnswer('q4')">
+                    <div class="question-text">Q4: Design a CFG for the language L = {aⁱbʲcᵏ | i = j or j = k, i,j,k ≥ 0}.</div>
+                    <p>Click to reveal answer →</p>
+                </div>
+                <div id="q4" class="answer">
+                    <p><strong>Analysis:</strong> Union of two languages - L₁ (i=j) and L₂ (j=k)</p>
+                    <p><strong>Grammar G:</strong></p>
+                    <div class="code-snippet">
+                        <pre>
+S → S₁ | S₂
+
+S₁ → AB          // For i = j
+A → aAb | ε      // Equal a's and b's
+B → cB | ε       // Any number of c's
+
+S₂ → CB          // For j = k  
+C → aC | ε       // Any number of a's
+B → bBc | ε      // Equal b's and c's
+                        </pre>
+                    </div>
+                    <p><strong>Example derivations:</strong></p>
+                    <ul>
+                        <li><strong>aabbc (i=j=2, k=1):</strong> S → S₁ → AB → aAbB → aabB → aabbcB → aabbc</li>
+                        <li><strong>abbcc (i=1, j=k=2):</strong> S → S₂ → CB → aCB → aB → abBc → abbBcc → abbcc</li>
+                    </ul>
+                </div>
+
+                <div class="question" onclick="toggleAnswer('q5')">
+                    <div class="question-text">Q5: Convert the CFG S → aSb | ab to Chomsky Normal Form.</div>
+                    <p>Click to reveal answer →</p>
+                </div>
+                <div id="q5" class="answer">
+                    <p><strong>Step 1:</strong> Original grammar generates {aⁿbⁿ | n ≥ 1}</p>
+                    <p><strong>Step 2:</strong> Eliminate productions with mixed terminals/variables</p>
+                    <div class="code-snippet">
+                        <pre>
+S → ASB | AB
+A → a
+B → b
+                        </pre>
+                    </div>
+                    <p><strong>Step 3:</strong> Break down productions with >2 variables</p>
+                    <div class="code-snippet">
+                        <pre>
+S → AC | AB    // where C → SB
+A → a
+B → b
+C → SB
+                        </pre>
+                    </div>
+                    <p><strong>Final CNF:</strong></p>
+                    <div class="code-snippet">
+                        <pre>
+S → AC | AB
+A → a
+B → b
+C → SB
+                        </pre>
+                    </div>
+                </div>
+
+                <h3 style="color: var(--toc-accent); margin: 2rem 0;">Unit 3: Turing Machines</h3>
+
+                <div class="question" onclick="toggleAnswer('q6')">
+                    <div class="question-text">Q6: Design a Turing Machine that computes f(x) = 2x where x is in unary.</div>
+                    <p>Click to reveal answer →</p>
+                </div>
+                <div id="q6" class="answer">
+                    <p><strong>Input:</strong> 1ˣ (x ones)</p>
+                    <p><strong>Output:</strong> 1²ˣ (2x ones)</p>
+                    <p><strong>Algorithm:</strong></p>
+                    <ol>
+                        <li>For each 1 in input, write two 1s in output area</li>
+                        <li>Mark processed 1s to avoid reprocessing</li>
+                        <li>Use tape efficiently with markers</li>
+                    </ol>
+                    <p><strong>Detailed Steps:</strong></p>
+                    <div class="code-snippet">
+                        <pre>
+1. Mark first 1 as X, move right to find blank
+2. Write 11 after blank, return to next unmarked 1
+3. Repeat until all 1s processed
+4. Clean up: replace X's with blanks, position result
+5. Accept
+
+Transitions:
+δ(q₀, 1) = (q₁, X, R)      // Mark and move right
+δ(q₁, 1) = (q₁, 1, R)      // Skip over 1s
+δ(q₁, B) = (q₂, 1, R)      // Write first copy
+δ(q₂, B) = (q₃, 1, L)      // Write second copy
+... (return transitions)
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="question" onclick="toggleAnswer('q7')">
+                    <div class="question-text">Q7: Prove that the Halting Problem is undecidable using diagonalization.</div>
+                    <p>Click to reveal answer →</p>
+                </div>
+                <div id="q7" class="answer">
+                    <p><strong>Theorem:</strong> A_TM = {⟨M,w⟩ | M is TM that accepts w} is undecidable.</p>
+                    <p><strong>Proof by Contradiction:</strong></p>
+                    <ol>
+                        <li><strong>Assume</strong> TM H decides A_TM</li>
+                        <li><strong>H behavior:</strong>
+                            <ul>
+                                <li>H(⟨M,w⟩) = accept if M accepts w</li>
+                                <li>H(⟨M,w⟩) = reject if M rejects w or loops</li>
+                            </ul>
+                        </li>
+                        <li><strong>Construct TM D:</strong>
+                            <div class="code-snippet">
+                                <pre>
+D on input ⟨M⟩:
+1. Run H on ⟨M,⟨M⟩⟩
+2. If H accepts: REJECT
+3. If H rejects: ACCEPT
+                                </pre>
+                            </div>
+                        </li>
+                        <li><strong>Consider D(⟨D⟩):</strong>
+                            <ul>
+                                <li>If D accepts ⟨D⟩ → H rejects ⟨D,⟨D⟩⟩ → D rejects ⟨D⟩ ⚡</li>
+                                <li>If D rejects ⟨D⟩ → H accepts ⟨D,⟨D⟩⟩ → D accepts ⟨D⟩ ⚡</li>
+                            </ul>
+                        </li>
+                        <li><strong>Contradiction!</strong> Therefore H cannot exist.</li>
+                        <li><strong>Conclusion:</strong> A_TM is undecidable ∎</li>
+                    </ol>
+                </div>
+
+                <h3 style="color: var(--toc-accent); margin: 2rem 0;">Unit 4: Complexity Theory</h3>
+
+                <div class="question" onclick="toggleAnswer('q8')">
+                    <div class="question-text">Q8: Show that VERTEX-COVER is NP-complete by reducing 3SAT to it.</div>
+                    <p>Click to reveal answer →</p>
+                </div>
+                <div id="q8" class="answer">
+                    <p><strong>Step 1:</strong> Show VERTEX-COVER ∈ NP</p>
+                    <ul>
+                        <li><strong>Certificate:</strong> Set S of vertices</li>
+                        <li><strong>Verifier:</strong> Check |S| ≤ k and every edge has endpoint in S</li>
+                        <li><strong>Time:</strong> O(|E|) - polynomial</li>
+                    </ul>
+
+                    <p><strong>Step 2:</strong> Reduce 3SAT ≤_p VERTEX-COVER</p>
+                    <p><strong>Given:</strong> 3SAT formula φ with variables x₁,...,xₙ and clauses C₁,...,Cₘ</p>
+                    <p><strong>Construct graph G:</strong></p>
+                    <ol>
+                        <li><strong>Variable gadget:</strong> For each variable xᵢ, add edge (xᵢ, x̄ᵢ)</li>
+                        <li><strong>Clause gadget:</strong> For each clause Cⱼ = (ℓ₁ ∨ ℓ₂ ∨ ℓ₃), add triangle with vertices ℓ₁, ℓ₂, ℓ₃</li>
+                        <li><strong>Connect:</strong> Add edges from each literal to its negation in variable gadgets</li>
+                    </ol>
+                    <p><strong>Set k = n + 2m</strong></p>
+
+                    <p><strong>Correctness:</strong></p>
+                    <ul>
+                        <li><strong>φ satisfiable ⟹ G has vertex cover of size k:</strong> Choose one literal per variable (satisfied one), two vertices per clause triangle not satisfied by chosen literals</li>
+                        <li><strong>G has vertex cover of size k ⟹ φ satisfiable:</strong> Must choose exactly one literal per variable, assignment satisfies all clauses</li>
+                    </ul>
+                </div>
+
+                <div class="question" onclick="toggleAnswer('q9')">
+                    <div class="question-text">Q9: Explain the relationship between P, NP, and PSPACE classes.</div>
+                    <p>Click to reveal answer →</p>
+                </div>
+                <div id="q9" class="answer">
+                    <p><strong>Class Definitions:</strong></p>
+                    <ul>
+                        <li><strong>P:</strong> Languages decidable in polynomial time on deterministic TM</li>
+                        <li><strong>NP:</strong> Languages decidable in polynomial time on non-deterministic TM (or verifiable in polynomial time)</li>
+                        <li><strong>PSPACE:</strong> Languages decidable using polynomial space</li>
+                    </ul>
+
+                    <p><strong>Known Relationships:</strong></p>
+                    <div class="math-expression">
+                        P ⊆ NP ⊆ PSPACE
+                    </div>
+
+                    <p><strong>Justification:</strong></p>
+                    <ul>
+                        <li><strong>P ⊆ NP:</strong> Deterministic TM is special case of non-deterministic TM</li>
+                        <li><strong>NP ⊆ PSPACE:</strong> Can simulate NTM by exploring all computation paths using polynomial space</li>
+                        <li><strong>PSPACE = NPSPACE:</strong> Savitch's theorem</li>
+                    </ul>
+
+                    <p><strong>Open Questions:</strong></p>
+                    <ul>
+                        <li><strong>P ?= NP:</strong> Most famous open problem</li>
+                        <li><strong>NP ?= PSPACE:</strong> Also open</li>
+                        <li>Known: P ≠ EXPTIME (by time hierarchy theorem)</li>
+                    </ul>
+
+                    <p><strong>Practical Implications:</strong></p>
+                    <ul>
+                        <li>If P = NP: Cryptography breaks down, optimization becomes easy</li>
+                        <li>Most experts believe P ≠ NP</li>
+                    </ul>
+                </div>
+
+                <div class="question" onclick="toggleAnswer('q10')">
+                    <div class="question-text">Q10: What is Cook-Levin theorem and why is it significant?</div>
+                    <p>Click to reveal answer →</p>
+                </div>
+                <div id="q10" class="answer">
+                    <p><strong>Cook-Levin Theorem (1971):</strong> SAT (Boolean Satisfiability) is NP-complete.</p>
+
+                    <p><strong>Significance:</strong></p>
+                    <ol>
+                        <li><strong>First NP-complete problem:</strong> Established the concept of NP-completeness</li>
+                        <li><strong>Reduction template:</strong> Other problems proven NP-complete by reducing SAT to them</li>
+                        <li><strong>Theoretical foundation:</strong> Launched complexity theory as major field</li>
+                    </ol>
+
+                    <p><strong>Proof Idea:</strong></p>
+                    <ol>
+                        <li><strong>SAT ∈ NP:</strong> Easy - guess assignment, verify in polynomial time</li>
+                        <li><strong>Every L ∈ NP reduces to SAT:</strong>
+                            <ul>
+                                <li>For any L ∈ NP with verifier V</li>
+                                <li>Given input x, construct formula φ</li>
+                                <li>φ satisfiable ⟺ ∃ certificate c such that V accepts ⟨x,c⟩</li>
+                                <li>φ encodes computation of V on ⟨x,c⟩</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <p><strong>Construction Details:</strong></p>
+                    <ul>
+                        <li>Variables for each cell of V's configuration at each time step</li>
+                        <li>Clauses ensure valid initial configuration</li>
+                        <li>Clauses ensure valid transitions</li>
+                        <li>Clauses ensure accepting final configuration</li>
+                    </ul>
+
+                    <p><strong>Impact:</strong> Led to discovery of thousands of NP-complete problems across all areas of computer science.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Finite Automata Section -->
+    <section class="content-section" id="automata">
+        <div class="container">
+            <h2 class="section-title">Finite Automata & Regular Languages</h2>
+            <p class="section-subtitle">Foundation of computational models</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <span class="card-icon">🔄</span>
+                    <h3>Deterministic Finite Automata (DFA)</h3>
+                    <p>A finite state machine that accepts or rejects strings based on a sequence of characters, with exactly one transition per state-symbol pair.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🔀</span>
+                    <h3>Non-Deterministic Finite Automata (NFA)</h3>
+                    <p>Similar to DFA but can have multiple transitions for the same input symbol, including ε-transitions (empty string transitions).</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">📝</span>
+                    <h3>Regular Expressions</h3>
+                    <p>A powerful notation for describing patterns in strings, equivalent in power to finite automata for recognizing regular languages.</p>
+                </div>
+            </div>
+
+            <div class="formal-definition">
+                <h4>Formal Definition of DFA</h4>
+                <p>A DFA is a 5-tuple M = (Q, Σ, δ, q₀, F) where:</p>
+                <ul>
+                    <li><strong>Q</strong> is a finite set of states</li>
+                    <li><strong>Σ</strong> is a finite alphabet</li>
+                    <li><strong>δ: Q × Σ → Q</strong> is the transition function</li>
+                    <li><strong>q₀ ∈ Q</strong> is the initial state</li>
+                    <li><strong>F ⊆ Q</strong> is the set of final states</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">Example: DFA for strings ending with '01'</div>
+                <div class="diagram-container">
+                    <div class="state-diagram">
+q₀ ──0──→ q₁ ──1──→ q₂ (Final)
+│         │         ↑
+└──1──────┴──0──────┘
+
+States: {q₀, q₁, q₂}
+Alphabet: {0, 1}
+Start State: q₀
+Final State: {q₂}
+                    </div>
+                </div>
+                <p>This DFA accepts strings that end with the pattern '01'. State q₀ is the initial state, q₁ represents having seen a '0', and q₂ (final) represents having seen '01'.</p>
+            </div>
+
+            <div class="algorithm-box">
+                <div class="algorithm-title">Algorithm: NFA to DFA Conversion (Subset Construction)</div>
+                <div class="algorithm-steps">
+                    <ol>
+                        <li>Create initial state: ε-closure of NFA start state</li>
+                        <li>For each new DFA state and input symbol:</li>
+                        <li>   Find all NFA states reachable</li>
+                        <li>   Compute ε-closure of result</li>
+                        <li>   Create new DFA state if not exists</li>
+                        <li>Repeat until no new states are created</li>
+                        <li>Mark DFA states as final if they contain any NFA final state</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="theorem-box">
+                <div class="theorem-title">Pumping Lemma for Regular Languages</div>
+                <p>If L is a regular language, then there exists a positive integer p such that for any string s ∈ L with |s| ≥ p, s can be divided into three parts s = xyz such that:</p>
+                <ul>
+                    <li>|y| > 0 (y is non-empty)</li>
+                    <li>|xy| ≤ p</li>
+                    <li>For all i ≥ 0, xy^i z ∈ L</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Context-Free Grammars Section -->
+    <section class="content-section" id="grammars">
+        <div class="container">
+            <h2 class="section-title">Context-Free Grammars & Pushdown Automata</h2>
+            <p class="section-subtitle">Handling nested structures and programming languages</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <span class="card-icon">📐</span>
+                    <h3>Context-Free Grammars</h3>
+                    <p>Formal grammars that can generate context-free languages, essential for parsing programming languages and handling nested structures.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">📚</span>
+                    <h3>Pushdown Automata</h3>
+                    <p>Finite automata enhanced with a stack memory, providing the computational power needed to recognize context-free languages.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🔧</span>
+                    <h3>Normal Forms</h3>
+                    <p>Standardized forms of CFGs like Chomsky Normal Form (CNF) and Greibach Normal Form (GNF) for easier analysis and parsing.</p>
+                </div>
+            </div>
+
+            <div class="formal-definition">
+                <h4>Formal Definition of Context-Free Grammar</h4>
+                <p>A CFG is a 4-tuple G = (V, Σ, R, S) where:</p>
+                <ul>
+                    <li><strong>V</strong> is a finite set of variables (non-terminals)</li>
+                    <li><strong>Σ</strong> is a finite set of terminals</li>
+                    <li><strong>R</strong> is a finite set of rules (productions)</li>
+                    <li><strong>S ∈ V</strong> is the start variable</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">Example: CFG for Balanced Parentheses</div>
+                <div class="math-expression">
+                    S → ε | SS | (S)
+                </div>
+                <p>This grammar generates all strings of balanced parentheses. The rules allow for empty string (ε), concatenation of balanced strings (SS), and nesting within parentheses ((S)).</p>
+            </div>
+
+            <div class="algorithm-box">
+                <div class="algorithm-title">Converting CFG to Chomsky Normal Form</div>
+                <div class="algorithm-steps">
+                    <ol>
+                        <li>Eliminate ε-productions (except from start variable if needed)</li>
+                        <li>Eliminate unit productions (A → B)</li>
+                        <li>Replace terminals in mixed productions with new variables</li>
+                        <li>Break down productions with more than 2 variables on RHS</li>
+                        <li>Result: All productions of form A → BC or A → a</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="formal-definition">
+                <h4>Pushdown Automaton (PDA)</h4>
+                <p>A PDA is a 6-tuple M = (Q, Σ, Γ, δ, q₀, F) where:</p>
+                <ul>
+                    <li><strong>Q</strong> is a finite set of states</li>
+                    <li><strong>Σ</strong> is the input alphabet</li>
+                    <li><strong>Γ</strong> is the stack alphabet</li>
+                    <li><strong>δ: Q × Σ_ε × Γ_ε → P(Q × Γ_ε)</strong> is the transition function</li>
+                    <li><strong>q₀ ∈ Q</strong> is the start state</li>
+                    <li><strong>F ⊆ Q</strong> is the set of accept states</li>
+                </ul>
+            </div>
+
+            <div class="theorem-box">
+                <div class="theorem-title">Pumping Lemma for Context-Free Languages</div>
+                <p>If L is a context-free language, then there exists p > 0 such that for any string s ∈ L with |s| ≥ p, s can be written as s = uvwxy where:</p>
+                <ul>
+                    <li>|vwx| ≤ p</li>
+                    <li>|vx| > 0 (at least one of v, x is non-empty)</li>
+                    <li>For all i ≥ 0, uv^i wx^i y ∈ L</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Turing Machines Section -->
+    <section class="content-section" id="turing">
+        <div class="container">
+            <h2 class="section-title">Turing Machines & Computability</h2>
+            <p class="section-subtitle">The ultimate model of computation</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <span class="card-icon">⚙️</span>
+                    <h3>Turing Machine Model</h3>
+                    <p>The most powerful model of computation, equivalent to any algorithm that can be computed. Foundation for understanding computability limits.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🛑</span>
+                    <h3>Halting Problem</h3>
+                    <p>The famous undecidable problem: determining whether a given program will halt on a specific input. Proof of computational limits.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🔍</span>
+                    <h3>Decidable vs Undecidable</h3>
+                    <p>Classification of problems into those that can be solved algorithmically (decidable) and those that cannot (undecidable).</p>
+                </div>
+            </div>
+
+            <div class="formal-definition">
+                <h4>Turing Machine Definition</h4>
+                <p>A Turing Machine is a 7-tuple M = (Q, Σ, Γ, δ, q₀, q_accept, q_reject) where:</p>
+                <ul>
+                    <li><strong>Q</strong> is a finite set of states</li>
+                    <li><strong>Σ</strong> is the input alphabet (not containing blank symbol)</li>
+                    <li><strong>Γ</strong> is the tape alphabet (Σ ⊂ Γ, blank ∈ Γ)</li>
+                    <li><strong>δ: Q × Γ → Q × Γ × {L,R}</strong> is the transition function</li>
+                    <li><strong>q₀ ∈ Q</strong> is the start state</li>
+                    <li><strong>q_accept ∈ Q</strong> is the accept state</li>
+                    <li><strong>q_reject ∈ Q</strong> is the reject state (≠ q_accept)</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">Example: Turing Machine for Language {0^n 1^n | n ≥ 0}</div>
+                <div class="algorithm-steps">
+                    <ol>
+                        <li>Scan right, mark first 0 as X, continue to first 1</li>
+                        <li>Mark first 1 as Y, return to leftmost X</li>
+                        <li>Repeat until no more 0s or 1s to mark</li>
+                        <li>Scan to check all symbols are marked</li>
+                        <li>Accept if string has equal 0s and 1s in correct order</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="theorem-box">
+                <div class="theorem-title">Church-Turing Thesis</div>
+                <p>The informal statement that the class of functions computable by a Turing Machine corresponds exactly to the class of functions that we would intuitively consider to be "computable" by an algorithm.</p>
+            </div>
+
+            <div class="theorem-box">
+                <div class="theorem-title">Rice's Theorem</div>
+                <p>For any non-trivial property P of the language recognized by Turing machines, the problem of determining whether a given Turing machine recognizes a language with property P is undecidable.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Complexity Theory Section -->
+    <section class="content-section" id="complexity">
+        <div class="container">
+            <h2 class="section-title">Computational Complexity Theory</h2>
+            <p class="section-subtitle">Analyzing the resources required for computation</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <span class="card-icon">⏱️</span>
+                    <h3>P vs NP Problem</h3>
+                    <p>The most famous open problem in computer science: whether every problem whose solution can be verified in polynomial time can also be solved in polynomial time.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🧩</span>
+                    <h3>NP-Complete Problems</h3>
+                    <p>The hardest problems in NP class. If any NP-complete problem can be solved in polynomial time, then P = NP.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">📊</span>
+                    <h3>Complexity Classes</h3>
+                    <p>Hierarchy of complexity classes: P, NP, PSPACE, EXPTIME, and their relationships and separations.</p>
+                </div>
+            </div>
+
+            <div class="formal-definition">
+                <h4>Complexity Class Definitions</h4>
+                <ul>
+                    <li><strong>P</strong>: Problems solvable in polynomial time by deterministic TM</li>
+                    <li><strong>NP</strong>: Problems verifiable in polynomial time (or solvable in polynomial time by non-deterministic TM)</li>
+                    <li><strong>NP-Complete</strong>: Problems in NP that are as hard as any problem in NP</li>
+                    <li><strong>NP-Hard</strong>: Problems at least as hard as NP-complete problems (may not be in NP)</li>
+                    <li><strong>PSPACE</strong>: Problems solvable using polynomial space</li>
+                </ul>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">Classic NP-Complete Problems</div>
+                <ul>
+                    <li><strong>SAT (Satisfiability)</strong>: Can a Boolean formula be satisfied?</li>
+                    <li><strong>3-SAT</strong>: SAT restricted to clauses with exactly 3 literals</li>
+                    <li><strong>Clique</strong>: Does a graph contain a clique of size k?</li>
+                    <li><strong>Vertex Cover</strong>: Is there a vertex cover of size k?</li>
+                    <li><strong>Hamiltonian Path</strong>: Does a graph have a Hamiltonian path?</li>
+                    <li><strong>TSP (Traveling Salesman)</strong>: Shortest tour visiting all cities</li>
+                </ul>
+            </div>
+
+            <div class="theorem-box">
+                <div class="theorem-title">Cook-Levin Theorem</div>
+                <p>The Boolean satisfiability problem (SAT) is NP-complete. This was the first problem proven to be NP-complete and forms the basis for proving other problems NP-complete through polynomial-time reductions.</p>
+            </div>
+
+            <div class="math-expression">
+                P ⊆ NP ⊆ PSPACE ⊆ EXPTIME
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Sets Section -->
+    <section class="content-section" id="problems">
+        <div class="container">
+            <h2 class="section-title">Practice Problems & Solutions</h2>
+            <p class="section-subtitle">Test your understanding with these problems</p>
+
+            <div class="problem-set">
+                <h3>Regular Languages Problems</h3>
+                
+                <div class="problem-item">
+                    <div class="problem-number">Problem 1:</div>
+                    <p>Construct a DFA that accepts strings over {0,1} where the number of 1s is odd and the number of 0s is even.</p>
+                    <details>
+                        <summary style="color: var(--green-accent); cursor: pointer;">Show Solution</summary>
+                        <div class="example-box">
+                            <p>We need 4 states to track parity of both 0s and 1s:</p>
+                            <ul>
+                                <li>q₀₀: even 0s, even 1s (start state)</li>
+                                <li>q₀₁: even 0s, odd 1s (final state)</li>
+                                <li>q₁₀: odd 0s, even 1s</li>
+                                <li>q₁₁: odd 0s, odd 1s</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="problem-item">
+                    <div class="problem-number">Problem 2:</div>
+                    <p>Prove that the language L = {0ⁿ1ⁿ | n ≥ 0} is not regular using the pumping lemma.</p>
+                    <details>
+                        <summary style="color: var(--green-accent); cursor: pointer;">Show Solution</summary>
+                        <div class="example-box">
+                            <p><strong>Proof by contradiction:</strong></p>
+                            <ol>
+                                <li>Assume L is regular with pumping length p</li>
+                                <li>Consider string s = 0ᵖ1ᵖ ∈ L, |s| = 2p ≥ p</li>
+                                <li>By pumping lemma, s = xyz where |xy| ≤ p, |y| > 0</li>
+                                <li>Since |xy| ≤ p, y consists only of 0s</li>
+                                <li>Pumping: xy²z has more 0s than 1s, so xy²z ∉ L</li>
+                                <li>Contradiction! Therefore L is not regular.</li>
+                            </ol>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="problem-set">
+                <h3>Context-Free Languages Problems</h3>
+                
+                <div class="problem-item">
+                    <div class="problem-number">Problem 3:</div>
+                    <p>Write a CFG for the language L = {aⁱbʲcᵏ | i = j or j = k, i,j,k ≥ 0}.</p>
+                    <details>
+                        <summary style="color: var(--green-accent); cursor: pointer;">Show Solution</summary>
+                        <div class="example-box">
+                            <div class="math-expression">
+S → S₁ | S₂<br>
+S₁ → AB | BA<br>
+A → aAb | ε<br>
+B → cB | ε<br>
+S₂ → CB | BC<br>
+C → aC | ε<br>
+B → bBc | ε
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="problem-set">
+                <h3>Turing Machines Problems</h3>
+                
+                <div class="problem-item">
+                    <div class="problem-number">Problem 4:</div>
+                    <p>Design a Turing machine that computes the function f(n) = n + 1 where n is represented in unary (as 1ⁿ).</p>
+                    <details>
+                        <summary style="color: var(--green-accent); cursor: pointer;">Show Solution</summary>
+                        <div class="example-box">
+                            <p><strong>Algorithm:</strong></p>
+                            <ol>
+                                <li>Start at leftmost 1</li>
+                                <li>Move right to find the blank after last 1</li>
+                                <li>Write 1 on the blank</li>
+                                <li>Move left to beginning and accept</li>
+                            </ol>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="problem-set">
+                <h3>Complexity Theory Problems</h3>
+                
+                <div class="problem-item">
+                    <div class="problem-number">Problem 5:</div>
+                    <p>Prove that CLIQUE is NP-complete by showing: (1) CLIQUE ∈ NP, (2) 3-SAT ≤ₚ CLIQUE.</p>
+                    <details>
+                        <summary style="color: var(--green-accent); cursor: pointer;">Show Solution</summary>
+                        <div class="example-box">
+                            <p><strong>(1) CLIQUE ∈ NP:</strong> Given graph G and integer k, we can verify a clique of size k in polynomial time by checking all edges between claimed clique vertices.</p>
+                            <p><strong>(2) 3-SAT ≤ₚ CLIQUE:</strong> For each clause in 3-SAT formula, create vertices for each literal. Connect vertices if they're from different clauses and don't contradict each other. A k-clique exists iff the 3-SAT formula with k clauses is satisfiable.</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Exam Preparation Section -->
+    <section class="content-section" id="exam">
+        <div class="container">
+            <h2 class="section-title">Complete Exam Preparation</h2>
+            <p class="section-subtitle">Everything you need to excel in TOC exams</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <span class="card-icon">📋</span>
+                    <h3>Formula Sheet</h3>
+                    <p>Essential formulas, definitions, and theorems for quick reference during exams and problem solving.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🏆</span>
+                    <h3>Previous Year Papers</h3>
+                    <p>Solved previous exam questions with detailed explanations and marking schemes.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">⏱️</span>
+                    <h3>Mock Tests</h3>
+                    <p>Timed practice tests with instant feedback and performance analysis.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">💡</span>
+                    <h3>Problem-Solving Tricks</h3>
+                    <p>Expert tips and shortcuts for common problem patterns and construction techniques.</p>
+                </div>
+            </div>
+
+            <div class="detailed-notes">
+                <h3 class="notes-title">Essential Formula Sheet</h3>
+                <div class="notes-content">
+                    <h4>Regular Languages</h4>
+                    <ul>
+                        <li><strong>DFA:</strong> M = (Q, Σ, δ, q₀, F), δ: Q × Σ → Q</li>
+                        <li><strong>NFA:</strong> M = (Q, Σ, δ, q₀, F), δ: Q × Σ_ε → P(Q)</li>
+                        <li><strong>Pumping Lemma:</strong> |y| > 0, |xy| ≤ p, xy^i z ∈ L ∀i ≥ 0</li>
+                        <li><strong>Closure:</strong> ∪, ∩, -, *, concatenation, reversal</li>
+                    </ul>
+
+                    <h4>Context-Free Languages</h4>
+                    <ul>
+                        <li><strong>CFG:</strong> G = (V, Σ, R, S)</li>
+                        <li><strong>PDA:</strong> M = (Q, Σ, Γ, δ, q₀, Z₀, F), δ: Q × Σ_ε × Γ_ε → P(Q × Γ_ε)</li>
+                        <li><strong>Pumping Lemma:</strong> |vwx| ≤ p, |vx| > 0, uv^i wx^i y ∈ L ∀i ≥ 0</li>
+                        <li><strong>CNF:</strong> A → BC or A → a</li>
+                    </ul>
+
+                    <h4>Turing Machines</h4>
+                    <ul>
+                        <li><strong>TM:</strong> M = (Q, Σ, Γ, δ, q₀, q_accept, q_reject)</li>
+                        <li><strong>δ:</strong> Q × Γ → Q × Γ × {L,R}</li>
+                        <li><strong>Church-Turing Thesis:</strong> TM ≡ Algorithm</li>
+                    </ul>
+
+                    <h4>Complexity Classes</h4>
+                    <ul>
+                        <li><strong>P:</strong> ⋃_k TIME(n^k)</li>
+                        <li><strong>NP:</strong> Polynomial-time verifiable</li>
+                        <li><strong>PSPACE:</strong> ⋃_k SPACE(n^k)</li>
+                        <li><strong>Hierarchy:</strong> P ⊆ NP ⊆ PSPACE ⊆ EXPTIME</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="detailed-notes">
+                <h3 class="notes-title">Common Exam Question Types</h3>
+                <div class="notes-content">
+                    <h4>Type 1: Automata Construction (20-30 marks)</h4>
+                    <ul>
+                        <li>Construct DFA/NFA for given language description</li>
+                        <li>Convert NFA to DFA using subset construction</li>
+                        <li>Design PDA for context-free languages</li>
+                        <li>Write Turing machine for computations</li>
+                    </ul>
+
+                    <h4>Type 2: Formal Proofs (15-25 marks)</h4>
+                    <ul>
+                        <li>Use pumping lemma to prove non-regularity</li>
+                        <li>Prove undecidability using reductions</li>
+                        <li>Show NP-completeness of problems</li>
+                        <li>Demonstrate closure properties</li>
+                    </ul>
+
+                    <h4>Type 3: Grammar and Language Theory (15-20 marks)</h4>
+                    <ul>
+                        <li>Design CFG for given languages</li>
+                        <li>Convert CFG to normal forms</li>
+                        <li>Determine language classes (regular, CF, etc.)</li>
+                        <li>Parse strings using given grammars</li>
+                    </ul>
+
+                    <h4>Type 4: Complexity Analysis (10-15 marks)</h4>
+                    <ul>
+                        <li>Classify problems into complexity classes</li>
+                        <li>Perform polynomial-time reductions</li>
+                        <li>Analyze time and space complexity</li>
+                        <li>Understand P vs NP implications</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="detailed-notes">
+                <h3 class="notes-title">Expert Problem-Solving Strategies</h3>
+                <div class="notes-content">
+                    <h4>DFA Construction Strategy</h4>
+                    <ol>
+                        <li><strong>Identify key patterns:</strong> What properties must be tracked?</li>
+                        <li><strong>Determine states:</strong> Each state represents what you've "remembered"</li>
+                        <li><strong>Define transitions:</strong> How does memory change with each input?</li>
+                        <li><strong>Mark final states:</strong> Which memories indicate acceptance?</li>
+                        <li><strong>Test with examples:</strong> Trace through accept/reject cases</li>
+                    </ol>
+
+                    <h4>Pumping Lemma Strategy</h4>
+                    <ol>
+                        <li><strong>Assume regularity:</strong> Let p be the pumping length</li>
+                        <li><strong>Choose clever string:</strong> Pick s ∈ L with |s| ≥ p that will cause problems when pumped</li>
+                        <li><strong>Consider all decompositions:</strong> Use constraints |xy| ≤ p, |y| > 0</li>
+                        <li><strong>Find contradiction:</strong> Show xy^i z ∉ L for some i</li>
+                        <li><strong>Common choices:</strong> 0^p1^p, a^p!+p, 0^p where p is prime</li>
+                    </ol>
+
+                    <h4>NP-Completeness Proof Strategy</h4>
+                    <ol>
+                        <li><strong>Show L ∈ NP:</strong> Describe polynomial-time verifier</li>
+                        <li><strong>Choose known NP-complete problem:</strong> Usually 3SAT, CLIQUE, or VERTEX-COVER</li>
+                        <li><strong>Design reduction:</strong> Transform instances efficiently</li>
+                        <li><strong>Prove correctness:</strong> Show equivalence both directions</li>
+                        <li><strong>Analyze complexity:</strong> Verify reduction runs in polynomial time</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="progress-section">
+                <h3>Comprehensive Study Checklist</h3>
+                
+                <h4>Unit 1: Regular Languages</h4>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Master DFA construction for string patterns (prefixes, suffixes, substrings)</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Convert NFA to DFA using subset construction algorithm</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Design regular expressions and convert to/from automata</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Apply pumping lemma to prove non-regularity</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Use closure properties for language constructions</span>
+                </div>
+
+                <h4>Unit 2: Context-Free Languages</h4>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Design CFG for nested structures and arithmetic expressions</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Convert CFG to Chomsky Normal Form systematically</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Construct PDA for context-free languages</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Apply CFL pumping lemma to prove non-context-freeness</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Understand ambiguity and parse tree construction</span>
+                </div>
+
+                <h4>Unit 3: Turing Machines & Computability</h4>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Design TM for arithmetic operations and string processing</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Understand Church-Turing thesis and its implications</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Prove decidability of specific language problems</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Master diagonalization proof technique</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Use reductions to show undecidability</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Apply Rice's theorem to language properties</span>
+                </div>
+
+                <h4>Unit 4: Complexity Theory</h4>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Understand relationships between P, NP, PSPACE</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Design polynomial-time verifiers for NP problems</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Perform polynomial-time reductions correctly</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Prove NP-completeness for new problems</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Understand Cook-Levin theorem and its significance</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Analyze space complexity and hierarchy theorems</span>
+                </div>
+            </div>
+
+            <div class="example-box" style="margin-top: 2rem;">
+                <div class="example-title">Final Exam Tips & Time Management</div>
+                <h4>Before the Exam:</h4>
+                <ul>
+                    <li><strong>Practice constructions by hand</strong> - Don't rely only on understanding</li>
+                    <li><strong>Memorize key theorem statements</strong> - Pumping lemmas, Rice's theorem, etc.</li>
+                    <li><strong>Review common reduction patterns</strong> - 3SAT reductions, decidability reductions</li>
+                    <li><strong>Solve previous years completely</strong> - Time yourself and check solutions</li>
+                </ul>
+
+                <h4>During the Exam:</h4>
+                <ul>
+                    <li><strong>Read all questions first</strong> - Plan time allocation (40% construction, 35% proofs, 25% theory)</li>
+                    <li><strong>Start with easiest constructions</strong> - Build confidence and save hard proofs for later</li>
+                    <li><strong>Show all steps clearly</strong> - Partial credit is significant in TOC</li>
+                    <li><strong>Verify constructions with examples</strong> - Test your DFA/TM with sample strings</li>
+                    <li><strong>For proofs: state assumptions clearly</strong> - Follow standard proof formats</li>
+                </ul>
+
+                <h4>Common Mistakes to Avoid:</h4>
+                <ul>
+                    <li>❌ Confusing DFA and NFA transition functions</li>
+                    <li>❌ Incorrect pumping lemma string choices</li>
+                    <li>❌ Missing ε-transitions in NFA/PDA</li>
+                    <li>❌ Incomplete reduction proofs (missing both directions)</li>
+                    <li>❌ Mixing up complexity classes (P vs NP)</li>
+                </ul>
+            </div>
+
+            <div class="tip-box" style="margin-top: 2rem;">
+                <div class="tip-title">Success Strategy</div>
+                <p><strong>Practice consistently</strong> rather than cramming. Work through problems systematically, understand the underlying concepts, and build your intuition through multiple examples. Focus on problem-solving techniques rather than just memorizing solutions. Remember: TOC is about logical reasoning and formal methods - these skills improve with practice!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" onclick="scrollToTop()">↑</button>
+
+    <script>
+        // Tab functionality for notes section
+        function showTab(tabId) {
+            // Hide all tab contents
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab and mark button as active
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Q&A Toggle functionality
+        function toggleAnswer(answerId) {
+            const answer = document.getElementById(answerId);
+            if (answer.classList.contains('show')) {
+                answer.classList.remove('show');
+            } else {
+                answer.classList.add('show');
+            }
+        }
+
+        // DFA String Tester
+        function testDFA() {
+            const input = document.getElementById('dfaInput').value;
+            const result = document.getElementById('dfaResult');
+            
+            if (input === '') {
+                result.innerHTML = '<p style="color: var(--red-accent);">Please enter a string to test.</p>';
+                return;
+            }
+            
+            // DFA for strings ending with "01"
+            // States: q0 (start), q1 (seen 0), q2 (seen 01 - final)
+            let state = 0; // 0: q0, 1: q1, 2: q2
+            let steps = ['Start: q₀'];
+            
+            for (let i = 0; i < input.length; i++) {
+                const char = input[i];
+                if (char !== '0' && char !== '1') {
+                    result.innerHTML = `<p style="color: var(--red-accent);">Invalid character '${char}'. Only 0 and 1 allowed.</p>`;
+                    return;
+                }
+                
+                const prevState = state;
+                if (char === '0') {
+                    state = 1; // Go to "seen 0" state
+                } else if (char === '1') {
+                    state = (state === 1) ? 2 : 0; // From q1 to q2, otherwise to q0
+                }
+                
+                const stateNames = ['q₀', 'q₁', 'q₂'];
+                steps.push(`Read '${char}': ${stateNames[prevState]} → ${stateNames[state]}`);
+            }
+            
+            const accepted = (state === 2);
+            const stateNames = ['q₀', 'q₁', 'q₂'];
+            
+            result.innerHTML = `
+                <p><strong>Input:</strong> ${input}</p>
+                <p><strong>Execution Steps:</strong></p>
+                <ul>${steps.map(step => `<li>${step}</li>`).join('')}</ul>
+                <p><strong>Final State:</strong> ${stateNames[state]}</p>
+                <p><strong>Result:</strong> <span style="color: ${accepted ? 'var(--green-accent)' : 'var(--red-accent)'};">
+                    ${accepted ? 'ACCEPTED' : 'REJECTED'}
+                </span></p>
+                <p><strong>Explanation:</strong> ${accepted ? 'String ends with "01"' : 'String does not end with "01"'}</p>
+            `;
+        }
+
+        // Regular Expression Tester
+        function testRegex() {
+            const regex = document.getElementById('regexSelect').value;
+            const input = document.getElementById('regexInput').value;
+            const result = document.getElementById('regexResult');
+            
+            if (input === '') {
+                result.innerHTML = '<p style="color: var(--red-accent);">Please enter a test string.</p>';
+                return;
+            }
+            
+            // Convert theoretical regex to JavaScript regex
+            let jsRegex;
+            let description;
+            
+            switch(regex) {
+                case '(0|1)*':
+                    jsRegex = /^[01]*$/;
+                    description = 'Any string of 0s and 1s (including empty string)';
+                    break;
+                case '(0|1)*01':
+                    jsRegex = /^[01]*01$/;
+                    description = 'Strings of 0s and 1s ending with "01"';
+                    break;
+                case '1(0|1)*1':
+                    jsRegex = /^1[01]*1$/;
+                    description = 'Strings starting and ending with 1';
+                    break;
+                case '(00|11)*':
+                    jsRegex = /^(00|11)*$/;
+                    description = 'Even-length strings of repeated bits';
+                    break;
+            }
+            
+            const matches = jsRegex.test(input);
+            
+            result.innerHTML = `
+                <p><strong>Regular Expression:</strong> ${regex}</p>
+                <p><strong>Description:</strong> ${description}</p>
+                <p><strong>Test String:</strong> ${input}</p>
+                <p><strong>Result:</strong> <span style="color: ${matches ? 'var(--green-accent)' : 'var(--red-accent)'};">
+                    ${matches ? 'MATCHES' : 'DOES NOT MATCH'}
+                </span></p>
+            `;
+        }
+
+        // Pumping Lemma Proof Generator
+        function showPumpingProof() {
+            const language = document.getElementById('pumpingSelect').value;
+            const result = document.getElementById('pumpingResult');
+            
+            let proof = '';
+            
+            switch(language) {
+                case '0n1n':
+                    proof = `
+                        <h4 style="color: var(--toc-accent);">Proof that L = {0ⁿ1ⁿ | n ≥ 0} is not regular</h4>
+                        <ol>
+                            <li><strong>Assume</strong> L is regular with pumping length p ≥ 1</li>
+                            <li><strong>Choose</strong> string s = 0ᵖ1ᵖ ∈ L with |s| = 2p ≥ p</li>
+                            <li><strong>By pumping lemma:</strong> s = xyz where:
+                                <ul>
+                                    <li>|xy| ≤ p</li>
+                                    <li>|y| > 0</li>
+                                    <li>xy^i z ∈ L for all i ≥ 0</li>
+                                </ul>
+                            </li>
+                            <li><strong>Since |xy| ≤ p:</strong> x and y consist only of 0s</li>
+                            <li><strong>Let y = 0^k where k > 0</strong></li>
+                            <li><strong>Consider i = 2:</strong> xy²z = 0ᵖ⁺ᵏ1ᵖ</li>
+                            <li><strong>Since k > 0:</strong> p+k > p, so more 0s than 1s</li>
+                            <li><strong>Therefore:</strong> xy²z ∉ L, contradiction!</li>
+                            <li><strong>Conclusion:</strong> L is not regular ∎</li>
+                        </ol>
+                    `;
+                    break;
+                    
+                case 'wwr':
+                    proof = `
+                        <h4 style="color: var(--toc-accent);">Proof that L = {wwᴿ | w ∈ {0,1}*} is not regular</h4>
+                        <ol>
+                            <li><strong>Assume</strong> L is regular with pumping length p</li>
+                            <li><strong>Choose</strong> s = 0ᵖ1ᵖ0ᵖ ∈ L (w = 0ᵖ1ᵖ, wᴿ = 0ᵖ1ᵖ)</li>
+                            <li><strong>By pumping lemma:</strong> s = xyz with conditions</li>
+                            <li><strong>Since |xy| ≤ p:</strong> y consists only of 0s from first part</li>
+                            <li><strong>Pumping with i = 0:</strong> xz removes some 0s from beginning</li>
+                            <li><strong>Result:</strong> String no longer has form wwᴿ</li>
+                            <li><strong>Contradiction:</strong> xz ∉ L</li>
+                            <li><strong>Conclusion:</strong> L is not regular ∎</li>
+                        </ol>
+                        <p><strong>Note:</strong> This language requires matching positions across the center, which finite automata cannot track.</p>
+                    `;
+                    break;
+                    
+                case 'prime':
+                    proof = `
+                        <h4 style="color: var(--toc-accent);">Proof that L = {0ᵖ | p is prime} is not regular</h4>
+                        <ol>
+                            <li><strong>Assume</strong> L is regular with pumping length n</li>
+                            <li><strong>Choose</strong> a prime p > n, so 0ᵖ ∈ L and |0ᵖ| ≥ n</li>
+                            <li><strong>By pumping lemma:</strong> 0ᵖ = xyz where |xy| ≤ n, |y| > 0</li>
+                            <li><strong>Let |y| = k where 1 ≤ k ≤ n < p</strong></li>
+                            <li><strong>Consider i = p:</strong> xy^p z = 0^{p+(p-1)k} = 0^{p+pk-k} = 0^{k(p+1)}</li>
+                            <li><strong>Since k > 1 and p+1 > 1:</strong> k(p+1) is composite</li>
+                            <li><strong>Therefore:</strong> xy^p z ∉ L, contradiction!</li>
+                            <li><strong>Conclusion:</strong> L is not regular ∎</li>
+                        </ol>
+                        <p><strong>Key insight:</strong> Primality testing requires arithmetic that finite automata cannot perform.</p>
+                    `;
+                    break;
+            }
+            
+            result.innerHTML = proof;
+        }
+
+        // Scroll to top functionality
+        window.onscroll = function() {
+            const scrollTop = document.querySelector('.scroll-top');
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        };
+
+        function scrollToTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+        // Progress tracking
+        function toggleProgress(checkbox) {
+            checkbox.classList.toggle('completed');
+            if (checkbox.classList.contains('completed')) {
+                checkbox.style.backgroundColor = 'var(--toc-accent)';
+                checkbox.innerHTML = '✓';
+                checkbox.style.color = 'white';
+            } else {
+                checkbox.style.backgroundColor = 'transparent';
+                checkbox.innerHTML = '';
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe cards for animation
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up any initialization code here
+            console.log('Theory of Computation guide loaded successfully!');
+        });
+    </script>
+</body>
+</html>

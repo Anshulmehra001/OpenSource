@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Design & Architecture Guide | OpenSource Tech Guides</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="shared.js" defer></script>
+    <style>
+        :root {
+            --primary-color: #8e44ad;
+            --glow-color: rgba(142, 68, 173, 0.6);
+            --background-color: #0a0a0a;
+            --surface-color: #1a1a1a;
+            --card-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --subtle-text-color: #a0a0a0;
+            --border-color: #333;
+            --accent-gradient: linear-gradient(135deg, #8e44ad, #c0392b);
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        header {
+            background: var(--surface-color);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+        header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        .section {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .card {
+            background: var(--card-color);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px var(--glow-color);
+        }
+        .card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        pre {
+            background: #000;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Space Grotesk', monospace;
+        }
+        code {
+            font-family: 'Space Grotesk', monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>System Design & Architecture Guide</h1>
+    </header>
+
+    <div class="container">
+        <!-- Introduction -->
+        <section class="section">
+            <h2 class="section-title">Introduction to System Design</h2>
+            <p>System design is the process of defining the architecture, components, modules, interfaces, and data for a system to satisfy specified requirements. It is a crucial skill for senior software engineers, architects, and anyone involved in building scalable, reliable, and maintainable software.</p>
+        </section>
+
+        <!-- Core Principles -->
+        <section class="section">
+            <h2 class="section-title">Core Principles</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Scalability</h3>
+                    <p>The ability of a system to handle a growing amount of work by adding resources. We explore vertical vs. horizontal scaling and the trade-offs involved.</p>
+                </div>
+                <div class="card">
+                    <h3>Reliability</h3>
+                    <p>Ensuring the system performs its required functions under stated conditions for a specified period. Measured by Mean Time Between Failures (MTBF).</p>
+                </div>
+                <div class="card">
+                    <h3>Availability</h3>
+                    <p>The percentage of time a system is operational. High availability is often expressed in "nines" (e.g., 99.999% - "five nines").</p>
+                </div>
+                <div class="card">
+                    <h3>Performance</h3>
+                    <p>Measures the system's responsiveness, typically in terms of latency and throughput. We discuss how to optimize for both.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architectural Patterns -->
+        <section class="section">
+            <h2 class="section-title">Architectural Patterns</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Monolithic</h3>
+                    <p>A single, unified application. Simple to develop and deploy initially, but can become complex and difficult to scale.</p>
+                </div>
+                <div class="card">
+                    <h3>Microservices</h3>
+                    <p>An application built as a collection of loosely coupled, independently deployable services. Enhances scalability and team autonomy.</p>
+                </div>
+                <div class="card">
+                    <h3>Serverless</h3>
+                    <p>An architecture where the cloud provider manages the server infrastructure, and developers only focus on writing functions (e.g., AWS Lambda).</p>
+                </div>
+                <div class="card">
+                    <h3>Event-Driven</h3>
+                    <p>An architecture where services communicate through events. This promotes loose coupling and is excellent for asynchronous workflows.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Components -->
+        <section class="section">
+            <h2 class="section-title">Key System Components</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Load Balancers</h3>
+                    <p>Distributes incoming network traffic across multiple servers to ensure no single server becomes a bottleneck. Algorithms include Round Robin, Least Connections, etc.</p>
+                </div>
+                <div class="card">
+                    <h3>Caching</h3>
+                    <p>Stores frequently accessed data in a temporary storage layer to reduce latency and database load. Strategies include Cache-Aside, Read-Through, and Write-Back.</p>
+                </div>
+                <div class="card">
+                    <h3>Content Delivery Network (CDN)</h3>
+                    <p>A geographically distributed network of proxy servers that cache content closer to users, reducing latency for static assets.</p>
+                </div>
+                <div class="card">
+                    <h3>Message Queues</h3>
+                    <p>Enables asynchronous communication between services. Examples include RabbitMQ, Kafka, and AWS SQS. They help decouple services and handle load spikes.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Database Design -->
+        <section class="section">
+            <h2 class="section-title">Database Design & Scaling</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>SQL vs. NoSQL</h3>
+                    <p>We compare relational (SQL) and non-relational (NoSQL) databases, discussing their data models, consistency guarantees (ACID vs. BASE), and use cases.</p>
+                </div>
+                <div class="card">
+                    <h3>Database Sharding</h3>
+                    <p>A technique for horizontal scaling where a database is partitioned into smaller, faster, more manageable parts called shards. We cover sharding strategies like range-based and hash-based.</p>
+                </div>
+                <div class="card">
+                    <h3>Database Replication</h3>
+                    <p>The process of creating and maintaining multiple copies of a database. This improves availability and read performance. We discuss master-slave and master-master replication.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Case Study -->
+        <section class="section">
+            <h2 class="section-title">Case Study: Designing a Social Media Feed</h2>
+            <p>Let's walk through designing a simplified version of a social media feed like Twitter or Facebook. This involves making decisions about API design, data storage, and feed generation.</p>
+            <pre><code>
+// High-level API endpoints
+POST /v1/users/{userId}/posts (content, media_urls) -> postId
+GET  /v1/users/{userId}/feed?page_token=... -> {posts, next_page_token}
+
+// Data Schema (Simplified NoSQL)
+Users: { userId, name, following: [userIds] }
+Posts: { postId, authorId, content, timestamp }
+Feeds: { userId, postIds: [postId] } // Pre-computed feed
+
+// Feed Generation
+// 1. Fan-out on write: When a user posts, push the postId to the feeds of all their followers.
+//    - Pros: Fast feed reads.
+//    - Cons: Slow for users with many followers (celebrity problem).
+// 2. Pull on read: When a user requests their feed, query all the people they follow and aggregate their recent posts.
+//    - Pros: No "celebrity problem" on write.
+//    - Cons: Slow feed reads.
+// Hybrid approach is often used.
+            </code></pre>
+        </section>
+
+        <!-- Interview Prep -->
+        <section class="section">
+            <h2 class="section-title">Interview Preparation</h2>
+            <p>System design interviews are about demonstrating your ability to think through a complex problem and make reasonable trade-offs. Here is a framework to approach them:</p>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>1. Clarify Requirements</h3>
+                    <p>Understand the functional (e.g., post a tweet) and non-functional (e.g., low latency, high availability) requirements. Ask about scale (e.g., number of daily active users).</p>
+                </div>
+                <div class="card">
+                    <h3>2. High-Level Design</h3>
+                    <p>Draw a high-level architecture diagram with the main components (e.g., clients, API gateway, services, databases). Identify the data flow.</p>
+                </div>
+                <div class="card">
+                    <h3>3. Deep Dive</h3>
+                    <p>Choose a specific component and design it in detail. This could be the database schema, API design, or caching strategy. Discuss trade-offs.</p>
+                </div>
+                 <div class="card">
+                    <h3>4. Identify Bottlenecks</h3>
+                    <p>Discuss potential bottlenecks and how to address them. This includes scaling databases, handling traffic spikes, and ensuring data consistency.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>

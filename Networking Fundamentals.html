@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Networking Fundamentals – OpenSource Tech Guides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+:root { --accent:#2563eb; --accent-alt:#3b82f6; --accent-grad:linear-gradient(135deg,#1d4ed8,#3b82f6 55%,#60a5fa); --bg:#0d1117; --bg-alt:#161b22; --panel:#1d2430; --border:#2d333b; --code:#0f1720; --text:#d1d9e0; --text-soft:#8b949e; --radius:14px; --mono:'JetBrains Mono',monospace; --shadow:0 10px 28px -8px rgba(0,0,0,.55); }
+body { margin:0; font-family:'Roboto',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+header { position:sticky; top:0; background:rgba(13,17,23,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); z-index:50; }
+nav { max-width:1250px; margin:0 auto; padding:.85rem 1.4rem; display:flex; align-items:center; justify-content:space-between; }
+.logo { font-family:'Poppins',sans-serif; font-weight:700; font-size:1.15rem; text-decoration:none; background:var(--accent-grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+ul.menu { list-style:none; display:flex; gap:1rem; margin:0; padding:0; }
+ul.menu a { color:var(--text-soft); text-decoration:none; font-size:.7rem; font-weight:600; letter-spacing:.6px; padding:.45rem .75rem; border-radius:8px; border:1px solid transparent; }
+ul.menu a:hover, ul.menu a.active { background:var(--panel); color:var(--text); border-color:var(--border); }
+.hero { padding:4.8rem 1.5rem 2.8rem; background:radial-gradient(circle at 25% 25%,rgba(37,99,235,.28),transparent 60%), radial-gradient(circle at 80% 60%,rgba(96,165,250,.18),transparent 70%); }
+.hero-inner { max-width:1150px; margin:0 auto; }
+.hero h1 { font-family:'Poppins'; font-size:clamp(2.4rem,5vw,3.6rem); margin:.3rem 0 1rem; line-height:1.05; background:var(--accent-grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.hero p.lead { font-size:1.08rem; max-width:900px; color:var(--text-soft); margin:0 0 1.3rem; }
+.meta { display:flex; flex-wrap:wrap; gap:.6rem; }
+.meta span { background:var(--panel); border:1px solid var(--border); font-size:.6rem; letter-spacing:.7px; padding:.45rem .7rem; border-radius:40px; color:var(--text-soft); font-weight:600; }
+section { padding:3rem 1.5rem; }
+section.alt { background:var(--bg-alt); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.container { max-width:1150px; margin:0 auto; }
+.section-header h2 { margin:0 0 .6rem; font-family:'Poppins'; letter-spacing:.5px; font-size:2.05rem; }
+.section-header p { margin:0 0 1rem; color:var(--text-soft); }
+.grid { display:grid; gap:1.3rem; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); }
+.card { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1.05rem .95rem 1.25rem; position:relative; overflow:hidden; box-shadow:var(--shadow); }
+.card h3 { margin:.2rem 0 .6rem; font-size:1rem; }
+.card p { margin:0; font-size:.72rem; color:var(--text-soft); line-height:1.4; }
+.tag-row { display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.45rem; }
+.tag { background:#27313a; border:1px solid var(--border); font-size:.48rem; padding:.28rem .45rem; letter-spacing:.5px; text-transform:uppercase; border-radius:6px; color:var(--text-soft); }
+.split { display:grid; gap:1.8rem; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); align-items:start; }
+.panel { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1.15rem 1.05rem 1.3rem; }
+.panel h3 { margin:.2rem 0 .75rem; font-size:1.05rem; }
+.panel ul { margin:.2rem 0 0; padding-left:1.1rem; }
+.panel li { margin:.5rem 0; font-size:.75rem; }
+pre { background:var(--code); border:1px solid var(--border); padding:1rem 1rem 1.15rem; border-radius:12px; overflow:auto; font-family:var(--mono); font-size:.74rem; line-height:1.35; position:relative; }
+.copy-btn { position:absolute; top:7px; right:7px; background:#1f2933; border:1px solid var(--border); font-size:.55rem; color:var(--text-soft); padding:.25rem .55rem; border-radius:6px; cursor:pointer; }
+.copy-btn:hover { color:var(--text); border-color:var(--accent-alt); }
+.inline { background:var(--code); padding:.18rem .4rem; border-radius:5px; font-family:var(--mono); font-size:.65rem; }
+.lab { display:grid; gap:1.4rem; grid-template-columns:repeat(auto-fit,minmax(310px,1fr)); margin-top:.7rem; }
+.tool { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:.9rem .9rem 1.1rem; }
+.tool h4 { margin:.2rem 0 .55rem; font-size:.9rem; }
+.tool textarea, .tool input { width:100%; background:var(--code); color:var(--text); border:1px solid var(--border); font-family:var(--mono); font-size:.65rem; padding:.5rem .55rem; border-radius:8px; resize:vertical; }
+.tool textarea { min-height:110px; }
+.tool button { background:var(--accent); border:none; color:#fff; font-size:.6rem; font-weight:600; letter-spacing:.5px; padding:.5rem .85rem; border-radius:7px; margin-top:.45rem; cursor:pointer; }
+.output { background:#0f1720; border:1px solid var(--border); padding:.55rem .6rem; min-height:70px; font-family:var(--mono); font-size:.63rem; border-radius:8px; margin-top:.55rem; white-space:pre-wrap; overflow:auto; }
+.checklist { display:grid; gap:.5rem; margin-top:.8rem; }
+.check-item { background:var(--panel); border:1px solid var(--border); padding:.55rem .65rem .6rem 2rem; border-radius:10px; position:relative; font-size:.68rem; cursor:pointer; line-height:1.4; }
+.check-item input { position:absolute; left:.7rem; top:50%; transform:translateY(-50%); width:15px; height:15px; }
+.check-item.completed { border-color:#3b82f6; background:linear-gradient(130deg,rgba(37,99,235,.18),transparent); }
+.qa-item { border:1px solid var(--border); border-radius:12px; background:var(--panel); margin:.75rem 0; overflow:hidden; }
+.qa-q { margin:0; padding:.75rem .9rem; font-weight:600; font-size:.65rem; cursor:pointer; position:relative; }
+.qa-q:after { content:'+'; position:absolute; right:14px; top:50%; transform:translateY(-50%); }
+.qa-item.open .qa-q:after { content:'−'; }
+.qa-a { max-height:0; overflow:hidden; transition:max-height .45s ease; padding:0 .9rem; }
+.qa-item.open .qa-a { max-height:420px; padding:0 .9rem .7rem; }
+.qa-a p { margin:.55rem 0 0; font-size:.63rem; color:var(--text-soft); }
+footer { text-align:center; padding:3rem 1.5rem 4rem; background:var(--bg-alt); margin-top:3rem; border-top:1px solid var(--border); }
+footer p { margin:.35rem 0; font-size:.62rem; color:var(--text-soft); }
+@media (max-width:760px){ .hero { padding:4.2rem 1.1rem 2.6rem; } .grid { grid-template-columns:1fr; } .split { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <nav>
+    <a class="logo" href="index.html">🌐 Networking</a>
+    <ul class="menu">
+      <li><a href="#layers" class="active">Layers</a></li>
+      <li><a href="#addressing">Addressing</a></li>
+      <li><a href="#dns">DNS/HTTP</a></li>
+      <li><a href="#routing">Routing</a></li>
+      <li><a href="#lab">Lab</a></li>
+      <li><a href="#cheatsheet">Cheat</a></li>
+      <li><a href="#review">Review</a></li>
+    </ul>
+  </nav>
+</header>
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Networking Fundamentals</h1>
+    <p class="lead">Understand how data moves: models, addressing, name resolution, transport reliability, routing, diagnostics & performance patterns.</p>
+    <div class="meta"><span>OSI</span><span>TCP/IP</span><span>DNS</span><span>Subnets</span><span>Routing</span><span>Tools</span></div>
+  </div>
+</section>
+<section id="layers">
+  <div class="container">
+    <div class="section-header"><h2>1. Models & Encapsulation</h2><p>Each layer adds headers; packets become frames then bits; reversed on receipt.</p></div>
+    <div class="grid">
+      <div class="card"><h3>OSI vs TCP/IP</h3><p>OSI (7-layers) conceptual. TCP/IP (4-layers) practical. Focus: Link, Internet, Transport, Application.</p><div class="tag-row"><span class="tag">Model</span></div></div>
+      <div class="card"><h3>Encapsulation</h3><p>Data→Seg (TCP)→Packet (IP)→Frame (Ethernet). Headers supply addressing & control (seq, ack, ports).</p><div class="tag-row"><span class="tag">Headers</span></div></div>
+      <div class="card"><h3>MTU & Fragmentation</h3><p>Exceed MTU → fragmentation (IPv4) or drop (IPv6). Path MTU discovery avoids fragmentation.</p><div class="tag-row"><span class="tag">MTU</span></div></div>
+      <div class="card"><h3>Latency vs Throughput</h3><p>Latency = time/unit; throughput = volume/time. BDP influences optimal window size for TCP.</p><div class="tag-row"><span class="tag">Performance</span></div></div>
+    </div>
+    <h3 style="margin-top:2rem">Capture Basics</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>tcpdump -ni any port 443 -c 20
+# Layers sample: Ethernet / IP / TCP / TLS / HTTP
+wireshark &  # rich protocol dissection</code></pre>
+  </div>
+</section>
+<section id="addressing" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>2. IP Addressing & Subnetting</h2><p>Subnetting partitions address space for scale & isolation.</p></div>
+    <div class="split">
+      <div class="panel"><h3>IPv4 Structure</h3><ul><li>32 bits → dotted decimal</li><li>Network vs Host portion defined by mask</li><li>CIDR: /24 = 255.255.255.0 (256 addrs)</li><li>Private ranges: 10/8, 172.16/12, 192.168/16</li></ul></div>
+      <div class="panel"><h3>IPv6 Quick</h3><ul><li>128 bits, hex & :: compression</li><li>Stateless autoconfig (SLAAC)</li><li>No traditional broadcast (uses multicast)</li></ul></div>
+      <div class="panel"><h3>Subnet Capacity</h3><ul><li>/30 → 4 addrs (2 usable)</li><li>/29 → 8 addrs</li><li>/26 → 64 addrs</li><li>/16 → 65,536 addrs</li></ul></div>
+    </div>
+    <h3 style="margin-top:2rem">Mask & CIDR Reference</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>/24 255.255.255.0
+/25 255.255.255.128
+/26 255.255.255.192
+/27 255.255.255.224
+/28 255.255.255.240</code></pre>
+  </div>
+</section>
+<section id="dns">
+  <div class="container">
+    <div class="section-header"><h2>3. DNS, HTTP & TLS</h2><p>Name to IP translation + application semantics & secure transport.</p></div>
+    <div class="split">
+      <div class="panel"><h3>DNS Flow</h3><ul><li>Stub → Resolver → Root → TLD → Authoritative</li><li>Records: A, AAAA, CNAME, MX, TXT, NS</li><li>TTL influences propagation delay</li></ul></div>
+      <div class="panel"><h3>HTTP Essentials</h3><ul><li>Methods: GET idempotent, POST create, PUT replace, PATCH partial</li><li>Status classes 1xx–5xx</li><li>Headers shape caching, content negotiation</li></ul></div>
+      <div class="panel"><h3>TLS Handshake</h3><ul><li>ClientHello cipher suites</li><li>ServerHello + cert</li><li>Key exchange (ECDHE)</li><li>Finished + symmetric crypto</li></ul></div>
+    </div>
+    <h3 style="margin-top:2rem">Diagnostics</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>dig +trace example.com
+curl -v https://site --http2
+openssl s_client -connect site:443 -servername site | openssl x509 -noout -dates</code></pre>
+  </div>
+</section>
+<section id="routing" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>4. Switching, Routing & NAT</h2><p>Frames switched by MAC; packets routed by IP; NAT rewrites headers.</p></div>
+    <div class="split">
+      <div class="panel"><h3>Switching</h3><ul><li>MAC learning via source addresses</li><li>Flood unknown dest frames</li><li>Spanning Tree prevents loops</li></ul></div>
+      <div class="panel"><h3>Routing</h3><ul><li>Forwarding table: longest prefix match</li><li>Protocols: OSPF (link-state), BGP (path vector)</li><li>Default route 0.0.0.0/0</li></ul></div>
+      <div class="panel"><h3>NAT & PAT</h3><ul><li>Translate private→public</li><li>PAT multiplexes ports</li><li>Breaks end-to-end unless ALG / UPnP</li></ul></div>
+    </div>
+    <h3 style="margin-top:2rem">Routing Table Sample</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>Destination  Gateway  Iface
+10.0.0.0/24  0.0.0.0  eth0
+0.0.0.0/0    10.0.0.1 eth0</code></pre>
+  </div>
+</section>
+<section id="lab">
+  <div class="container">
+    <div class="section-header"><h2>5. Interactive Lab</h2><p>Simulations only (no real socket operations).</p></div>
+    <div class="lab">
+      <div class="tool"><h4>Subnet Calculator</h4><input id="cidr" placeholder="192.168.10.0/26" /><button onclick="calcSubnet()">Calculate</button><div class="output" id="cidrOut">(range)</div></div>
+      <div class="tool"><h4>Path (Hop) Sim</h4><textarea id="hopInput" placeholder="client,routerA,routerB,service"></textarea><button onclick="simulateHops()">Simulate</button><div class="output" id="hopOut">(hops)</div></div>
+      <div class="tool"><h4>TCP Handshake Visualizer</h4><button onclick="handshake()">Generate Diagram</button><div class="output" id="hsOut">(diagram)</div></div>
+      <div class="tool"><h4>Port Scan (Mock)</h4><input id="ports" placeholder="22,53,80,443,3306" /><button onclick="mockScan()">Scan</button><div class="output" id="scanOut">(results)</div></div>
+    </div>
+  </div>
+</section>
+<section id="cheatsheet" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>6. Diagnostic Cheat Sheet</h2><p>High signal commands grouped by objective.</p></div>
+    <div class="split">
+      <div class="panel"><h3>Reachability</h3><pre><code>ping -c4 host
+mtr -rw host
+traceroute host</code></pre></div>
+      <div class="panel"><h3>Name Resolution</h3><pre><code>dig A example.com
+nslookup example.com
+host -t MX example.com</code></pre></div>
+      <div class="panel"><h3>Sockets</h3><pre><code>ss -tulpen
+netstat -plant
+lsof -i :443</code></pre></div>
+      <div class="panel"><h3>Security / TLS</h3><pre><code>nmap -sC -sV host
+openssl s_client -connect host:443
+curl -I https://host --http2</code></pre></div>
+      <div class="panel"><h3>HTTP</h3><pre><code>curl -v https://api/service
+curl -X POST -d '{"a":1}' https://api
+httpie GET https://api/service</code></pre></div>
+      <div class="panel"><h3>Packet</h3><pre><code>tcpdump -ni any port 80 -c 10
+wireshark &</code></pre></div>
+    </div>
+  </div>
+</section>
+<section id="review">
+  <div class="container">
+    <div class="section-header"><h2>7. Review & Mastery</h2><p>Checklist + conceptual Q&A.</p></div>
+    <div class="split">
+      <div class="panel"><h3>Progress Checklist</h3>
+        <div class="checklist" id="checklist">
+          <label class="check-item"><input type="checkbox" data-task> Explain OSI vs TCP/IP mapping</label>
+          <label class="check-item"><input type="checkbox" data-task> Calculate usable hosts for a CIDR</label>
+          <label class="check-item"><input type="checkbox" data-task> Perform basic DNS query with dig</label>
+          <label class="check-item"><input type="checkbox" data-task> Interpret a TLS handshake sequence</label>
+          <label class="check-item"><input type="checkbox" data-task> Trace a packet path across routers</label>
+          <label class="check-item"><input type="checkbox" data-task> Differentiate routing vs switching</label>
+          <label class="check-item"><input type="checkbox" data-task> Use tcpdump to capture filtered traffic</label>
+          <label class="check-item"><input type="checkbox" data-task> Distinguish NAT vs PAT behavior</label>
+        </div>
+      </div>
+      <div class="panel"><h3>Concept Q&A</h3>
+        <div id="qa">
+          <div class="qa-item"><div class="qa-q">Why is TCP considered reliable?</div><div class="qa-a"><p>Sequence numbers, acknowledgements, retransmission (ARQ), flow control (window), congestion control algorithms ensure ordered, loss-recovered delivery.</p></div></div>
+          <div class="qa-item"><div class="qa-q">Difference: latency vs bandwidth?</div><div class="qa-a"><p>Latency is delay per unit; bandwidth capacity per unit time. High bandwidth + high latency still underutilized without proper window sizing.</p></div></div>
+          <div class="qa-item"><div class="qa-q">When use UDP deliberately?</div><div class="qa-a"><p>Low overhead, tolerant to loss: streaming, gaming, real-time telemetry where timeliness > reliability.</p></div></div>
+          <div class="qa-item"><div class="qa-q">Why TLS perfect forward secrecy?</div><div class="qa-a"><p>Ephemeral Diffie-Hellman keys mean long-term key compromise doesn't decrypt past sessions.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer>
+  <p>&copy; 2025 OpenSource Tech Guides – Networking Fundamentals.</p>
+  <p><a href="index.html" style="color:var(--accent-alt);text-decoration:none;">Return to Portal</a></p>
+</footer>
+<script>
+// Copy buttons
+ document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>{const code=b.nextElementSibling.innerText;navigator.clipboard.writeText(code);b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1300);}));
+// Q&A toggle
+ document.querySelectorAll('.qa-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+// Checklist persistence / progress
+ const KEY='networking_fundamentals_ck_v1'; const tasks=[...document.querySelectorAll('[data-task]')]; const saved=JSON.parse(localStorage.getItem(KEY)||'{}'); tasks.forEach((cb,i)=>{ if(saved[i]){cb.checked=true; cb.parentElement.classList.add('completed');} cb.addEventListener('change',()=>{cb.parentElement.classList.toggle('completed',cb.checked); saved[i]=cb.checked; localStorage.setItem(KEY,JSON.stringify(saved)); updateProgress();});}); function updateProgress(){ const done=tasks.filter(t=>t.checked).length; localStorage.setItem('progress:networking-fundamentals',(done/tasks.length).toFixed(2)); window.dispatchEvent(new CustomEvent('guideProgressUpdate',{detail:{guide:'networking-fundamentals'}})); } updateProgress();
+// Subnet calc
+ function calcSubnet(){ const v=document.getElementById('cidr').value.trim(); const m=v.split('/'); if(m.length!==2){ cidrOut.textContent='Format: base/mask'; return;} const base=m[0]; const mask=parseInt(m[1]); if(isNaN(mask)||mask<0||mask>32){ cidrOut.textContent='Bad mask'; return;} const parts=base.split('.').map(n=>parseInt(n)); if(parts.length!==4||parts.some(p=>isNaN(p)||p<0||p>255)){ cidrOut.textContent='Bad IP'; return;} const ipNum=parts.reduce((a,p)=> (a<<8)+p,0); const hostBits=32-mask; const size=2**hostBits; const net=ipNum & (~(size-1)); const bcast=net+size-1; function intToIp(x){ return [24,16,8,0].map(s=> (x>>s)&255).join('.'); } const first=hostBits? net+1:net; const last=hostBits? bcast-1:bcast; cidrOut.textContent=`Network: ${intToIp(net)}\nBroadcast: ${intToIp(bcast)}\nUsable: ${hostBits<=1? 'special / no hosts': intToIp(first)+' - '+intToIp(last)}\nTotal: ${size}`; }
+// Hop simulation
+ function simulateHops(){ const raw=hopInput.value.trim(); if(!raw){ hopOut.textContent='(list nodes)'; return;} const nodes=raw.split(/[,>]/).map(s=>s.trim()).filter(Boolean); let out='Hops:\n'; nodes.forEach((n,i)=> out+= (i+1)+'. '+n+'\n'); out+='RTT est: '+(nodes.length*8)+'ms (mock)'; hopOut.textContent=out; }
+// Handshake diagram
+ function handshake(){ hsOut.textContent=`Client  ---- SYN ---->  Server\nClient  <--- SYN+ACK --  Server\nClient  ---- ACK ---->  Server\n[Connection Established]`; }
+// Mock port scan
+ function mockScan(){ const raw=ports.value.trim(); if(!raw){ scanOut.textContent='(ports csv)'; return;} const openSet=new Set([22,53,80,443,3306,8080]); const res=raw.split(',').map(p=>parseInt(p.trim())).filter(n=>!isNaN(n)).map(p=> p+': '+(openSet.has(p)?'OPEN':'CLOSED')).join('\n'); scanOut.textContent=res || '(no ports)'; }
+</script>
+</body>
+</html>

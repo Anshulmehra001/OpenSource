@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>QuantumLeap: A Deep Dive into Quantum Technologies</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* CSS from styles.css is embedded here */
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #0A2342;
+            --secondary-color: #2CA58D;
+            --accent-color: #FFC107;
+            --text-color: #333;
+            --bg-color: #F8F9FA;
+            --card-bg-color: #FFFFFF;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Offset for sticky nav */
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 40px;
+        }
+
+        /* --- Navigation --- */
+        .navbar {
+            background-color: var(--card-bg-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .nav-brand {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-item a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 700;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .nav-item a:hover {
+            background-color: var(--primary-color);
+            color: var(--card-bg-color);
+        }
+
+        /* --- Header / Hero Section --- */
+        .hero {
+            background: linear-gradient(rgba(10, 35, 66, 0.8), rgba(10, 35, 66, 0.8)), url('https://www.publicdomainpictures.net/pictures/270000/velka/quantum-physics-15383567142xS.jpg') no-repeat center center/cover;
+            color: #ffffff;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 3.5em;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 15px 30px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 5px;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            background-color: #ffca2c;
+        }
+
+        /* --- General Section Styling --- */
+        .section {
+            background-color: var(--card-bg-color);
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        main > section {
+             padding-top: 50px;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            color: var(--primary-color);
+            font-size: 2.5em;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 15px;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            font-family: 'Merriweather', serif;
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-top: 35px;
+            margin-bottom: 20px;
+        }
+
+        h4 {
+            font-family: 'Merriweather', serif;
+            color: var(--secondary-color);
+            font-size: 1.4em;
+        }
+
+        /* --- Card Grids --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            border: 1px solid #eee;
+            padding: 25px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            background-color: #fdfdfd;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        /* --- Q&A Accordion --- */
+        .qa-item {
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .qa-question {
+            background-color: #e8f0fe;
+            padding: 15px 20px;
+            border-left: 5px solid var(--primary-color);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1em;
+            position: relative;
+        }
+        .qa-question::after {
+            content: '+';
+            font-size: 1.5em;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+        }
+        .qa-question.active::after {
+            transform: translateY(-50%) rotate(45deg);
+        }
+        .qa-answer {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 20px;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        }
+
+        /* --- Resource List Styling --- */
+        .resource-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        .resource-list li {
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .resource-list a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .resource-list a:hover {
+            text-decoration: underline;
+        }
+        .resource-list p {
+            margin: 5px 0 0 0;
+            font-size: 0.95em;
+        }
+
+        /* --- Timeline Styling --- */
+        .timeline {
+            position: relative;
+            list-style: none;
+            padding: 1rem 0;
+            margin: 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #e8f0fe;
+            margin-left: -2px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .timeline-item:nth-child(even) {
+            padding-left: calc(50% + 30px);
+            text-align: left;
+        }
+        .timeline-item:nth-child(odd) {
+            padding-right: calc(50% + 30px);
+            text-align: right;
+        }
+        .timeline-dot {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            border: 4px solid var(--bg-color);
+            margin-left: -10px;
+        }
+        .timeline-date {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .timeline-content h4 {
+            margin: 10px 0;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background-color: var(--primary-color);
+            color: #e0e0e0;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-brand">QuantumLeap</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#home">Home</a></li>
+                <li class="nav-item"><a href="#computing">Computing</a></li>
+                <li class="nav-item"><a href="#applications">Applications</a></li>
+                <li class="nav-item"><a href="#future">Future & Society</a></li>
+                <li class="nav-item"><a href="#learn">Learn More</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero" id="home">
+        <h1>Welcome to the Quantum Revolution</h1>
+        <p>An in-depth exploration of the science that is reshaping our world, from unbreakable encryption to computers of unimaginable power.</p>
+        <a href="#computing" class="btn">Explore Quantum Computing</a>
+    </header>
+
+    <main class="container">
+        <!-- ======================= -->
+        <!--  Introduction Section   -->
+        <!-- ======================= -->
+        <section class="section">
+            <h2>The Dawn of a New Technological Era</h2>
+            <p>We stand at the precipice of the <strong>second quantum revolution</strong>. The first revolution, in the early 20th century, gave us the theory of quantum mechanics, leading to foundational technologies like the laser and the transistor. Today, the second revolution is about directly engineering and controlling individual quantum systems to build devices with capabilities far beyond their classical counterparts. This website is your guide to this transformative landscape.</p>
+            <h4>What You Will Learn:</h4>
+            <ul>
+                <li><strong>The Core Principles:</strong> Understand superposition, entanglement, and the other strange rules that govern the quantum world.</li>
+                <li><strong>Quantum Computing:</strong> Discover how quantum computers work, the challenges in building them, and the powerful algorithms they can run.</li>
+                <li><strong>Real-World Applications:</strong> Explore how quantum is creating unhackable communication networks and sensors of unprecedented precision.</li>
+                <li><strong>The Future Outlook:</strong> Learn about the roadmap for quantum technology, its economic and societal impact, and the ethical questions it raises.</li>
+            </ul>
+        </section>
+
+        <!-- ======================= -->
+        <!--  Computing Section      -->
+        <!-- ======================= -->
+        <section class="section" id="computing">
+            <h2>Quantum Computing: Beyond Bits and Bytes</h2>
+            <p>Quantum computers are not merely faster versions of the computers we use today; they are a fundamentally new type of information processor that leverages the laws of quantum mechanics to their advantage. This allows them to tackle certain classes of problems that are, and will likely always be, intractable for any classical computer.</p>
+
+            <h3>The Fundamental Concepts</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>Superposition</h4>
+                    <p>Where a classical bit is a simple switch that can be either 0 or 1, a quantum bit (<strong>qubit</strong>) can exist in a weighted combination of both states simultaneously. This ability to explore multiple possibilities at once is a primary source of quantum's computational power.</p>
+                </div>
+                 <div class="card">
+                    <h4>Entanglement</h4>
+                    <p>Two or more qubits can become entangled, meaning their fates are inextricably linked, no matter how far apart they are. Measuring the state of one qubit instantly influences the state of the other. Einstein famously called this "spooky action at a distance," and it is a key resource for quantum algorithms and communication.</p>
+                </div>
+                 <div class="card">
+                    <h4>Interference</h4>
+                    <p>Like waves, the probability amplitudes of a qubit's state can interfere with each other. Quantum algorithms are cleverly designed to amplify the probability of measuring the correct answer (constructive interference) while canceling out the probabilities of incorrect answers (destructive interference).</p>
+                </div>
+            </div>
+
+            <h3>The Building Blocks: Qubit Modalities</h3>
+            <p>Creating and controlling stable qubits is a monumental engineering challenge. Several physical platforms, or "modalities," are being developed, each with its own trade-offs.</p>
+             <div class="grid">
+                <div class="card">
+                    <h4>Superconducting Qubits</h4>
+                    <p>Tiny circuits of superconducting material cooled to near absolute zero (~15 millikelvin). They are fast but highly sensitive to environmental noise. This is the leading approach for companies like <strong>Google and IBM</strong>.</p>
+                </div>
+                <div class="card">
+                    <h4>Trapped Ion Qubits</h4>
+                    <p>Individual atoms, ionized and held in place by electromagnetic fields. They are incredibly stable (long coherence times) and have high fidelity, but their operations are generally slower. Favored by <strong>IonQ and Quantinuum</strong>.</p>
+                </div>
+                <div class="card">
+                    <h4>Photonic Qubits</h4>
+                    <p>Based on the quantum properties (like polarization) of single particles of light (photons). Excellent for communication and can operate at room temperature, but creating reliable two-qubit gates is difficult. Used by companies like <strong>PsiQuantum</strong>.</p>
+                </div>
+                 <div class="card">
+                    <h4>Neutral Atom Qubits</h4>
+                    <p>Individual, neutral atoms are held in place by laser beams ("optical tweezers"). This modality is showing great promise for scalability to thousands of high-quality qubits. Explored by companies like <strong>Pasqal and QuEra</strong>.</p>
+                </div>
+            </div>
+
+            <h3>Quantum Algorithms: The Software of the Revolution</h3>
+            <p>A quantum computer is only as useful as the algorithms it can run. These specialized algorithms are designed to exploit quantum phenomena for a massive speedup.</p>
+            <ul>
+                <li><strong>Shor's Algorithm:</strong> The "kryptonite" for classical encryption. Can find the prime factors of large numbers exponentially faster than any known classical method, threatening to break RSA encryption.</li>
+                <li><strong>Grover's Algorithm:</strong> A powerful search algorithm that provides a quadratic speedup for finding an item in an unstructured database. Useful for a wide range of optimization problems.</li>
+                <li><strong>Quantum Simulation:</strong> Using a controllable quantum system to simulate another, less understood quantum system. This has enormous potential for drug discovery, material science, and designing new catalysts.</li>
+                <li><strong>Variational Quantum Eigensolver (VQE):</strong> A "hybrid" algorithm that uses both quantum and classical computers. It's a leading candidate for finding the ground state energy of molecules, a key task in quantum chemistry, and is well-suited for today's noisy (NISQ) devices.</li>
+            </ul>
+
+            <h3>Hardware and Engineering Challenges</h3>
+            <p>The path to a useful, large-scale quantum computer is fraught with immense technical hurdles that researchers are working to overcome.</p>
+             <ul>
+                <li><strong>Decoherence:</strong> Qubits are extremely fragile. The slightest interaction with their environment (a stray bit of heat, a vibration, a magnetic field) can destroy their delicate quantum state, erasing the information and causing errors.</li>
+                li><strong>Scalability & Connectivity:</strong> How do you build and reliably control millions of qubits while ensuring they can all interact with each other in a dense, connected network?</li>
+                <li><strong>Control and Measurement:</strong> Developing the microwave pulses, lasers, and electronics needed to control the qubits with high precision and read out their final state accurately is a major challenge.</li>
+                <li><strong>Error Correction:</strong> The ultimate goal is to use many physical qubits to encode a single, robust "logical qubit" that can detect and correct the errors caused by decoherence. This is the key to building a fault-tolerant quantum computer.</li>
+            </ul>
+        </section>
+
+        <!-- ======================= -->
+        <!-- Applications Section    -->
+        <!-- ======================= -->
+        <section class="section" id="applications">
+            <h2>Applications: Communication, Sensing & AI</h2>
+            <h3>Quantum Communication: An Unhackable Future</h3>
+            <p>Quantum communication leverages the fundamental laws of physics to create inherently secure communication channels. Its flagship application is Quantum Key Distribution (QKD), which allows two parties to generate a secret key knowing that any attempt to eavesdrop would be instantly detected.</p>
+
+            <h4>Classical vs. Quantum Key Exchange</h4>
+            <div class="grid">
+                <div class="card">
+                    <h4>Classical Key Exchange (e.g., RSA)</h4>
+                    <p><strong>Security Basis:</strong> Computational difficulty. Relies on mathematical problems (like factoring large numbers) that are too hard for classical computers to solve in a reasonable time.</p>
+                    <p><strong>Vulnerability:</strong> A future quantum computer running Shor's algorithm could break this encryption.</p>
+                </div>
+                <div class="card">
+                    <h4>Quantum Key Distribution (QKD)</h4>
+                    <p><strong>Security Basis:</strong> Laws of Physics. Relies on the principle that measuring a quantum state disturbs it. Any eavesdropper leaves a detectable trace.</p>
+                    <p><strong>Vulnerability:</strong> Secure against any amount of computational power, including from future quantum computers.</p>
+                </div>
+            </div>
+
+            <h3>Quantum Sensing: Measuring the Imperceptible</h3>
+            <p>Quantum sensors use the extreme sensitivity of quantum states to make measurements with unprecedented precision. They can detect minuscule changes in physical quantities that are invisible to classical sensors.</p>
+            <ul>
+                <li><strong>Medical Diagnostics:</strong> Using quantum magnetometers to create higher-resolution, non-invasive maps of brain (MEG) and heart (MCG) activity.</li>
+                <li><strong>Navigation:</strong> Building ultra-precise gyroscopes and accelerometers that can navigate without relying on GPS, crucial for submarines, aircraft, and autonomous vehicles in GPS-denied environments.</li>
+                <li><strong>Civil Engineering:</strong> Using quantum gravimeters to map underground pipes, sinkholes, and geological formations without the need for expensive and disruptive digging.</li>
+            </ul>
+
+            <h3>Quantum Machine Learning (QML)</h3>
+            <p>QML is an emerging field at the intersection of quantum computing and artificial intelligence. The hope is that quantum processors can enhance machine learning tasks by exploring high-dimensional data spaces more efficiently than classical computers.</p>
+            <ul>
+                <li><strong>How it Works:</strong> QML algorithms often involve mapping classical data onto a quantum state. The quantum computer then processes this data in its vast computational space (a Hilbert space) using techniques like quantum kernels or quantum neural networks to find patterns that are hard to spot classically.</li>
+                <li><strong>Potential Applications:</strong> Faster drug discovery through molecular property prediction, improved financial modeling, and optimizing complex logistical systems.</li>
+            </ul>
+        </section>
+
+        <!-- ======================= -->
+        <!-- Future & Society Section-->
+        <!-- ======================= -->
+        <section class="section" id="future">
+            <h2>The Future & Societal Impact</h2>
+            <h3>A Timeline for the Quantum Revolution</h3>
+            <ul class="timeline">
+                <li class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">The Present: NISQ Era</div>
+                    <div class="timeline-content">
+                        <h4>Noisy Intermediate-Scale Quantum</h4>
+                        <p>We have devices with 50-1000 noisy (error-prone) qubits. They are powerful enough to achieve "quantum advantage" on specific academic problems and are primarily used for research and small-scale simulations.</p>
+                    </div>
+                </li>
+                 <li class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">The Near-Term: Early Fault-Tolerance</div>
+                    <div class="timeline-content">
+                        <h4>The First Logical Qubits</h4>
+                        <p>Researchers will demonstrate the first robust, error-corrected logical qubits. This will be a major scientific milestone, enabling more reliable and complex algorithms, though still on a relatively small scale.</p>
+                    </div>
+                </li>
+                 <li class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">The Long-Term: Mature Fault-Tolerance</div>
+                    <div class="timeline-content">
+                        <h4>Large-Scale Quantum Computers</h4>
+                        <p>Machines with thousands of logical qubits (requiring millions of physical qubits) will be able to tackle large-scale, commercially relevant problems, such as breaking RSA encryption and designing new drugs from scratch.</p>
+                    </div>
+                </li>
+            </ul>
+
+            <h3>Economic & Geopolitical Impact</h3>
+            <p>Nations and corporations are investing billions in the "quantum race," recognizing its potential to create new industries and shift the global balance of power. The impact will be felt across numerous sectors.</p>
+            <ul>
+                <li><strong>Healthcare & Pharma:</strong> Revolutionizing drug discovery and personalized medicine through molecular simulation.</li>
+                <li><strong>Finance:</strong> Optimizing investment portfolios, pricing complex derivatives, and enhancing fraud detection.</li>
+                <li><strong>Manufacturing:</strong> Designing novel materials with desirable properties (e.g., better batteries, more efficient solar cells, stronger lightweight composites).</li>
+                <li><strong>Defense & Intelligence:</strong> Developing secure communication, advanced sensors, and breaking classical encryption.</li>
+            </ul>
+
+            <h3>Ethical Considerations and Societal Challenges</h3>
+            <p>Like any powerful technology, quantum brings with it a host of ethical questions and societal challenges that we must address proactively.</p>
+            <div class="grid">
+                <div class="card">
+                    <h4>The Cryptographic Threat</h4>
+                    <p>The most immediate threat is to cybersecurity. Governments and standards bodies are working to develop and deploy Post-Quantum Cryptography (PQC)—new encryption methods that are resistant to attack by both classical and quantum computers.</p>
+                </div>
+                <div class="card">
+                    <h4>The Quantum Divide</h4>
+                    <p>There is a risk that the immense power and benefits of quantum technology could be concentrated in the hands of a few wealthy nations or corporations, exacerbating existing global inequalities. Ensuring equitable access will be critical.</p>
+                </div>
+                <div class="card">
+                    <h4>Responsible Innovation</h4>
+                    <p>Public dialogue, policy development, and ethical frameworks must be developed in parallel with the technology to mitigate risks, manage societal transitions (like workforce changes), and ensure quantum technology is used for the benefit of humanity.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================= -->
+        <!--  Learn More Section     -->
+        <!-- ======================= -->
+        <section class="section" id="learn">
+            <h2>Learn More: Q&A and Resources</h2>
+            <h3>Frequently Asked Questions</h3>
+            <div id="qa-container">
+                <div class="qa-item">
+                    <div class="qa-question">Will quantum computers replace my laptop?</div>
+                    <div class="qa-answer">
+                        <p>No, it's highly unlikely. Quantum computers are specialized accelerators for specific, immensely complex problems. Your classical computer will remain the best tool for everyday tasks like email, gaming, and web browsing. Think of it like the relationship between a CPU and a GPU.</p>
+                    </div>
+                </div>
+                 <div class="qa-item">
+                    <div class="qa-question">How cold do quantum computers need to be?</div>
+                    <div class="qa-answer">
+                        <p>Superconducting quantum computers need to be cooled to around 15 millikelvin. That is -273.135 °C or -459.64 °F, which is colder than the vacuum of outer space. This is done using large, complex dilution refrigerators to minimize thermal noise and maintain the delicate quantum states.</p>
+                    </div>
+                </div>
+                <div class="qa-item">
+                    <div class="qa-question">What programming language do you use for a quantum computer?</div>
+                    <div class="qa-answer">
+                        <p>You don't typically program a quantum computer in a traditional language. Instead, you use specialized software development kits (SDKs), usually based in Python. These SDKs, like <strong>IBM's Qiskit</strong> and <strong>Google's Cirq</strong>, allow you to define quantum circuits and algorithms. Microsoft also offers a standalone language called <strong>Q#</strong> for this purpose.</p>
+                    </div>
+                </div>
+                <div class="qa-item">
+                    <div class="qa-question">What is "quantum advantage"?</div>
+                    <div class="qa-answer">
+                        <p>The term "quantum advantage" (which has largely replaced "quantum supremacy") refers to the moment when a programmable quantum computer performs a specific computational task that no classical supercomputer could practically solve in a reasonable amount of time. It's a scientific milestone demonstrating that quantum computers are not just theoretical but can outperform the best classical machines on at least one problem.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 40px;">Dive Deeper: The Best Quantum Resources</h3>
+            <div class="resource-list">
+                <h4>News & Magazines</h4>
+                <ul>
+                    <li><a href="https://www.quantamagazine.org/tag/quantum-computing" target="_blank" rel="noopener noreferrer">Quanta Magazine</a><p>Award-winning journalism that makes complex topics in science and math accessible to everyone.</p></li>
+                    <li><a href="https://quantumcomputingreport.com/" target="_blank" rel="noopener noreferrer">Quantum Computing Report</a><p>Comprehensive news, analysis, and data on the business and technology of the quantum industry.</p></li>
+                </ul>
+
+                <h4>Open Source Frameworks & Simulators</h4>
+                <ul>
+                    <li><a href="https://qiskit.org/" target="_blank" rel="noopener noreferrer">Qiskit (IBM)</a><p>An open-source SDK for working with quantum computers at the level of circuits, algorithms, and application modules.</p></li>
+                    <li><a href="https://quantumai.google/cirq" target="_blank" rel="noopener noreferrer">Cirq (Google)</a><p>A Python library for writing, manipulating, and optimizing quantum circuits and running them on quantum computers and simulators.</p></li>
+                </ul>
+
+                <h4>Key University Research Hubs</h4>
+                <ul>
+                    <li><a href="https://cqt.nus.edu.sg/" target="_blank" rel="noopener noreferrer">Centre for Quantum Technologies (CQT) - Singapore</a><p>A leading research center focusing on all aspects of quantum technology.</p></li>
+                    <li><a href="https://qutech.nl/" target="_blank" rel="noopener noreferrer">QuTech - Delft University of Technology</a><p>A world-renowned institute for quantum computing and quantum internet research in the Netherlands.</p></li>
+                    <li><a href="https://www.iqim.caltech.edu/" target="_blank" rel="noopener noreferrer">Institute for Quantum Information and Matter (IQIM) - Caltech</a><p>A prestigious physics research center in the US with a strong focus on quantum science.</p></li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>© 2025 QuantumLeap. An educational resource on the Second Quantum Revolution.</p>
+    </footer>
+
+    <script>
+        // JavaScript for Q&A accordion is embedded here
+        const qaContainer = document.getElementById('qa-container');
+        if (qaContainer) {
+            qaContainer.addEventListener('click', function(e) {
+                const question = e.target.closest('.qa-question');
+                if (!question) return;
+
+                const answer = question.nextElementSibling;
+                const isActive = question.classList.contains('active');
+
+                // Close all other open questions for a cleaner accordion experience
+                qaContainer.querySelectorAll('.qa-question').forEach(q => {
+                    if (q !== question) {
+                        q.classList.remove('active');
+                        q.nextElementSibling.style.maxHeight = '0';
+                        q.nextElementSibling.style.padding = '0 20px';
+                    }
+                });
+
+                if (!isActive) {
+                    question.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    answer.style.padding = '15px 20px';
+                } else {
+                    question.classList.remove('active');
+                    answer.style.maxHeight = '0';
+                    answer.style.padding = '0 20px';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

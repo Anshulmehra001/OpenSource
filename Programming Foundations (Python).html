@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Programming Foundations (Python) – OpenSource Tech Guides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --accent:#ff7b39; --accent-alt:#ffa149; --accent-grad:linear-gradient(135deg,#ff7b39,#ffa149 55%,#ffc46b);
+  --bg:#0d1117; --bg-alt:#161b22; --panel:#1f252f; --border:#2d333b; --code-bg:#12171d;
+  --text:#d1d9e0; --text-soft:#8b949e; --radius:14px; --shadow:0 10px 30px -10px rgba(0,0,0,.45);
+  --header-font:'Poppins',sans-serif; --body-font:'Roboto',sans-serif; --mono:'JetBrains Mono',monospace;
+  --green:#2ea043; --red:#f85149; --blue:#388bfd; --yellow:#d29922;
+}
+html { scroll-behavior:smooth; }
+body { margin:0; font-family:var(--body-font); background:var(--bg); color:var(--text); line-height:1.65; }
+
+/* Header */
+.main-header { position:sticky; top:0; z-index:1000; background:rgba(13,17,23,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); }
+.nav-container { max-width:1300px; margin:0 auto; padding:.9rem 1.5rem; display:flex; justify-content:space-between; align-items:center; }
+.logo { font-family:var(--header-font); font-weight:700; font-size:1.25rem; text-decoration:none; background:var(--accent-grad); -webkit-background-clip:text; background-clip:text; color:transparent; letter-spacing:.5px; }
+.nav-menu { list-style:none; margin:0; padding:0; display:flex; gap:1.2rem; }
+.nav-menu a { text-decoration:none; color:var(--text-soft); font-size:.85rem; font-weight:600; letter-spacing:.5px; padding:.45rem .8rem; border-radius:8px; transition:.25s; }
+.nav-menu a:hover, .nav-menu a.active { background:var(--panel); color:var(--text); }
+
+/* Hero */
+.hero { padding:5.2rem 1.5rem 3rem; background:radial-gradient(circle at 25% 20%,rgba(255,123,57,.25),transparent 60%), radial-gradient(circle at 85% 50%,rgba(255,161,73,.18),transparent 65%); }
+.hero-inner { max-width:1150px; margin:0 auto; }
+.hero h1 { font-family:var(--header-font); font-size:clamp(2.4rem,5.2vw,3.8rem); line-height:1.05; margin:.35rem 0 1.1rem; background:var(--accent-grad); -webkit-background-clip:text; background-clip:text; color:transparent; letter-spacing:.5px; }
+.hero p.lead { font-size:1.12rem; max-width:860px; color:var(--text-soft); margin:0 0 1.4rem; }
+.meta-grid { display:flex; flex-wrap:wrap; gap:.8rem; margin-top:.8rem; }
+.meta-chip { background:var(--panel); border:1px solid var(--border); padding:.5rem .85rem; font-size:.65rem; border-radius:40px; letter-spacing:.8px; font-weight:600; text-transform:uppercase; color:var(--text-soft); display:flex; align-items:center; gap:.45rem; }
+
+/* Sections */
+section { padding:3rem 1.5rem; }
+section.alt { background:var(--bg-alt); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.container { max-width:1150px; margin:0 auto; }
+.section-header { margin-bottom:2.2rem; }
+.section-header h2 { font-family:var(--header-font); font-size:2.15rem; margin:0 0 .65rem; letter-spacing:.5px; }
+.section-header p { margin:0; color:var(--text-soft); font-size:1rem; }
+
+/* Cards */
+.card-grid { display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
+.card { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem 1.1rem 1.35rem; position:relative; overflow:hidden; box-shadow:var(--shadow); transition:.35s; }
+.card:before { content:""; position:absolute; inset:0; background:linear-gradient(140deg,rgba(255,123,57,.12),transparent 55%); opacity:0; transition:.4s; }
+.card:hover { transform:translateY(-6px); border-color:var(--accent-alt); }
+.card:hover:before { opacity:1; }
+.card h3 { margin:.15rem 0 .7rem; font-size:1.05rem; }
+.card p { margin:0; font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+.tag-row { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.55rem; }
+.tag { background:#262f37; padding:.25rem .55rem; border-radius:6px; font-size:.55rem; letter-spacing:.5px; text-transform:uppercase; border:1px solid var(--border); color:var(--text-soft); }
+
+/* Split */
+.split { display:grid; gap:2rem; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); align-items:start; }
+.panel { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1.3rem 1.15rem 1.4rem; position:relative; }
+.panel h3 { margin:.1rem 0 .8rem; font-size:1.1rem; }
+.panel ul { margin:0; padding-left:1.1rem; }
+.panel li { margin:.5rem 0; }
+
+/* Code */
+pre { background:var(--code-bg); border:1px solid var(--border); padding:1rem 1rem 1.15rem; border-radius:12px; overflow:auto; font-family:var(--mono); font-size:.8rem; line-height:1.4; position:relative; }
+code.inline { background:var(--code-bg); padding:.22rem .45rem; border-radius:6px; font-family:var(--mono); font-size:.75rem; }
+.copy-btn { position:absolute; top:8px; right:8px; background:#222; color:var(--text-soft); border:1px solid var(--border); font-size:.6rem; padding:.23rem .55rem; border-radius:6px; cursor:pointer; }
+.copy-btn:hover { color:var(--text); border-color:var(--accent-alt); }
+
+/* Lab */
+.lab { display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); margin-top:1.1rem; }
+.lab-tool { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1rem 1rem 1.2rem; }
+.lab-tool h4 { margin:.15rem 0 .7rem; font-size:1rem; }
+.lab-tool textarea, .lab-tool input { width:100%; background:var(--code-bg); border:1px solid var(--border); color:var(--text); padding:.55rem .65rem; font-family:var(--mono); font-size:.72rem; border-radius:8px; resize:vertical; }
+.lab-tool textarea { min-height:120px; }
+.lab-tool select { width:100%; margin-top:.45rem; background:var(--code-bg); color:var(--text); border:1px solid var(--border); padding:.45rem .6rem; border-radius:8px; font-size:.7rem; }
+.lab-tool button { background:var(--accent); border:none; color:#fff; padding:.5rem .85rem; border-radius:8px; cursor:pointer; font-size:.65rem; font-weight:600; letter-spacing:.5px; margin-top:.45rem; }
+.lab-output { background:#10161d; border:1px solid var(--border); padding:.6rem .7rem; min-height:70px; font-family:var(--mono); font-size:.7rem; border-radius:8px; margin-top:.6rem; white-space:pre-wrap; overflow:auto; }
+
+/* Checklist & Q&A */
+.checklist { display:grid; gap:.55rem; margin-top:.8rem; }
+.check-item { background:var(--panel); border:1px solid var(--border); padding:.55rem .65rem .6rem 2.1rem; border-radius:10px; position:relative; font-size:.75rem; cursor:pointer; line-height:1.4; }
+.check-item input { position:absolute; left:.75rem; top:50%; transform:translateY(-50%); width:16px; height:16px; cursor:pointer; }
+.check-item.completed { border-color:var(--green); background:linear-gradient(135deg,rgba(46,160,67,.15),transparent); }
+.qa { margin-top:1.5rem; }
+.qa-item { border:1px solid var(--border); background:var(--panel); border-radius:12px; margin:.8rem 0; overflow:hidden; }
+.qa-q { margin:0; padding:.85rem 1rem; font-weight:600; font-size:.78rem; cursor:pointer; position:relative; }
+.qa-q:after { content:'+'; position:absolute; right:14px; top:50%; transform:translateY(-50%); }
+.qa-item.open .qa-q:after { content:'−'; }
+.qa-a { max-height:0; overflow:hidden; transition:max-height .5s ease; padding:0 1rem; }
+.qa-item.open .qa-a { max-height:550px; padding:0 1rem .9rem; }
+.qa-a p { margin:.7rem 0 0; font-size:.72rem; color:var(--text-soft); }
+
+.note { background:#2a1f14; border:1px solid #3a2c1e; padding:.75rem 1rem; font-size:.7rem; border-radius:10px; margin:1rem 0; color:#ffce97; }
+.inline-badge { background:#262f37; padding:.25rem .55rem; border-radius:6px; font-size:.55rem; letter-spacing:.5px; text-transform:uppercase; border:1px solid var(--border); color:var(--text-soft); }
+
+.footer { text-align:center; padding:3rem 1.5rem 4rem; background:var(--bg-alt); margin-top:3rem; border-top:1px solid var(--border); }
+.footer p { margin:.4rem 0; font-size:.7rem; color:var(--text-soft); }
+
+@media (max-width:760px){ .card-grid { grid-template-columns:1fr; } .split { grid-template-columns:1fr; } .hero { padding:4.6rem 1.1rem 2.8rem; } }
+</style>
+</head>
+<body>
+<header class="main-header">
+  <div class="nav-container">
+    <a class="logo" href="index.html">🐍 Python Foundations</a>
+    <ul class="nav-menu">
+      <li><a href="#core" class="active">Core</a></li>
+      <li><a href="#functions">Functions</a></li>
+      <li><a href="#structures">Structures</a></li>
+      <li><a href="#errors">Errors</a></li>
+      <li><a href="#lab">Lab</a></li>
+      <li><a href="#cheatsheet">Cheat</a></li>
+      <li><a href="#prep">Prep</a></li>
+    </ul>
+  </div>
+</header>
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Programming Foundations (Python)</h1>
+    <p class="lead">A practical, mental-model focused introduction to Python: syntax minimalism, data handling, control flow, functions, error handling, packaging, and idiomatic style — with interactive building blocks.</p>
+    <div class="meta-grid">
+      <div class="meta-chip">🧠 Mental Models</div><div class="meta-chip">🔁 Control Flow</div><div class="meta-chip">📦 Modules</div><div class="meta-chip">🧪 Testing</div><div class="meta-chip">♻️ Iteration</div><div class="meta-chip">🧰 Standard Lib</div>
+    </div>
+  </div>
+</section>
+
+<!-- 1 Core -->
+<section id="core">
+  <div class="container">
+    <div class="section-header"><h2>1. Core Concepts</h2><p>Python emphasizes readability + object model simplicity.</p></div>
+    <div class="card-grid">
+      <div class="card"><h3>Dynamic Typing</h3><p>Names point to objects; object carries type. Rebinding doesn't mutate existing objects.</p><div class="tag-row"><span class="tag">bindings</span><span class="tag">objects</span></div></div>
+      <div class="card"><h3>Everything is an Object</h3><p>Functions, classes, modules — all have identities & attributes. Int immutability → arithmetic returns new objects.</p><div class="tag-row"><span class="tag">object model</span></div></div>
+      <div class="card"><h3>Indentation = Structure</h3><p>Block scope defined purely via indentation; no braces. Mixed tabs/spaces = errors.</p><div class="tag-row"><span class="tag">PEP8</span></div></div>
+      <div class="card"><h3>Immutability vs Mutability</h3><p>Immutable: int, str, tuple, frozenset. Mutable: list, dict, set. Mutation side-effects propagate references.</p><div class="tag-row"><span class="tag">side-effects</span></div></div>
+    </div>
+
+    <h3 style="margin-top:2.1rem">Basic Program Anatomy</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>#!/usr/bin/env python3
+"""Greet user with friendly message."""
+import math
+
+def circle_area(r: float) -> float:
+    return math.pi * r * r
+
+if __name__ == "__main__":
+    r = 3
+    print(f"Area: {circle_area(r):.2f}")</code></pre>
+
+    <div class="split" style="margin-top:2rem;">
+      <div class="panel"><h3>Execution Model</h3><ul><li>Module top-level runs on first import (creates module object).</li><li><code class="inline">__name__ == "__main__"</code> gate prevents side-effect logic on import.</li><li>Bytecode compiled (.pyc) → executed by CPython VM.</li></ul></div>
+      <div class="panel"><h3>Type Hints</h3><ul><li>Optional, aid tooling; no runtime enforcement by default.</li><li>Use <code class="inline">from __future__ import annotations</code> for forward refs.</li><li>Adopt gradually: public APIs first.</li></ul></div>
+      <div class="panel"><h3>Virtual Environments</h3><ul><li>Isolate dependencies per project.</li><li><code class="inline">python -m venv .venv</code> → activate, then <code class="inline">pip install</code>.</li><li>Pin versions in <code class="inline">requirements.txt</code>.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 Functions -->
+<section id="functions" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>2. Functions & Modularity</h2><p>Decompose for clarity; embrace pure logic where possible.</p></div>
+    <div class="split">
+      <div class="panel"><h3>Function Signatures</h3><ul><li>Explicit parameters > implicit globals.</li><li>Default args evaluate once (beware mutable defaults).</li><li>Keyword-only args enforce clarity (<code class="inline">def f(*, mode)</code>).</li></ul></div>
+      <div class="panel"><h3>Return Styles</h3><ul><li>Single exit path not mandatory; readability first.</li><li>Use tuples / dataclasses for multi-value semantics.</li><li>Prefer exceptions over sentinel returns.</li></ul></div>
+      <div class="panel"><h3>Higher-Order</h3><ul><li>Functions passed to <code class="inline">map</code>, <code class="inline">sorted(key=...)</code>.</li><li>Lambdas for concise one-liners; avoid complex inline logic.</li><li>Closures capture lexical scope.</li></ul></div>
+    </div>
+
+    <h3 style="margin-top:2.1rem">Mutable Default Pitfall</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>def append_item(x, bucket=[]):
+    bucket.append(x)
+    return bucket
+
+print(append_item(1))  # [1]
+print(append_item(2))  # [1, 2] (surprise!)
+
+# Correct
+def append_item_safe(x, bucket=None):
+    if bucket is None:
+        bucket = []
+    bucket.append(x)
+    return bucket</code></pre>
+  </div>
+</section>
+
+<!-- 3 Structures -->
+<section id="structures">
+  <div class="container">
+    <div class="section-header"><h2>3. Built-in Data Structures</h2><p>Choose representation to optimize clarity + complexity.</p></div>
+    <div class="card-grid">
+      <div class="card"><h3>List</h3><p>Resizable array. Append amortized O(1). Slice copies; list comps > manual loops.</p><div class="tag-row"><span class="tag">sequence</span></div></div>
+      <div class="card"><h3>Tuple</h3><p>Immutable fixed-size sequence. Hashable if elements hashable → safe dict key.</p><div class="tag-row"><span class="tag">immutable</span></div></div>
+      <div class="card"><h3>Dict</h3><p>Hash map. O(1) average access. Keys must be hashable + stable.</p><div class="tag-row"><span class="tag">mapping</span></div></div>
+      <div class="card"><h3>Set</h3><p>Unique membership. O(1) avg add/test. Great for dedupe and membership tests.</p><div class="tag-row"><span class="tag">membership</span></div></div>
+      <div class="card"><h3>Dataclass</h3><p>Auto boilerplate (<code class="inline">__init__</code>, repr). Use for plain data containers.</p><div class="tag-row"><span class="tag">models</span></div></div>
+      <div class="card"><h3>Deque</h3><p>O(1) append/pop both ends. Use instead of list for queue semantics.</p><div class="tag-row"><span class="tag">collections</span></div></div>
+    </div>
+
+    <h3 style="margin-top:2.1rem">List Comprehension vs Loop</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code># Imperative
+squares = []
+for i in range(10):
+    squares.append(i * i)
+
+# Comprehension
+squares = [i * i for i in range(10)]
+
+# With condition
+evens = [x for x in squares if x % 2 == 0]</code></pre>
+  </div>
+</section>
+
+<!-- 4 Errors -->
+<section id="errors" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>4. Errors & Exceptions</h2><p>Use exceptions for exceptional control — not ordinary flow.</p></div>
+    <div class="split">
+      <div class="panel"><h3>Raising</h3><ul><li><code class="inline">raise ValueError("invalid")</code></li><li>Chain root cause: <code class="inline">raise NewError() from err</code></li><li>Fail fast with precise types.</li></ul></div>
+      <div class="panel"><h3>Handling</h3><ul><li>Catch narrow exceptions.</li><li>Use <code class="inline">finally</code> for cleanup.</li><li>Avoid blanket <code class="inline">except:</code> (swallows bugs).</li></ul></div>
+      <div class="panel"><h3>Assertions</h3><ul><li>Internal invariants only.</li><li>Disabled under -O optimization.</li><li>Not for user input validation.</li></ul></div>
+    </div>
+
+    <h3 style="margin-top:2rem">Try / Except Template</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>try:
+    risky()
+except (IOError, ValueError) as e:
+    logger.error("Failure: %s", e)
+    raise
+else:
+    print("Success")
+finally:
+    cleanup()</code></pre>
+  </div>
+</section>
+
+<!-- 5 Lab -->
+<section id="lab">
+  <div class="container">
+    <div class="section-header"><h2>5. Interactive Practice Lab</h2><p>Client-side helpers simulate transformations (no real Python execution sandbox).</p></div>
+    <div class="lab">
+      <div class="lab-tool">
+        <h4>Comprehension Builder</h4>
+        <textarea id="loopInput" placeholder="for i in range(5):\n    result.append(i*2)"></textarea>
+        <button onclick="convertLoop()">Convert</button>
+        <div class="lab-output" id="loopOut">(converted)</div>
+      </div>
+      <div class="lab-tool">
+        <h4>Dict From JSON (keys)</h4>
+        <textarea id="jsonInput" placeholder='{"name":"Ada","lang":"Python"}'></textarea>
+        <button onclick="jsonToDict()">Parse</button>
+        <div class="lab-output" id="jsonOut">(keys)</div>
+      </div>
+      <div class="lab-tool">
+        <h4>Regex Test (Pseudo)</h4>
+        <input id="regexPattern" placeholder="pattern (e.g. ^a.+b$)" />
+        <textarea id="regexSamples" placeholder="appleb\naxxb\nzzz"></textarea>
+        <button onclick="testRegex()">Test</button>
+        <div class="lab-output" id="regexOut">(matches)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 Cheat Sheet -->
+<section id="cheatsheet" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>6. Syntax Cheat Sheet</h2><p>High-frequency forms.</p></div>
+    <div class="split">
+      <div class="panel"><h3>Primitives</h3><pre><code>int("10")  # 10
+float("3.14")
+str(42)     # "42"
+len(seq)
+# Truthiness: 0, '', [], {}, None => False</code></pre></div>
+      <div class="panel"><h3>Collections</h3><pre><code>lst = [1,2,3]
+tpl = (1,2,3)
+set_ = {1,2,3}
+d = {"a":1, "b":2}
+# Unpacking
+x, y, *rest = lst</code></pre></div>
+      <div class="panel"><h3>Flow</h3><pre><code>for i in range(5):
+    ...
+while cond:
+    ...
+if x > 0:
+    ...
+elif x == 0:
+    ...
+else:
+    ...</code></pre></div>
+      <div class="panel"><h3>Functions</h3><pre><code>def f(a, b=10, *args, **kw):
+    return a + b
+
+(lambda x: x+1)(2)
+
+from dataclasses import dataclass
+@dataclass
+class User:
+    name: str
+    age: int</code></pre></div>
+      <div class="panel"><h3>Error Tools</h3><pre><code>try:
+    1/0
+except ZeroDivisionError:
+    ...
+
+raise RuntimeError("fail")
+assert cond, "msg"</code></pre></div>
+      <div class="panel"><h3>Files</h3><pre><code>with open("data.txt") as f:
+    data = f.read().splitlines()</code></pre></div>
+    </div>
+    <div class="note">Adopt formatting (Black) + linting (Ruff/Flake8) early; enforces consistency & reduces review noise.</div>
+  </div>
+</section>
+
+<!-- 7 Prep -->
+<section id="prep">
+  <div class="container">
+    <div class="section-header"><h2>7. Mastery Review</h2><p>Track what you can explain, not just run.</p></div>
+    <div class="split">
+      <div class="panel">
+        <h3>Progress Checklist</h3>
+        <div class="checklist" id="checklist">
+          <label class="check-item"><input type="checkbox" data-task> Understand binding vs assignment</label>
+          <label class="check-item"><input type="checkbox" data-task> Explain mutable default pitfall</label>
+          <label class="check-item"><input type="checkbox" data-task> Use list/dict/set comprehensions</label>
+          <label class="check-item"><input type="checkbox" data-task> Handle exceptions precisely</label>
+          <label class="check-item"><input type="checkbox" data-task> Create and activate venv</label>
+          <label class="check-item"><input type="checkbox" data-task> Write dataclass with type hints</label>
+          <label class="check-item"><input type="checkbox" data-task> Avoid code smell (long function)</label>
+          <label class="check-item"><input type="checkbox" data-task> Parse + transform text file</label>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Concept Q&A</h3>
+        <div class="qa" id="qaBank">
+          <div class="qa-item"><div class="qa-q">Why are strings immutable?</div><div class="qa-a"><p>Enables interning, hashing, safe sharing, and avoids unintended alias mutation; improves performance & security.</p></div></div>
+          <div class="qa-item"><div class="qa-q">When use list vs tuple?</div><div class="qa-a"><p>Tuple for fixed-size heterogeneous record semantics & hashable keys; list for dynamic sequence operations.</p></div></div>
+          <div class="qa-item"><div class="qa-q">Why prefer comprehension over map/filter sometimes?</div><div class="qa-a"><p>Improved readability and single-pass expression of intent; avoids lambda noise when simple transformations.</p></div></div>
+          <div class="qa-item"><div class="qa-q">Difference between module and package?</div><div class="qa-a"><p>Module = single .py file; package = directory with __init__.py (namespace). Packages enable structured imports & distribution.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <p>&copy; 2025 OpenSource Tech Guides – Programming Foundations (Python).</p>
+  <p><a href="index.html" style="color:var(--accent-alt); text-decoration:none;">Return to Portal</a></p>
+</footer>
+<script>
+// Copy buttons
+ document.querySelectorAll('[data-copy]').forEach(btn=>{btn.addEventListener('click',()=>{const code=btn.nextElementSibling.innerText;navigator.clipboard.writeText(code);btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy',1400);});});
+// Q&A toggle
+ document.querySelectorAll('.qa-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+// Checklist persistence
+ const STORAGE_KEY='py_foundations_checklist_v1';
+ const tasks=[...document.querySelectorAll('[data-task]')];
+ const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
+ tasks.forEach((cb,i)=>{ if(saved[i]){ cb.checked=true; cb.parentElement.classList.add('completed'); } cb.addEventListener('change',()=>{cb.parentElement.classList.toggle('completed',cb.checked); saved[i]=cb.checked; localStorage.setItem(STORAGE_KEY,JSON.stringify(saved)); updateCompletion(); });});
+ function updateCompletion(){ const done=tasks.filter(t=>t.checked).length; localStorage.setItem('progress:python-foundations',(done/tasks.length).toFixed(2)); notifyPortal(); }
+ updateCompletion();
+ function notifyPortal(){ const evt=new CustomEvent('guideProgressUpdate',{detail:{guide:'python-foundations'}}); window.dispatchEvent(evt); }
+
+// Loop to comprehension heuristic converter (very naive)
+ function convertLoop(){ const raw=loopInput.value.trim(); if(!raw){ loopOut.textContent='(provide loop)'; return; } const lines=raw.split(/\n/); let targetVar='result'; let expr=''; let iter=''; for(let i=0;i<lines.length;i++){ const l=lines[i].trim(); if(l.startsWith('for ')){ // for i in range(5):
+   const m=l.match(/^for\s+(\w+)\s+in\s+(.+):/); if(m){ const itVar=m[1]; iter=m[2]; // find append line
+     for(let j=i+1;j<lines.length;j++){ const inner=lines[j].trim(); const a=inner.match(/(\w+)\.append\((.+)\)/); if(a){ targetVar=a[1]; expr=a[2]; break; } }
+     if(expr){ loopOut.textContent=targetVar+' = ['+expr+' for '+m[1]+' in '+iter.replace(/:$/,'')+']'; return; }
+   }
+ }
+ loopOut.textContent='(could not convert)'; }
+ window.convertLoop=convertLoop;
+
+// JSON parse keys
+ function jsonToDict(){ try { const obj=JSON.parse(jsonInput.value||'{}'); jsonOut.textContent=Object.keys(obj).join(', ')||'(no keys)'; } catch(e){ jsonOut.textContent='Invalid JSON'; } }
+ window.jsonToDict=jsonToDict;
+
+// Pseudo regex test (JS regex engine)
+ function testRegex(){ const pattern=regexPattern.value; if(!pattern){ regexOut.textContent='(pattern?)'; return; } let re; try { re=new RegExp(pattern); } catch(e){ regexOut.textContent='Invalid pattern'; return; } const samples=(regexSamples.value||'').split(/\n/).filter(Boolean); const matches=samples.filter(s=>re.test(s)); regexOut.textContent=matches.length?matches.join('\n'):'(no matches)'; }
+ window.testRegex=testRegex;
+</script>
+</body>
+</html>

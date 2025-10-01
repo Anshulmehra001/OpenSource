@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Git & GitHub Mastery – OpenSource Tech Guides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-color:#0d6efd;
+  --accent:#5161f1;
+  --accent-grad:linear-gradient(135deg,#5161f1,#8843ff);
+  --bg:#0d1117;
+  --bg-alt:#161b22;
+  --panel:#1e2530;
+  --border:#2d333b;
+  --text:#d1d9e0;
+  --text-soft:#8b949e;
+  --success:#2ea043;
+  --warn:#d29922;
+  --danger:#f85149;
+  --code-bg:#11161d;
+  --radius:14px;
+  --shadow:0 10px 30px -10px rgba(0,0,0,.4);
+  --header-font:'Poppins',sans-serif;
+  --body-font:'Roboto',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+
+html { scroll-behavior:smooth; }
+body { margin:0; font-family:var(--body-font); background:var(--bg); color:var(--text); line-height:1.65; }
+
+/* Nav */
+.main-header { position:sticky; top:0; z-index:1000; background:rgba(13,17,23,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); }
+.nav-container { max-width:1300px; margin:0 auto; padding:0.9rem 1.5rem; display:flex; align-items:center; justify-content:space-between; }
+.logo { font-family:var(--header-font); font-weight:700; font-size:1.3rem; color:var(--primary-color); text-decoration:none; letter-spacing:.5px; }
+.nav-menu { list-style:none; display:flex; gap:1.4rem; margin:0; padding:0; }
+.nav-menu a { color:var(--text-soft); text-decoration:none; font-weight:500; font-size:.95rem; padding:.45rem .8rem; border-radius:8px; transition:.25s; }
+.nav-menu a:hover, .nav-menu a.active { background:var(--panel); color:var(--text); }
+
+/* Hero */
+.hero { padding:5.5rem 1.5rem 3rem; background:radial-gradient(circle at 25% 15%,rgba(81,97,241,.25),transparent 60%), radial-gradient(circle at 85% 40%,rgba(136,67,255,.18),transparent 65%); }
+.hero-inner { max-width:1150px; margin:0 auto; display:grid; gap:2.5rem; }
+.hero h1 { font-family:var(--header-font); font-size:clamp(2.4rem,5.2vw,3.8rem); line-height:1.05; margin:.3rem 0 1.1rem; background:var(--accent-grad); -webkit-background-clip:text; color:transparent; }
+.hero p.lead { font-size:1.15rem; max-width:830px; color:var(--text-soft); }
+.meta-grid { display:flex; flex-wrap:wrap; gap:1.2rem; margin-top:1.2rem; }
+.meta-chip { background:var(--panel); border:1px solid var(--border); padding:.55rem 1rem; border-radius:50px; font-size:.78rem; font-weight:600; letter-spacing:.5px; text-transform:uppercase; color:var(--text-soft); display:flex; align-items:center; gap:.5rem; }
+.meta-chip span { font-size:1rem; }
+
+/* Sections */
+section { padding:2.8rem 1.5rem; }
+section.alt { background:var(--bg-alt); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.container { max-width:1150px; margin:0 auto; }
+.section-header { margin-bottom:2.2rem; }
+.section-header h2 { font-family:var(--header-font); font-size:2.2rem; margin:0 0 .7rem; letter-spacing:.5px; }
+.section-header p { margin:0; color:var(--text-soft); font-size:1rem; }
+
+/* Grid Cards */
+.card-grid { display:grid; gap:1.7rem; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); }
+.card { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem 1.3rem 1.5rem; position:relative; overflow:hidden; box-shadow:var(--shadow); transition:.35s; }
+.card:before { content:""; position:absolute; inset:0; background:linear-gradient(145deg,rgba(81,97,241,.08),transparent 55%); opacity:0; transition:.4s; }
+.card:hover { transform:translateY(-6px); border-color:var(--accent); }
+.card:hover:before { opacity:1; }
+.card h3 { margin:.2rem 0 1rem; font-size:1.15rem; letter-spacing:.4px; }
+.card p { margin:0 0 .9rem; font-size:.92rem; color:var(--text-soft); }
+.tag-row { display:flex; flex-wrap:wrap; gap:.45rem; }
+.tag { background:#222b35; padding:.25rem .55rem; border-radius:6px; font-size:.65rem; letter-spacing:.5px; text-transform:uppercase; border:1px solid var(--border); color:var(--text-soft); }
+
+/* Code Blocks */
+pre { background:var(--code-bg); padding:1rem 1.1rem; border-radius:10px; border:1px solid var(--border); overflow:auto; font-family:var(--mono); font-size:.85rem; line-height:1.4; position:relative; }
+code.inline { background:var(--code-bg); padding:.25rem .45rem; border-radius:6px; font-family:var(--mono); font-size:.85rem; }
+.copy-btn { position:absolute; top:8px; right:8px; background:#222; color:var(--text-soft); border:1px solid var(--border); font-size:.65rem; padding:.25rem .6rem; border-radius:6px; cursor:pointer; }
+.copy-btn:hover { color:var(--text); border-color:var(--accent); }
+
+/* Two Column Layout */
+.split { display:grid; gap:2rem; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); align-items:start; }
+.panel { background:var(--panel); border:1px solid var(--border); padding:1.4rem 1.2rem 1.6rem; border-radius:var(--radius); position:relative; }
+.panel h3 { margin:.1rem 0 1rem; font-size:1.2rem; }
+.panel ul { margin:0; padding-left:1.2rem; }
+.panel li { margin:.55rem 0; }
+
+/* Workflow Diagram (ASCII) */
+.workflow { background:var(--code-bg); font-family:var(--mono); font-size:.8rem; padding:1.1rem; border:1px solid var(--border); border-radius:10px; overflow:auto; }
+
+/* Practice Lab */
+.lab { display:grid; gap:1.6rem; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); margin-top:1.2rem; }
+.lab-tool { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1.1rem 1.1rem 1.4rem; }
+.lab-tool h4 { margin:.2rem 0 .9rem; font-size:1.05rem; }
+.lab-tool textarea, .lab-tool input { width:100%; background:var(--code-bg); border:1px solid var(--border); padding:.6rem .7rem; border-radius:8px; color:var(--text); font-family:var(--mono); font-size:.8rem; resize:vertical; min-height:120px; }
+.lab-tool button { background:var(--accent); border:none; color:#fff; padding:.55rem .9rem; border-radius:8px; cursor:pointer; font-weight:600; font-size:.75rem; letter-spacing:.5px; margin-top:.5rem; }
+.lab-output { background:#10161d; border:1px solid var(--border); padding:.7rem .75rem; min-height:70px; font-family:var(--mono); font-size:.75rem; border-radius:8px; margin-top:.7rem; white-space:pre-wrap; overflow:auto; }
+
+/* Checklist */
+.checklist { display:grid; gap:.65rem; margin-top:.8rem; }
+.check-item { background:var(--panel); border:1px solid var(--border); padding:.65rem .75rem .7rem 2.2rem; border-radius:10px; position:relative; font-size:.85rem; cursor:pointer; }
+.check-item input { position:absolute; left:.8rem; top:50%; transform:translateY(-50%); width:18px; height:18px; cursor:pointer; }
+.check-item.completed { border-color:var(--success); background:linear-gradient(135deg,rgba(46,160,67,.15),transparent); }
+
+/* Q&A */
+.qa { margin-top:1.8rem; }
+.qa-item { border:1px solid var(--border); background:var(--panel); border-radius:12px; margin:.9rem 0; overflow:hidden; }
+.qa-q { margin:0; padding:1rem 1.1rem; font-weight:600; font-size:.95rem; cursor:pointer; position:relative; }
+.qa-q:after { content:'+'; position:absolute; right:16px; top:50%; transform:translateY(-50%); transition:.3s; }
+.qa-item.open .qa-q:after { content:'−'; }
+.qa-a { max-height:0; overflow:hidden; transition:max-height .5s ease; padding:0 1.1rem; }
+.qa-item.open .qa-a { max-height:600px; padding:0 1.1rem 1rem; }
+.qa-a p { margin:.9rem 0 0; font-size:.88rem; color:var(--text-soft); }
+
+/* Footer */
+.footer { text-align:center; padding:3rem 1.5rem 4rem; background:var(--bg-alt); margin-top:3rem; border-top:1px solid var(--border); }
+.footer p { margin:.4rem 0; font-size:.8rem; color:var(--text-soft); }
+
+@media (max-width:780px){
+  .hero { padding:5rem 1.1rem 2.7rem; }
+  .meta-grid { gap:.75rem; }
+  .card-grid { grid-template-columns:1fr; }
+  .split { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<header class="main-header">
+  <div class="nav-container">
+    <a href="index.html" class="logo">🚀 Git & GitHub</a>
+    <ul class="nav-menu">
+      <li><a href="#basics" class="active">Basics</a></li>
+      <li><a href="#branching">Branching</a></li>
+      <li><a href="#workflows">Workflows</a></li>
+      <li><a href="#advanced">Advanced</a></li>
+      <li><a href="#lab">Lab</a></li>
+      <li><a href="#cheatsheet">Cheat Sheet</a></li>
+      <li><a href="#prep">Prep</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div>
+      <h1>Git & GitHub Mastery</h1>
+      <p class="lead">From first commit to advanced collaboration: internalize version control mental models, branching strategies, rebasing, code review discipline, release management, and contribution excellence.</p>
+      <div class="meta-grid">
+        <div class="meta-chip"><span>🧠</span>Concept → Model</div>
+        <div class="meta-chip"><span>🔄</span>Branch Strategy</div>
+        <div class="meta-chip"><span>⚠️</span>Conflict Handling</div>
+        <div class="meta-chip"><span>🚀</span>Release Flow</div>
+        <div class="meta-chip"><span>🤝</span>Collaboration</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BASICS -->
+<section id="basics">
+  <div class="container">
+    <div class="section-header">
+      <h2>1. Core Concepts</h2>
+      <p>Internal state machine thinking > memorizing commands.</p>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Repository Object Model</h3>
+        <p>Git stores snapshots (blobs) referenced by trees, pointed to by commits. Branch = movable pointer to a commit. HEAD = current reference.</p>
+        <div class="tag-row"><span class="tag">blobs</span><span class="tag">trees</span><span class="tag">commits</span><span class="tag">refs</span></div>
+      </div>
+      <div class="card">
+        <h3>Staging Area (Index)</h3>
+        <p>Acts as a curated snapshot in progress. You choose <code class="inline">git add</code> granularity → commit exactly what matters.</p>
+        <div class="tag-row"><span class="tag">index</span><span class="tag">granular</span></div>
+      </div>
+      <div class="card">
+        <h3>Three States</h3>
+        <p><strong>Modified</strong> (working tree) → <strong>Staged</strong> (index) → <strong>Committed</strong> (repository). Understand transitions.</p>
+        <div class="tag-row"><span class="tag">lifecycle</span><span class="tag">mental model</span></div>
+      </div>
+      <div class="card">
+        <h3>Hashes = Content Identity</h3>
+        <p>Commit IDs immutably bind content + parents + author + time. Rewriting history creates new hashes.</p>
+        <div class="tag-row"><span class="tag">sha-1</span><span class="tag">integrity</span></div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2.5rem">Essential First Commands</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>git init
+git status
+git add README.md
+git commit -m "feat: initial commit"
+# Link remote
+git remote add origin https://github.com/user/repo.git
+git push -u origin main</code></pre>
+
+    <div class="split" style="margin-top:2.2rem">
+      <div class="panel">
+        <h3>Clean Mental Model</h3>
+        <ul>
+          <li>Always know: (a) current branch, (b) staged vs unstaged diff, (c) upstream status.</li>
+          <li>Use <code class="inline">git status</code> + <code class="inline">git log --oneline --graph --decorate --all</code> as a dashboard.</li>
+          <li>Commit logically isolated changes: one concept per commit.</li>
+          <li>Write conventional commits or a consistent style for readable history.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Recoverable Safety Net</h3>
+        <ul>
+          <li>Use <code class="inline">git reflog</code> to recover from resets/amend mistakes.</li>
+          <li>Never panic—refs & objects persist until GC.</li>
+          <li>Create WIP commits or stashes before risky operations.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRANCHING -->
+<section id="branching" class="alt">
+  <div class="container">
+    <div class="section-header">
+      <h2>2. Branching & Merging</h2>
+      <p>Branch strategy = collaboration contract.</p>
+    </div>
+    <div class="split">
+      <div class="panel">
+        <h3>Core Branch Styles</h3>
+        <ul>
+          <li><strong>Trunk-Based:</strong> Short-lived branches; rebase often, merge fast.</li>
+          <li><strong>Git Flow:</strong> Long-lived <code class="inline">develop</code>, separate release/hotfix branches.</li>
+          <li><strong>Release Train:</strong> Cadence-based release branch; cherry-pick urgent fixes.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Choosing Strategy</h3>
+        <ul>
+          <li>High velocity + CI maturity → trunk-based.</li>
+          <li>Complex staged releases → Git Flow.</li>
+          <li>Multiple versions in production → release branches.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2rem">Merge vs Rebase</h3>
+    <pre class="workflow"><code>Feature branch history (rebased):
+A -- B -- C (main)
+            \
+             d' -- e' -- f' (feature)
+
+Feature branch history (merged):
+A -- B -- C (main) -- M
+            \        /
+             d -- e -- f (feature)</code></pre>
+
+    <div class="split" style="margin-top:1.8rem">
+      <div class="panel">
+        <h3>When to Rebase</h3>
+        <ul>
+          <li>Clean linear feature development.</li>
+          <li>Sync with latest main before PR.</li>
+          <li>Squash fixups privately.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>When to Merge</h3>
+        <ul>
+          <li>Public shared branches.</li>
+          <li>Preserve real conflict history.</li>
+          <li>Auditing large integration points.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2.2rem">Conflict Resolution Flow</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code># After pulling or rebasing
+# 1. Examine status
+git status
+# 2. Open conflict markers in files
+# 3. Decide keep ours/theirs or manual merge
+# 4. Stage resolved files
+git add file.js
+# 5. Continue
+# merge: git commit
+# rebase: git rebase --continue
+# 6. Final validation tests + push</code></pre>
+  </div>
+</section>
+
+<!-- WORKFLOWS -->
+<section id="workflows">
+  <div class="container">
+    <div class="section-header">
+      <h2>3. Collaboration Workflows</h2>
+      <p>PR quality & review discipline accelerate teams.</p>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Pull Request Hygiene</h3>
+        <p>Atomic scope, descriptive title, clear context, test evidence, checklist of impacts.</p>
+        <div class="tag-row"><span class="tag">reviews</span><span class="tag">quality</span></div>
+      </div>
+      <div class="card">
+        <h3>Commit Message Conventions</h3>
+        <p>Example: <code class="inline">feat(parser): support streaming tokens</code> – type(scope): summary.</p>
+        <div class="tag-row"><span class="tag">semantic</span><span class="tag">changelog</span></div>
+      </div>
+      <div class="card">
+        <h3>Issue-Driven Flow</h3>
+        <p>Map each change to a tracked issue → traceability, planning accuracy, automated closure.</p>
+        <div class="tag-row"><span class="tag">trace</span><span class="tag">planning</span></div>
+      </div>
+      <div class="card">
+        <h3>Code Review Mindset</h3>
+        <p>Optimize for clarity, risk reduction, and teaching. Ask why not just what changed.</p>
+        <div class="tag-row"><span class="tag">mentorship</span><span class="tag">safety</span></div>
+      </div>
+    </div>
+
+    <div class="split" style="margin-top:2.2rem">
+      <div class="panel">
+        <h3>Release Cadence</h3>
+        <ul>
+          <li>Automate version bump + changelog generation.</li>
+          <li>Tag annotated releases: <code class="inline">git tag -a v1.4.0 -m "Release v1.4.0"</code></li>
+          <li>Immutable artifacts: keep reproducible builds.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Security & Compliance</h3>
+        <ul>
+          <li>Mandatory signed commits (GPG) for privileged repos.</li>
+          <li>CODEOWNERS enforce critical path review.</li>
+          <li>Secret scanning & dependency alerts active.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADVANCED -->
+<section id="advanced" class="alt">
+  <div class="container">
+    <div class="section-header">
+      <h2>4. Advanced Toolkit</h2>
+      <p>Rewrite, optimize, debug repository state with precision.</p>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Interactive Rebase Power</h3>
+        <p>Reorder, squash, reword commits: <code class="inline">git rebase -i HEAD~7</code> → curated history.</p>
+        <div class="tag-row"><span class="tag">history</span><span class="tag">squash</span></div>
+      </div>
+      <div class="card">
+        <h3>Bisect for Bug Isolation</h3>
+        <p>Binary search history: <code class="inline">git bisect start</code> → mark good/bad commits → pinpoint regression.</p>
+        <div class="tag-row"><span class="tag">debug</span><span class="tag">regression</span></div>
+      </div>
+      <div class="card">
+        <h3>Submodules & Alternatives</h3>
+        <p>Use sparingly. Prefer package registries or monorepo subsets. If used: pin SHAs, document update flow.</p>
+        <div class="tag-row"><span class="tag">composition</span></div>
+      </div>
+      <div class="card">
+        <h3>Cherry-Pick Discipline</h3>
+        <p>Single commit forward-port/backport. Keep metadata; avoid divergence storms.</p>
+        <div class="tag-row"><span class="tag">hotfix</span><span class="tag">patch</span></div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2.4rem">RefLog Rescue</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code># Oops after reset --hard
+# 1. Show movement history
+git reflog
+# 2. Checkout lost commit
+git checkout &lt;commit-sha&gt;
+# 3. Restore branch pointer
+git branch recovered-work
+# 4. Continue safely</code></pre>
+
+    <h3 style="margin-top:2.2rem">Squash Strategy</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code># Interactive rebase last N commits
+git rebase -i HEAD~5
+# Change 'pick' to 'squash' or 'fixup' accordingly
+# Force push only if branch not shared or after team agreement</code></pre>
+  </div>
+</section>
+
+<!-- PRACTICE LAB -->
+<section id="lab">
+  <div class="container">
+    <div class="section-header">
+      <h2>5. Interactive Practice Lab</h2>
+      <p>Experiment with mental models locally in your browser.</p>
+    </div>
+    <div class="lab">
+      <div class="lab-tool" id="commitGraphTool">
+        <h4>Commit Graph Builder</h4>
+        <p style="margin-top:-.4rem; font-size:.75rem; color:var(--text-soft)">Enter commit messages separated by newlines. We'll simulate a linear history; then branch.</p>
+        <textarea id="commitInput" placeholder="feat: init project\nfeat: add auth\nfix: race in session"></textarea>
+        <button onclick="buildGraph()">Generate Graph</button>
+        <div class="lab-output" id="graphOutput">(graph output)</div>
+      </div>
+      <div class="lab-tool" id="mergeConflictSimulator">
+        <h4>Conflict Merge Simulator</h4>
+        <p style="margin-top:-.4rem; font-size:.75rem; color:var(--text-soft)">Simulates conflicting edits to same line.</p>
+        <textarea id="baseText" placeholder="Original line"></textarea>
+        <textarea id="userA" placeholder="Dev A edit"></textarea>
+        <textarea id="userB" placeholder="Dev B edit"></textarea>
+        <button onclick="simulateConflict()">Simulate Conflict</button>
+        <div class="lab-output" id="conflictOutput">(conflict markers)</div>
+      </div>
+      <div class="lab-tool" id="rebaseExplain">
+        <h4>Rebase vs Merge Explainer</h4>
+        <input id="featureCommits" placeholder="Number of feature commits (e.g. 3)" />
+        <button onclick="explainRebase()">Explain</button>
+        <div class="lab-output" id="rebaseOutput">(explanation)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHEAT SHEET -->
+<section id="cheatsheet" class="alt">
+  <div class="container">
+    <div class="section-header">
+      <h2>6. Command Cheat Sheet</h2>
+      <p>High-frequency reference organized by intent.</p>
+    </div>
+    <div class="split">
+      <div class="panel">
+        <h3>Initialize / Config</h3>
+        <pre><code>git config --global user.name "Your Name"
+git config --global user.email you@example.com
+git init
+.gitignore
+</code></pre>
+        <h3>Explore History</h3>
+        <pre><code>git log --oneline --graph --decorate --all
+git show &lt;commit&gt;
+git diff HEAD~2..HEAD</code></pre>
+      </div>
+      <div class="panel">
+        <h3>Change Flow</h3>
+        <pre><code>git add -p
+git commit -m "feat: msg"
+git restore --staged file.js
+git stash push -m "ctx"
+git stash list</code></pre>
+        <h3>Branch / Integrate</h3>
+        <pre><code>git switch -c feature/x
+git merge main
+git rebase main
+git cherry-pick &lt;sha&gt;</code></pre>
+      </div>
+      <div class="panel">
+        <h3>Rewrite / Recover</h3>
+        <pre><code>git commit --amend
+git reset --soft HEAD~1
+git revert &lt;sha&gt;
+git reflog
+</code></pre>
+        <h3>Clean / Optimize</h3>
+        <pre><code>git gc --aggressive --prune=now
+git clean -fd</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PREP / Q&A -->
+<section id="prep">
+  <div class="container">
+    <div class="section-header">
+      <h2>7. Review & Preparation</h2>
+      <p>Solidify mastery through reflective practice.</p>
+    </div>
+    <div class="split">
+      <div class="panel">
+        <h3>Progress Checklist</h3>
+        <div class="checklist" id="checklist">
+          <label class="check-item"><input type="checkbox" data-task> Understand Git object model</label>
+          <label class="check-item"><input type="checkbox" data-task> Stage vs commit clarity</label>
+          <label class="check-item"><input type="checkbox" data-task> Resolve a merge conflict</label>
+          <label class="check-item"><input type="checkbox" data-task> Rebase & squash cleanup</label>
+          <label class="check-item"><input type="checkbox" data-task> Use reflog recovery</label>
+          <label class="check-item"><input type="checkbox" data-task> Run bisect to isolate bug</label>
+          <label class="check-item"><input type="checkbox" data-task> Tag and draft a release</label>
+          <label class="check-item"><input type="checkbox" data-task> Sign commit (optional)</label>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Concept Q&A</h3>
+        <div class="qa" id="qaBank">
+          <div class="qa-item"><div class="qa-q">Why is rebasing a shared branch risky?</div><div class="qa-a"><p>It rewrites commit hashes; collaborators' histories diverge causing forced pushes & potential lost work if not coordinated.</p></div></div>
+          <div class="qa-item"><div class="qa-q">Difference between reset --soft, --mixed, --hard?</div><div class="qa-a"><p>Soft: move HEAD only; index + working keep changes. Mixed (default): reset index, keep working tree. Hard: reset index & working → discards changes.</p></div></div>
+          <div class="qa-item"><div class="qa-q">When prefer revert over reset?</div><div class="qa-a"><p>On public history: revert creates a new commit negating changes preserving auditability; reset rewrites history.</p></div></div>
+          <div class="qa-item"><div class="qa-q">Why sign commits?</div><div class="qa-a"><p>Authenticity & non-repudiation; prevents impersonation in sensitive repos.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>&copy; 2025 OpenSource Tech Guides – Git & GitHub Mastery. Educational use only.</p>
+  <p><a href="index.html" style="color:var(--primary-color); text-decoration:none;">Return to Portal</a></p>
+</footer>
+
+<script>
+// Copy buttons
+ document.querySelectorAll('[data-copy]').forEach(btn=>{btn.addEventListener('click',()=>{const code=btn.nextElementSibling.innerText;navigator.clipboard.writeText(code);btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy',1400);});});
+
+// Q&A toggle
+ document.querySelectorAll('.qa-q').forEach(q=>q.addEventListener('click',()=>{q.parentElement.classList.toggle('open');}));
+
+// Checklist persistence
+ const STORAGE_KEY='git_mastery_checklist_v1';
+ const tasks=[...document.querySelectorAll('[data-task]')];
+ const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
+ tasks.forEach((cb,i)=>{ if(saved[i]){ cb.checked=true; cb.parentElement.classList.add('completed'); } cb.addEventListener('change',()=>{cb.parentElement.classList.toggle('completed',cb.checked); saved[i]=cb.checked; localStorage.setItem(STORAGE_KEY,JSON.stringify(saved)); updateCompletion(); });});
+ function updateCompletion(){ const done=tasks.filter(t=>t.checked).length; localStorage.setItem('progress:git-github', (done/tasks.length).toFixed(2)); }
+ updateCompletion();
+
+// Commit graph generator (simple ASCII)
+ function buildGraph(){ const raw=document.getElementById('commitInput').value.trim(); if(!raw){ document.getElementById('graphOutput').textContent='(provide commits)'; return; } const lines=raw.split(/\n+/).map(l=>l.trim()).filter(Boolean); let out=''; lines.forEach((msg,i)=>{ out+=`* commit${i+1} ${msg}\n|\n`; }); out+='(HEAD -> feature)'; document.getElementById('graphOutput').textContent=out; }
+ window.buildGraph=buildGraph;
+
+// Conflict simulator
+ function simulateConflict(){ const base=baseText.value||'line'; const a=userA.value||'A edit'; const b=userB.value||'B edit'; const result=`<<<<<<< HEAD\n${a}\n=======\n${b}\n>>>>>>> origin/main`; conflictOutput.textContent=result; }
+ window.simulateConflict=simulateConflict;
+
+// Rebase vs merge explainer
+ function explainRebase(){ const n=parseInt(document.getElementById('featureCommits').value||'3',10); let reb='(rebase linear)\nmain: A -- B -- C'; let feat=''; for(let i=1;i<=n;i++){ feat+=` -- f${i}`; } reb+=feat+` (feature)`; let mer='(merge)\nA -- B -- C'; mer+=` -- M (merge)`; mer+=`\n  \\`; let feat2=''; for(let i=1;i<=n;i++){ feat2+=` -- f${i}`; } mer+=feat2; document.getElementById('rebaseOutput').textContent=reb+"\n\n"+mer; }
+ window.explainRebase=explainRebase;
+
+// Notify portal (if loaded in same origin) to refresh progress
+ if(window.localStorage){ const evt=new CustomEvent('guideProgressUpdate',{detail:{guide:'git-github'}}); window.dispatchEvent(evt); }
+</script>
+</body>
+</html>

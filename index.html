@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenSource Tech Guides | Comprehensive Learning Resources</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0d6efd">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --glow-color: rgba(13, 110, 253, 0.5);
+            --background-color: #0a0a0a;
+            --surface-color: #1a1a1a;
+            --card-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --subtle-text-color: #a0a0a0;
+            --border-color: #333;
+            --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --hover-transform: translateY(-10px);
+        }
+
+        /* Light Theme (auto via .light on body) */
+        body.light {
+            --background-color: #fafafa;
+            --surface-color: #ffffff;
+            --card-color: #ffffff;
+            --text-color: #1e1e24;
+            --subtle-text-color: #5a5f68;
+            --border-color: #e2e4e8;
+            --accent-gradient: linear-gradient(135deg,#4b6ef5 0%, #7b3df0 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.7;
+            background: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(-45deg, #0a0a0a, #1a1a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-actions { display:flex; align-items:center; gap:1rem; }
+        .theme-toggle { background:var(--surface-color); color:var(--text-color); border:1px solid var(--border-color); padding:0.6rem 1rem; border-radius:30px; cursor:pointer; font-size:0.8rem; font-weight:600; letter-spacing:0.5px; display:flex; align-items:center; gap:0.4rem; }
+        .theme-toggle:hover { background:var(--card-color); }
+        .search-bar { position:relative; }
+        .search-bar input { background:var(--surface-color); border:1px solid var(--border-color); padding:0.65rem 2.6rem 0.65rem 1rem; border-radius:30px; color:var(--text-color); width:220px; font-size:0.85rem; transition:all 0.3s ease; }
+        .search-bar input:focus { outline:none; border-color:var(--primary-color); box-shadow:0 0 0 3px rgba(13,110,253,0.15); }
+        .search-bar i { position:absolute; right:0.9rem; top:50%; transform:translateY(-50%); color:var(--subtle-text-color); }
+        .filters { display:flex; flex-wrap:wrap; gap:0.6rem; justify-content:center; margin:1rem 0 2.5rem; }
+        .filter-chip { background:var(--surface-color); border:1px solid var(--border-color); padding:0.45rem 0.9rem; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.8px; border-radius:30px; cursor:pointer; font-weight:600; color:var(--subtle-text-color); transition:all 0.25s ease; }
+        .filter-chip.active, .filter-chip:hover { background:var(--primary-color); color:#fff; border-color:var(--primary-color); }
+        .progress-pill { display:inline-flex; align-items:center; gap:0.35rem; background:var(--surface-color); padding:0.35rem 0.7rem; border-radius:30px; font-size:0.65rem; letter-spacing:0.5px; color:var(--subtle-text-color); border:1px solid var(--border-color); position:absolute; top:1rem; right:1rem; }
+        .progress-bar { height:5px; border-radius:3px; background:rgba(255,255,255,0.08); overflow:hidden; margin-top:0.6rem; }
+        .progress-bar span { display:block; height:100%; width:0; background:linear-gradient(90deg,#0d6efd,#764ba2); transition:width 0.6s ease; }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .hero-content h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content .subtitle {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            margin-bottom: 2rem;
+            color: var(--subtle-text-color);
+        }
+
+        .hero-content .description {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--accent-gradient);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Guides Section */
+        .guides-section {
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--subtle-text-color);
+            margin-bottom: 4rem;
+        }
+
+        .guides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .guide-card {
+            background: var(--card-color);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .guide-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .guide-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .guide-card:hover {
+            transform: var(--hover-transform);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-color: var(--primary-color);
+        }
+
+        .guide-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .guide-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        body.light .guide-title { color:#1e1e24; }
+
+        .guide-description {
+            color: var(--subtle-text-color);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .guide-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .guide-link:hover {
+            gap: 1rem;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: var(--surface-color);
+            padding: 4rem 2rem;
+            margin: 4rem 0;
+        }
+
+        .stats-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            color: var(--subtle-text-color);
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--card-color);
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: var(--surface-color);
+            border-radius: 50%;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .guides-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Search results empty state */
+        .no-results { text-align:center; grid-column:1/-1; padding:2rem 1rem; opacity:0.7; font-size:0.9rem; }
+    </style>
+    <script defer src="shared.js"></script>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-animation"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">📚 OpenSource</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#guides">Guides</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="search-bar">
+                    <input type="text" id="guideSearch" placeholder="Search guides..." aria-label="Search guides" />
+                    <i class="fas fa-search"></i>
+                </div>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><i class="fas fa-moon"></i><span>Dark</span></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>OpenSource Tech Guides</h1>
+            <p class="subtitle">Your Gateway to Advanced Technology Learning</p>
+            <p class="description">
+                Explore our comprehensive collection of single-page guides covering AI, cybersecurity, 
+                blockchain, data science, quantum computing, and more. Each guide is crafted with care 
+                to provide deep insights and practical knowledge.
+            </p>
+            <div class="cta-buttons">
+                <a href="#guides" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i>
+                    Explore Guides
+                </a>
+                <a href="https://github.com/Anshulmehra001/OpenSource" class="btn btn-secondary">
+                    <i class="fab fa-github"></i>
+                    View on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-container fade-in">
+            <div class="stat-item">
+                <h3>20+</h3>
+                <p>Comprehensive Guides</p>
+            </div>
+            <div class="stat-item">
+                <h3>100%</h3>
+                <p>Free & Open Source</p>
+            </div>
+            <div class="stat-item">
+                <h3>∞</h3>
+                <p>Learning Opportunities</p>
+            </div>
+            <div class="stat-item">
+                <h3>24/7</h3>
+                <p>Available Access</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guides Section -->
+    <section class="guides-section" id="guides">
+        <h2 class="section-title fade-in">Featured Tech Guides</h2>
+        <p class="section-subtitle fade-in">Deep dive into cutting-edge technologies with our expertly crafted guides</p>
+        <div class="filters fade-in" id="filters">
+            <button class="filter-chip active" data-filter="all">All</button>
+            <button class="filter-chip" data-filter="foundations">Foundations</button>
+            <button class="filter-chip" data-filter="ai">AI & Data</button>
+            <button class="filter-chip" data-filter="security">Security</button>
+            <button class="filter-chip" data-filter="emerging">Emerging Tech</button>
+            <button class="filter-chip" data-filter="productivity">Productivity</button>
+            <button class="filter-chip" data-filter="theory">CS Theory</button>
+            <button class="filter-chip" data-filter="architecture">Architecture</button>
+            <button class="filter-chip" data-filter="devops">DevOps</button>
+        </div>
+        
+        <div class="guides-grid">
+            <div class="guide-card fade-in" data-category="ai" data-guide="ai-nexus">
+                <span class="guide-icon">🧠</span>
+                <h3 class="guide-title">AI Nexus</h3>
+                <p class="guide-description">
+                    A curated directory of 50+ best AI platforms for writing, art, code, and productivity. 
+                    Discover tools that will revolutionize your workflow.
+                </p>
+                <a href="AI Nexus.html" class="guide-link">
+                    Explore AI Tools <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="ai-nexus"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="security" data-guide="cyberguard">
+                <span class="guide-icon">🛡️</span>
+                <h3 class="guide-title">CyberGuard</h3>
+                <p class="guide-description">
+                    Master ethical hacking and cybersecurity with this comprehensive guide covering 
+                    principles, phases, and essential tools.
+                </p>
+                <a href="CyberGuard.html" class="guide-link">
+                    Learn Cybersecurity <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="cyberguard"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="ai" data-guide="datadriven">
+                <span class="guide-icon">📊</span>
+                <h3 class="guide-title">DataDriven</h3>
+                <p class="guide-description">
+                    Complete machine learning lifecycle walkthrough from core concepts to practical 
+                    tutorials and real-world applications.
+                </p>
+                <a href="DataDriven.html" class="guide-link">
+                    Master Data Science <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="datadriven"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="emerging" data-guide="web3navigator">
+                <span class="guide-icon">🌐</span>
+                <h3 class="guide-title">Web3Navigator</h3>
+                <p class="guide-description">
+                    Ultimate guide to blockchain, smart contracts, cryptocurrency, and the 
+                    decentralized internet ecosystem.
+                </p>
+                <a href="Web3Navigator.html" class="guide-link">
+                    Enter Web3 World <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="web3navigator"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="security" data-guide="malware">
+                <span class="guide-icon">☣️</span>
+                <h3 class="guide-title">Malware Analysis</h3>
+                <p class="guide-description">
+                    Advanced educational resource on malware types, lifecycles, and analysis 
+                    techniques for cybersecurity professionals.
+                </p>
+                <a href="Malware.html" class="guide-link">
+                    Study Malware <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="malware"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="emerging" data-guide="quantumleap">
+                <span class="guide-icon">⚛️</span>
+                <h3 class="guide-title">QuantumLeap</h3>
+                <p class="guide-description">
+                    Dive deep into quantum computing, quantum communication, and explore 
+                    the future impact of quantum technologies.
+                </p>
+                <a href="QuantumLeap.html" class="guide-link">
+                    Explore Quantum <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="quantumleap"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="productivity" data-guide="ai-devtools">
+                <span class="guide-icon">🤖</span>
+                <h3 class="guide-title">AI Dev Tools</h3>
+                <p class="guide-description">
+                    Comprehensive directory of AI-powered development tools to accelerate 
+                    your coding workflow and boost productivity.
+                </p>
+                <a href="AI Devtools.html" class="guide-link">
+                    Developer Tools <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="ai-devtools"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="productivity" data-guide="excel-guide">
+                <span class="guide-icon">📈</span>
+                <h3 class="guide-title">Excel Mastery</h3>
+                <p class="guide-description">
+                    Complete Excel guide covering formulas, functions, data analysis, 
+                    pivot tables, and advanced spreadsheet techniques.
+                </p>
+                <a href="Excel Guide.html" class="guide-link">
+                    Master Excel <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="excel-guide"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="productivity" data-guide="word-guide">
+                <span class="guide-icon">📝</span>
+                <h3 class="guide-title">Word Mastery</h3>
+                <p class="guide-description">
+                    Professional Microsoft Word guide covering document creation, 
+                    formatting, templates, and advanced features.
+                </p>
+                <a href="Word Guide.html" class="guide-link">
+                    Master Word <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="word-guide"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="theory" data-guide="theory-computation">
+                <span class="guide-icon">⚙️</span>
+                <h3 class="guide-title">Theory of Computation</h3>
+                <p class="guide-description">
+                    Complete engineering syllabus covering automata, grammars, 
+                    Turing machines, and computational complexity theory.
+                </p>
+                <a href="Theory of Computation.html" class="guide-link">
+                    Study Theory <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="theory-computation"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="foundations" data-guide="git-github">
+                <span class="guide-icon">🔧</span>
+                <h3 class="guide-title">Git & GitHub Mastery</h3>
+                <p class="guide-description">
+                    Learn version control fundamentals, branching strategies, rebasing, conflict resolution, and collaborative release workflows.
+                </p>
+                <a href="Git & GitHub Mastery.html" class="guide-link">
+                    Master Git <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="git-github"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="foundations" data-guide="ds-algo">
+                <span class="guide-icon">⚙️</span>
+                <h3 class="guide-title">DS & Algorithms</h3>
+                <p class="guide-description">
+                    Essential data structures, algorithmic paradigms, complexity analysis, interactive visualization lab, and mastery checklist.
+                </p>
+                <a href="Data Structures & Algorithms Essentials.html" class="guide-link">
+                    Learn DSA <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="ds-algo"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="foundations" data-guide="python-foundations">
+                <span class="guide-icon">🐍</span>
+                <h3 class="guide-title">Python Foundations</h3>
+                <p class="guide-description">
+                    Core Python concepts, data structures, functions, errors, type hints, virtual environments, and interactive practice lab.
+                </p>
+                <a href="Programming Foundations (Python).html" class="guide-link">
+                    Learn Python <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="python-foundations"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="foundations" data-guide="linux-cli">
+                <span class="guide-icon">💻</span>
+                <h3 class="guide-title">Linux Command Line</h3>
+                <p class="guide-description">
+                    Master filesystem navigation, permissions, processes, networking utilities, pipelines, cron, and productivity patterns.
+                </p>
+                <a href="Linux Command Line.html" class="guide-link">
+                    Explore Linux CLI <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="linux-cli"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="foundations" data-guide="networking-fundamentals">
+                <span class="guide-icon">🌐</span>
+                <h3 class="guide-title">Networking Fundamentals</h3>
+                <p class="guide-description">
+                    OSI vs TCP/IP models, subnets, DNS, HTTP/TLS, routing, NAT, diagnostics, and interactive subnet/handshake labs.
+                </p>
+                <a href="Networking Fundamentals.html" class="guide-link">
+                    Learn Networking <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="networking-fundamentals"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="foundations" data-guide="web-dev-fundamentals">
+                <span class="guide-icon">🕸️</span>
+                <h3 class="guide-title">Web Dev Fundamentals</h3>
+                <p class="guide-description">
+                    HTTP lifecycle, semantic HTML, responsive CSS, JS runtime, REST vs GraphQL, state, security, and performance labs.
+                </p>
+                <a href="Web Development Fundamentals.html" class="guide-link">
+                    Build for the Web <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="web-dev-fundamentals"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="foundations" data-guide="sql-practice">
+                <span class="guide-icon">🗄️</span>
+                <h3 class="guide-title">SQL Practice Hub</h3>
+                <p class="guide-description">
+                    Relational modeling, joins, aggregation, windows, indexing, transactions, normalization, and mock query lab.
+                </p>
+                <a href="SQL Practice Hub.html" class="guide-link">
+                    Practice SQL <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="sql-practice"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="foundations" data-guide="api-design">
+                <span class="guide-icon">🔌</span>
+                <h3 class="guide-title">API Design & Development</h3>
+                <p class="guide-description">
+                    Master RESTful design, GraphQL, authentication, testing strategies, documentation, and performance optimization for modern APIs.
+                </p>
+                <a href="API Design & Development Guide.html" class="guide-link">
+                    Design APIs <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="api-design"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="foundations" data-guide="docker-containerization">
+                <span class="guide-icon">🐳</span>
+                <h3 class="guide-title">Docker & Containerization</h3>
+                <p class="guide-description">
+                    Complete containerization guide: Dockerfile mastery, Docker Compose, orchestration, security, and production best practices.
+                </p>
+                <a href="Docker & Containerization Guide.html" class="guide-link">
+                    Master Containers <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="docker-containerization"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="architecture" data-guide="system-design">
+                <span class="guide-icon">🏗️</span>
+                <h3 class="guide-title">System Design & Architecture</h3>
+                <p class="guide-description">
+                    Learn to design scalable, reliable, and maintainable systems. Covers core principles, patterns, and key components like load balancers and caches.
+                </p>
+                <a href="System Design & Architecture.html" class="guide-link">
+                    Design Systems <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="system-design"></span></div>
+            </div>
+
+            <div class="guide-card fade-in" data-category="devops" data-guide="ci-cd-guide">
+                <span class="guide-icon">🚀</span>
+                <h3 class="guide-title">CI/CD & DevOps</h3>
+                <p class="guide-description">
+                    Streamline development with Continuous Integration, Delivery, and Deployment. Master Jenkins, GitHub Actions, and automated workflows.
+                </p>
+                <a href="CI-CD Guide.html" class="guide-link">
+                    Automate Workflows <i class="fas fa-arrow-right"></i>
+                </a>
+                <div class="progress-bar"><span data-progress="ci-cd-guide"></span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="https://github.com/Anshulmehra001/OpenSource" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" title="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="#" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+            <p>&copy; 2025 OpenSource Tech Guides. Empowering the developer community.</p>
+            <p>All guides are free, open-source, and available for educational use.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(26, 26, 26, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(26, 26, 26, 0.95)';
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const storedTheme = localStorage.getItem('portal-theme');
+        if (storedTheme === 'light') document.body.classList.add('light');
+        updateThemeBtn();
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light');
+            localStorage.setItem('portal-theme', document.body.classList.contains('light') ? 'light':'dark');
+            updateThemeBtn();
+        });
+        function updateThemeBtn(){
+            const span = themeToggle.querySelector('span');
+            const icon = themeToggle.querySelector('i');
+            const light = document.body.classList.contains('light');
+            span.textContent = light ? 'Light' : 'Dark';
+            icon.className = light ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // Search filtering
+        const searchInput = document.getElementById('guideSearch');
+        const guideCards = [...document.querySelectorAll('.guide-card')];
+        const filters = document.getElementById('filters');
+        let activeFilter = 'all';
+
+        function applyFilters(){
+            const q = (searchInput.value||'').toLowerCase();
+            let visibleCount = 0;
+            guideCards.forEach(card => {
+                const cat = card.getAttribute('data-category');
+                const text = card.innerText.toLowerCase();
+                const matchesSearch = !q || text.includes(q);
+                const matchesFilter = activeFilter === 'all' || cat === activeFilter;
+                if (matchesSearch && matchesFilter) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            manageNoResults(visibleCount);
+        }
+        function manageNoResults(count){
+            let placeholder = document.querySelector('.no-results');
+            if (count === 0){
+                if (!placeholder){
+                    placeholder = document.createElement('div');
+                    placeholder.className = 'no-results';
+                    placeholder.textContent = 'No guides match your search/filter.';
+                    document.querySelector('.guides-grid').appendChild(placeholder);
+                }
+            } else if (placeholder){ placeholder.remove(); }
+        }
+        searchInput.addEventListener('input', applyFilters);
+
+        filters.addEventListener('click', e => {
+            if (e.target.matches('[data-filter]')){
+                activeFilter = e.target.getAttribute('data-filter');
+                filters.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+                e.target.classList.add('active');
+                applyFilters();
+            }
+        });
+
+        // Progress hydration
+        function hydrateProgress(){
+            document.querySelectorAll('[data-progress]').forEach(bar => {
+                const key = 'progress:'+ bar.getAttribute('data-progress');
+                const val = parseFloat(localStorage.getItem(key) || '0');
+                requestAnimationFrame(()=>{ bar.style.width = (val*100)+'%'; });
+            });
+        }
+        hydrateProgress();
+        window.addEventListener('guideProgressUpdate', hydrateProgress);
+
+        // Accessibility: keyboard filtering
+        filters.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && e.target.matches('[data-filter]')){
+                e.preventDefault(); e.target.click();
+            }
+        });
+    </script>
+</body>
+</html>

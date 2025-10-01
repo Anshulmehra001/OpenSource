@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Dev Tools: The Ultimate Directory for Developers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+--primary-color: #0d6efd;
+--glow-color: rgba(13, 110, 253, 0.5);
+--background-color: #121212;
+--surface-color: #1e1e1e;
+--text-color: #e0e0e0;
+--subtle-text-color: #a0a0a0;
+--border-color: #333;
+--free-color: #00e676;
+--freemium-color: #ff9800;
+--paid-color: #ff5252;
+--open-source-color: #9c27b0;
+--recommendation-glow: rgba(45, 212, 191, 0.4);
+--recommendation-color: #2dd4bf;
+}
+
+html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.7;
+        margin: 0;
+        background-color: var(--background-color);
+        color: var(--text-color);
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 25px 40px;
+    }
+
+    h1, h2, h3, h4 {
+        font-family: 'Space Grotesk', sans-serif;
+        color: #ffffff;
+    }
+
+    h1 {
+        font-size: 3.5em;
+        text-align: center;
+        color: #fff;
+        text-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color);
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        font-size: 2.5em;
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 10px;
+        margin-top: 60px;
+        margin-bottom: 40px;
+    }
+
+    header {
+        text-align: center;
+        padding: 60px 20px;
+        background: radial-gradient(circle, #1a1a1a, var(--background-color) 70%);
+    }
+
+    header p {
+        font-size: 1.2em;
+        color: var(--subtle-text-color);
+        max-width: 800px;
+        margin: 0 auto 40px auto;
+    }
+
+    nav {
+        background: rgba(30, 30, 30, 0.7);
+        backdrop-filter: blur(10px);
+        padding: 15px;
+        text-align: center;
+        border-radius: 10px;
+        margin-bottom: 40px;
+        border: 1px solid var(--border-color);
+        position: sticky;
+        top: 20px;
+        z-index: 1000;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    nav a {
+        color: var(--text-color);
+        margin: 0 12px;
+        text-decoration: none;
+        font-weight: 500;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.0em;
+        transition: color 0.3s, text-shadow 0.3s;
+    }
+
+    nav a:hover {
+        color: #fff;
+        text-shadow: 0 0 8px var(--glow-color);
+    }
+
+    section {
+        margin-bottom: 50px;
+        padding-top: 60px;
+        margin-top: -40px;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+    }
+
+    .recommendation-card {
+        grid-column: 1 / -1; /* Make it span the full width */
+        background: linear-gradient(145deg, #2a2a2a, #1e1e1e);
+        border-left: 5px solid var(--recommendation-color);
+        display: flex;
+        flex-direction: row;
+        gap: 25px;
+        align-items: center;
+        padding: 30px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+    }
+
+    .recommendation-card .content { flex: 1; }
+    .recommendation-card .pricing-link { align-self: center; }
+
+    .recommendation-card h3 {
+        margin-top: 0;
+        font-size: 1.8em;
+        color: var(--recommendation-color);
+        margin-bottom: 10px;
+    }
+    .recommendation-card h3::before {
+        content: '★ ';
+    }
+
+    .tool-card {
+        background-color: var(--surface-color);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .tool-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--primary-color);
+        box-shadow: 0 0 15px var(--glow-color), 0 0 30px rgba(13, 110, 253, 0.2);
+    }
+
+    .tool-card:hover h4 {
+        color: var(--primary-color);
+    }
+
+    .tool-card h4 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 1.4em;
+        color: #fff;
+        transition: color 0.3s;
+    }
+
+    .tool-card p {
+        color: var(--subtle-text-color);
+        margin-bottom: 15px;
+        font-size: 0.95em;
+    }
+
+    .tool-card .best-for {
+        font-style: italic;
+        color: #c0c0c0;
+        margin-bottom: 20px;
+        font-size: 0.95em;
+    }
+
+    .tool-card .features {
+        list-style-type: none;
+        padding-left: 0;
+        flex-grow: 1;
+        margin-bottom: 20px;
+    }
+
+    .tool-card .features li {
+        margin-bottom: 8px;
+        padding-left: 20px;
+        position: relative;
+        font-size: 0.9em;
+    }
+
+    .tool-card .features li::before {
+        content: '›';
+        position: absolute;
+        left: 0;
+        color: var(--primary-color);
+        font-weight: bold;
+    }
+
+    .pricing {
+        font-weight: bold;
+        font-family: 'Space Grotesk', sans-serif;
+        padding: 8px 12px;
+        border-radius: 5px;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.05);
+        margin-top: auto;
+        min-width: 120px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .pricing.free { color: var(--free-color); }
+    .pricing.freemium { color: var(--freemium-color); }
+    .pricing.paid { color: var(--paid-color); }
+    .pricing.open-source { color: var(--open-source-color); }
+
+    .info-box {
+        background-color: var(--surface-color);
+        border-left: 5px solid var(--primary-color);
+        padding: 20px 25px;
+        margin: 25px 0;
+        border-radius: 5px;
+    }
+
+    footer {
+        text-align: center;
+        padding: 30px;
+        margin-top: 50px;
+        border-top: 1px solid var(--border-color);
+        color: var(--subtle-text-color);
+    }
+
+    @media (max-width: 768px) {
+        .recommendation-card {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .recommendation-card .pricing-link {
+            align-self: flex-start;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <header id="home">
+        <h1>AI Dev Tools</h1>
+        <p>Your ultimate directory of AI-powered tools for developers. Discover the best AI assistants for coding, debugging, testing, documentation, and more to accelerate your workflow and build better software.</p>
+    </header>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#code-generation">Code Generation</a>
+        <a href="#code-quality">Code Quality & Testing</a>
+        <a href="#database-tools">Database Tools</a>
+        <a href="#docs-low-code">Docs & Low-Code</a>
+    </nav>
+
+    <main>
+        <!-- Code Generation & Assistants Section -->
+        <section id="code-generation">
+            <h2>AI for Code Generation & Assistance</h2>
+            <div class="recommendation-card">
+                <div class="content">
+                    <h3>Editor's Pick: GitHub Copilot</h3>
+                    <p>As the original AI pair programmer, Copilot remains the industry standard. Its deep integration into the developer workflow, vast training data, and increasingly powerful features (like Copilot Chat and Workspace) make it the most versatile and impactful AI coding assistant for nearly any developer, language, or platform.</p>
+                </div>
+                <a href="https://github.com/features/copilot" target="_blank" rel="noopener noreferrer" class="pricing paid pricing-link">Paid (Free for Students)</a>
+            </div>
+            <div class="grid-container">
+                <a href="https://cursor.sh/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Cursor</h4><p class="best-for">An AI-first code editor for a deeply integrated experience.</p><ul class="features"><li>Fork of VS Code built around AI capabilities.</li><li>Chat with your entire codebase for context-aware edits.</li><li>Generate, edit, and debug code with natural language.</li></ul><p class="pricing freemium">Freemium</p></a>
+                <a href="https://www.tabnine.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Tabnine</h4><p class="best-for">Personalized AI that adapts to your unique coding style.</p><ul class="features"><li>Learns your personal coding patterns for tailored suggestions.</li><li>Can be self-hosted to ensure complete code privacy.</li><li>Offers both line and full-function code completions.</li></ul><p class="pricing freemium">Freemium</p></a>
+                <a href="https://aws.amazon.com/q/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Amazon Q Developer</h4><p class="best-for">Developers working within the AWS ecosystem.</p><ul class="features"><li>Optimized for use with AWS APIs, SDKs, and services.</li><li>Provides code suggestions and security vulnerability scans.</li><li>Helps with debugging, optimization, and upgrading applications.</li></ul><p class="pricing free">Free for Individuals</p></a>
+                <a href="https://www.kiro.tech/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Kiro</h4><p class="best-for">Developers looking for an autonomous AI agent to handle tasks.</p><ul class="features"><li>AI software engineer that can solve GitHub issues independently.</li><li>Can understand context, browse the web, and write code.</li><li>Automates tedious tasks and bug fixes.</li></ul><p class="pricing paid">Paid</p></a>
+                <a href="https://sourcegraph.com/cody" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Sourcegraph Cody</h4><p class="best-for">Understanding and navigating large, complex codebases.</p><ul class="features"><li>AI assistant with full-codebase context for accurate answers.</li><li>Helps find code and understand how it works.</li><li>Can generate unit tests and detailed documentation.</li></ul><p class="pricing freemium">Freemium</p></a>
+                <a href="https://replit.com/ghostwriter" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Replit GhostWriter</h4><p class="best-for">Browser-based development and collaborative coding.</p><ul class="features"><li>Complete IDE that runs in your browser with zero setup.</li><li>AI helps write, explain, debug, and refactor code.</li><li>Perfect for quick prototyping and learning.</li></ul><p class="pricing freemium">Freemium</p></a>
+                <a href="https://www.adrenaline.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Adrenaline</h4><p class="best-for">Understanding and debugging unfamiliar codebases.</p><ul class="features"><li>AI-powered code comprehension tool.</li><li>Answers questions about how a codebase works.</li><li>Helps debug by letting you step through code with AI guidance.</li></ul><p class="pricing freemium">Freemium</p></a>
+                <a href="https://pieces.app/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Pieces for Developers</h4><p class="best-for">Managing and reusing code snippets with AI.</p><ul class="features"><li>AI-powered snippet manager that runs on-device.</li><li>Automatically saves snippets from your workflow.</li><li>Enriches snippets with context, tags, and descriptions.</li></ul><p class="pricing freemium">Freemium</p></a>
+            </div>
+        </section>
+
+        <!-- Code Quality & Testing Section -->
+        <section id="code-quality">
+            <h2>AI for Code Quality & Testing</h2>
+             <div class="recommendation-card">
+                <div class="content">
+                    <h3>Editor's Pick: Snyk</h3>
+                    <p>In modern development, security is not optional. Snyk's AI-powered platform excels at weaving security directly into the developer's workflow. By finding and fixing vulnerabilities in your code, dependencies, and containers right from your IDE, it empowers developers to build securely from the start, saving time and preventing critical issues down the line.</p>
+                </div>
+                <a href="https://snyk.io/" target="_blank" rel="noopener noreferrer" class="pricing freemium pricing-link">Freemium</a>
+            </div>
+            <div class="grid-container">
+                <a href="https://www.testrigor.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>TestRigor</h4><p class="best-for">QA teams wanting generative AI-powered test automation.</p><ul class="features"><li>Creates and maintains tests using plain English commands.</li><li>AI agents generate tests from a URL or app description.</li><li>Reduces test maintenance by adapting to UI changes.</li></ul><p class="pricing paid">Paid</p></a>
+                <a href="https://www.postman.com/product/postman-ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Postman AI</h4><p class="best-for">Developers and QA engineers working with APIs.</p><ul class="features"><li>AI assistant built into the Postman API platform.</li><li>Generates entire test suites for your APIs automatically.</li><li>Helps debug, document, and visualize API responses.</li></ul><p class="pricing freemium">Freemium</p></a>
+                <a href="https://sentry.io/features/ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Sentry AI</h4><p class="best-for">Debugging and resolving production application errors.</p><ul class="features"><li>AI-powered error analysis and summarization.</li><li>Automatically groups related errors to reduce noise.</li><li>Suggests potential fixes and relevant documentation.</li></ul><p class="pricing freemium">Freemium</p></a>
+                <a href="https://www.mutable.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>MutableAI</h4><p class="best-for">AI-accelerated refactoring and code modernization.</p><ul class="features"><li>Helps refactor code to improve quality and performance.</li><li>Generates high-quality tests and documentation.</li><li>Can migrate code between languages and frameworks.</li></ul><p class="pricing paid">Paid</p></a>
+                <a href="https://www.codiga.io/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Codiga</h4><p class="best-for">Automated code reviews and static code analysis.</p><ul class="features"><li>Performs real-time code analysis in the IDE.</li><li>Detects security vulnerabilities and coding errors.</li><li>Automates code reviews to enforce quality standards.</li></ul><p class="pricing freemium">Freemium</p></a>
+                <a href="https://jam.dev/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Jam</h4><p class="best-for">QA testers and developers for faster bug reporting.</p><ul class="features"><li>Automatically captures console logs and network requests.</li><li>AI helps summarize bugs and suggest engineering tasks.</li><li>Integrates with Jira, Slack, and other PM tools.</li></ul><p class="pricing freemium">Freemium</p></a>
+                <a href="https://www.octomind.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Octomind</h4><p class="best-for">Automated end-to-end test generation for web apps.</p><ul class="features"><li>AI agents discover app features and generate Playwright tests.</li><li>Aims to streamline test creation and maintenance.</li><li>Helps teams quickly increase their test coverage.</li></ul><p class="pricing paid">Paid</p></a>
+            </div>
+        </section>
+
+        <!-- Database Tools Section -->
+        <section id="database-tools">
+            <h2>AI-Powered Database Tools</h2>
+            <div class="recommendation-card">
+                <div class="content">
+                    <h3>Editor's Pick: Supabase AI</h3>
+                    <p>Supabase AI is a prime example of practical AI integration. By embedding AI directly into its popular Backend-as-a-Service platform, it makes powerful features incredibly accessible. The AI SQL editor, which generates complex queries from English, and the AI assistant for creating security policies, are huge time-savers that lower the barrier to building secure and robust applications.</p>
+                </div>
+                <a href="https://supabase.com/ai" target="_blank" rel="noopener noreferrer" class="pricing freemium pricing-link">Freemium (within Supabase)</a>
+            </div>
+            <div class="grid-container">
+                <a href="https://www.chat2db.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Chat2DB</h4><p class="best-for">Managing and querying databases using natural language.</p><ul class="features"><li>AI-driven SQL client that transforms natural language to SQL.</li><li>Supports over 20 different database types.</li><li>Includes visual data management and AI data analysis.</li></ul><p class="pricing open-source">Open Source</p></a>
+                <a href="https://www.outerbase.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Outerbase</h4><p class="best-for">Collaborative database management with AI assistance.</p><ul class="features"><li>Modern database client with an AI assistant named "Ezra".</li><li>Edit, query, and visualize your data in a user-friendly UI.</li><li>Supports team collaboration with shared queries.</li></ul><p class="pricing freemium">Freemium</p></a>
+                <a href="https://www.airtable.com/product/ai" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Airtable AI</h4><p class="best-for">Building AI-powered workflows on a flexible database.</p><ul class="features"><li>Embed AI directly into end-to-end workflows without code.</li><li>Automate content generation, summarization, and classification.</li><li>Connects with models from OpenAI, Anthropic, and more.</li></ul><p class="pricing paid">Paid Add-on</p></a>
+            </div>
+        </section>
+
+        <!-- Documentation & Low-Code Section -->
+        <section id="docs-low-code">
+            <h2>AI for Documentation & Low-Code</h2>
+            <div class="recommendation-card">
+                <div class="content">
+                    <h3>Editor's Pick: v0 by Vercel</h3>
+                    <p>For front-end developers, v0 is a revolutionary tool that redefines rapid prototyping. Its ability to generate high-quality, production-ready React and Tailwind CSS components from a simple text prompt is unmatched. The iterative workflow, where you can refine the UI with conversational commands, bridges the gap between idea and interactive component in minutes instead of hours.</p>
+                </div>
+                 <a href="https://v0.dev/" target="_blank" rel="noopener noreferrer" class="pricing freemium pricing-link">Freemium (Credit-based)</a>
+            </div>
+            <div class="grid-container">
+                <a href="https://www.mintlify.com/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Mintlify</h4><p class="best-for">Creating and maintaining beautiful, interactive documentation.</p><ul class="features"><li>AI-powered platform to auto-generate docs from code.</li><li>Ensures documentation is always up-to-date.</li><li>Focuses on creating a great reader experience.</li></ul><p class="pricing freemium">Freemium</p></a>
+                <a href="https://whatthediff.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>What The Diff</h4><p class="best-for">Automating pull request summaries and release notes.</p><ul class="features"><li>AI explains pull request changes in plain language.</li><li>Saves developers time on writing manual summaries.</li><li>Integrates with Slack, GitHub, and GitLab.</li></ul><p class="pricing freemium">Freemium</p></a>
+                <a href="https://www.durable.co/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Durable</h4><p class="best-for">Small businesses needing a website and CRM quickly.</p><ul class="features"><li>AI builder that creates a full website in under a minute.</li><li>Includes integrated CRM and invoicing tools.</li><li>No-code platform for rapid business setup.</li></ul><p class="pricing paid">Paid</p></a>
+                <a href="https://bit.ai/" target="_blank" rel="noopener noreferrer" class="tool-card"><h4>Bit.ai</h4><p class="best-for">Creating AI-powered wikis and knowledge bases.</p><ul class="features"><li>"AI Genius Assistant" helps with writing and content creation.</li><li>Collaborate in real-time on interactive documents.</li><li>Integrates with over 100 different software tools.</li></ul><p class="pricing freemium">Freemium</p></a>
+            </div>
+        </section>
+
+        <section class="info-box">
+            <h3>A Note on Responsible AI Use</h3>
+            <p>AI is a powerful tool, but it's not infallible. Always review and test AI-generated code for correctness, security vulnerabilities, and adherence to best practices. Be mindful of potential biases in AI outputs and strive for originality by adding your own unique perspective. Use these tools to augment your intelligence, not replace it. Human oversight is the key to creating high-quality, ethical, and valuable software.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 AI Dev Tools. A curated directory for educational purposes.</p>
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ultimate Excel Mastery Guide</title>
+    <style>
+        /* --- General Styling & Layout --- */
+        :root {
+            --primary-color: #0d1117;
+            --secondary-color: #161b22;
+            --excel-accent: #217346; /* Excel green */
+            --excel-secondary: #2f5f47; /* Darker Excel green */
+            --green-accent: #238636;
+            --red-accent: #da3633;
+            --yellow-accent: #e3b341;
+            --text-color: #c9d1d9;
+            --border-color: #30363d;
+            --header-font: 'Poppins', sans-serif;
+            --body-font: 'Roboto', sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;700&display=swap');
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--body-font);
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            background-color: rgba(22, 27, 34, 0.8);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-family: var(--header-font);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--excel-accent);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--excel-accent);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(135deg, var(--excel-accent), var(--excel-secondary));
+            padding: 4rem 0;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-family: var(--header-font);
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-description {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* --- Content Sections --- */
+        .content-section {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-family: var(--header-font);
+            font-size: 2.5rem;
+            color: var(--excel-accent);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        }
+
+        /* --- Cards Grid --- */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--excel-accent), var(--excel-secondary));
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(33, 115, 70, 0.2);
+            border-color: var(--excel-accent);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card h3 {
+            font-family: var(--header-font);
+            color: var(--excel-accent);
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+
+        /* --- Feature Lists --- */
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .feature-item {
+            background-color: rgba(33, 115, 70, 0.1);
+            border-left: 4px solid var(--excel-accent);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .feature-item h4 {
+            color: var(--excel-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Formula Examples --- */
+        .formula-section {
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .formula-example {
+            background-color: var(--primary-color);
+            border: 1px solid var(--excel-accent);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            position: relative;
+        }
+
+        .formula-title {
+            color: var(--excel-accent);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .formula-code {
+            color: #f97316;
+            background-color: rgba(33, 115, 70, 0.1);
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            display: block;
+        }
+
+        .formula-description {
+            color: var(--text-color);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* --- Tips & Tricks --- */
+        .tip-box {
+            background: linear-gradient(135deg, rgba(33, 115, 70, 0.1), rgba(47, 95, 71, 0.1));
+            border: 1px solid var(--excel-accent);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .tip-box::before {
+            content: '💡';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background-color: var(--secondary-color);
+            padding: 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .tip-title {
+            color: var(--excel-accent);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Progress Tracker --- */
+        .progress-section {
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+
+        .progress-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .progress-item:last-child {
+            border-bottom: none;
+        }
+
+        .progress-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--excel-accent);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .progress-checkbox:hover {
+            background-color: var(--excel-accent);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- Scroll to Top Button --- */
+        .scroll-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--excel-accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(33, 115, 70, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <a href="#" class="logo">📈 Excel Mastery</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#basics">Basics</a></li>
+                    <li><a href="#formulas">Formulas</a></li>
+                    <li><a href="#functions">Functions</a></li>
+                    <li><a href="#analysis">Data Analysis</a></li>
+                    <li><a href="#advanced">Advanced</a></li>
+                    <li><a href="#tips">Tips</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>The Ultimate Excel Mastery Guide</h1>
+            <p class="hero-subtitle">From Beginner to Expert: Complete Excel Training</p>
+            <p class="hero-description">
+                Master Microsoft Excel with our comprehensive guide covering everything from basic spreadsheet operations 
+                to advanced data analysis, pivot tables, macros, and business intelligence. Whether you're a beginner 
+                or looking to enhance your existing skills, this guide will transform you into an Excel power user.
+            </p>
+        </div>
+    </section>
+
+    <!-- Excel Basics Section -->
+    <section class="content-section" id="basics">
+        <div class="container">
+            <h2 class="section-title">Excel Fundamentals</h2>
+            <p class="section-subtitle">Master the essential building blocks of Excel</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <span class="card-icon">📊</span>
+                    <h3>Spreadsheet Basics</h3>
+                    <p>Learn about cells, rows, columns, worksheets, and workbooks. Understand the Excel interface and basic navigation techniques.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">⌨️</span>
+                    <h3>Data Entry & Formatting</h3>
+                    <p>Master efficient data entry techniques, cell formatting, number formats, and text alignment for professional-looking spreadsheets.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🔗</span>
+                    <h3>Cell References</h3>
+                    <p>Understand relative, absolute, and mixed cell references. Learn when and how to use each type effectively in your formulas.</p>
+                </div>
+            </div>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h4>Keyboard Shortcuts</h4>
+                    <p>Ctrl+C (Copy), Ctrl+V (Paste), Ctrl+Z (Undo), F2 (Edit Cell), Ctrl+Home (Go to A1)</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Selection Techniques</h4>
+                    <p>Click and drag, Shift+Click, Ctrl+Click for non-adjacent cells, Ctrl+A (Select All)</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Data Types</h4>
+                    <p>Text, Numbers, Dates, Times, Boolean values, and understanding auto-formatting</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Workbook Management</h4>
+                    <p>Creating, saving, opening workbooks, managing multiple worksheets, renaming sheets</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulas Section -->
+    <section class="content-section" id="formulas">
+        <div class="container">
+            <h2 class="section-title">Essential Formulas</h2>
+            <p class="section-subtitle">Build powerful calculations with Excel formulas</p>
+
+            <div class="formula-section">
+                <h3>Basic Arithmetic Formulas</h3>
+                
+                <div class="formula-example">
+                    <div class="formula-title">Basic Addition</div>
+                    <code class="formula-code">=A1+B1+C1</code>
+                    <p class="formula-description">Adds the values in cells A1, B1, and C1</p>
+                </div>
+
+                <div class="formula-example">
+                    <div class="formula-title">Sum Range</div>
+                    <code class="formula-code">=SUM(A1:A10)</code>
+                    <p class="formula-description">Adds all values in the range A1 to A10</p>
+                </div>
+
+                <div class="formula-example">
+                    <div class="formula-title">Average Calculation</div>
+                    <code class="formula-code">=AVERAGE(B2:B20)</code>
+                    <p class="formula-description">Calculates the average of values in range B2 to B20</p>
+                </div>
+
+                <div class="formula-example">
+                    <div class="formula-title">Percentage Calculation</div>
+                    <code class="formula-code">=(B2/C2)*100</code>
+                    <p class="formula-description">Calculates percentage where B2 is part and C2 is whole</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-title">Formula Tip</div>
+                <p>Always start formulas with an equals sign (=). Use parentheses to control the order of operations, just like in mathematics.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Functions Section -->
+    <section class="content-section" id="functions">
+        <div class="container">
+            <h2 class="section-title">Excel Functions Library</h2>
+            <p class="section-subtitle">Powerful built-in functions for every scenario</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <span class="card-icon">🔢</span>
+                    <h3>Mathematical Functions</h3>
+                    <p>SUM, AVERAGE, COUNT, MAX, MIN, ROUND, ABS, POWER, SQRT, and statistical functions for numerical analysis.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">📝</span>
+                    <h3>Text Functions</h3>
+                    <p>CONCATENATE, LEFT, RIGHT, MID, LEN, UPPER, LOWER, TRIM, SUBSTITUTE for text manipulation and formatting.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">📅</span>
+                    <h3>Date & Time Functions</h3>
+                    <p>TODAY, NOW, DATE, TIME, YEAR, MONTH, DAY, DATEDIF, WEEKDAY for date calculations and formatting.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🔍</span>
+                    <h3>Lookup Functions</h3>
+                    <p>VLOOKUP, HLOOKUP, INDEX, MATCH, XLOOKUP for finding and retrieving data from tables and ranges.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">❓</span>
+                    <h3>Logical Functions</h3>
+                    <p>IF, AND, OR, NOT, IFERROR, IFS for conditional logic and error handling in your formulas.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">💰</span>
+                    <h3>Financial Functions</h3>
+                    <p>PMT, PV, FV, NPV, IRR, RATE for loan calculations, investment analysis, and financial planning.</p>
+                </div>
+            </div>
+
+            <div class="formula-section">
+                <h3>Popular Function Examples</h3>
+
+                <div class="formula-example">
+                    <div class="formula-title">VLOOKUP - Find Data</div>
+                    <code class="formula-code">=VLOOKUP(A2,Sheet2!$A$2:$D$100,3,FALSE)</code>
+                    <p class="formula-description">Looks up value in A2 and returns corresponding value from column 3 of the table</p>
+                </div>
+
+                <div class="formula-example">
+                    <div class="formula-title">IF Statement</div>
+                    <code class="formula-code">=IF(B2>90,"A",IF(B2>80,"B",IF(B2>70,"C","F")))</code>
+                    <p class="formula-description">Nested IF statement for grade calculation based on score</p>
+                </div>
+
+                <div class="formula-example">
+                    <div class="formula-title">CONCATENATE Text</div>
+                    <code class="formula-code">=CONCATENATE(A2," ",B2)</code>
+                    <p class="formula-description">Combines first name (A2) and last name (B2) with a space</p>
+                </div>
+
+                <div class="formula-example">
+                    <div class="formula-title">COUNTIF - Count with Criteria</div>
+                    <code class="formula-code">=COUNTIF(A2:A100,">50")</code>
+                    <p class="formula-description">Counts cells in range A2:A100 that contain values greater than 50</p>
+                </div>
+
+                <div class="formula-example">
+                    <div class="formula-title">SUMIF - Sum with Condition</div>
+                    <code class="formula-code">=SUMIF(B2:B100,"Sales",C2:C100)</code>
+                    <p class="formula-description">Sums values in C2:C100 where corresponding B cell equals "Sales"</p>
+                </div>
+            </div>
+
+            <div class="formula-section">
+                <h3>Practical Excel Projects</h3>
+                
+                <div class="cards-grid">
+                    <div class="card">
+                        <span class="card-icon">💰</span>
+                        <h3>Personal Budget Tracker</h3>
+                        <p>Create a monthly budget with income, expenses, categories, and automatic calculations for savings and spending analysis.</p>
+                    </div>
+
+                    <div class="card">
+                        <span class="card-icon">📊</span>
+                        <h3>Sales Dashboard</h3>
+                        <p>Build a dynamic sales dashboard with charts, KPIs, and pivot tables to track performance metrics and trends.</p>
+                    </div>
+
+                    <div class="card">
+                        <span class="card-icon">📅</span>
+                        <h3>Project Timeline</h3>
+                        <p>Design a Gantt chart-style project tracker with milestones, dependencies, and progress tracking using conditional formatting.</p>
+                    </div>
+
+                    <div class="card">
+                        <span class="card-icon">🎓</span>
+                        <h3>Student Grade Calculator</h3>
+                        <p>Create a grade book with weighted averages, letter grades, and automatic GPA calculations for multiple subjects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Analysis Section -->
+    <section class="content-section" id="analysis">
+        <div class="container">
+            <h2 class="section-title">Data Analysis & Visualization</h2>
+            <p class="section-subtitle">Transform raw data into meaningful insights</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <span class="card-icon">📊</span>
+                    <h3>Pivot Tables</h3>
+                    <p>Create dynamic summaries, cross-tabulations, and interactive reports from large datasets with drag-and-drop simplicity.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">📈</span>
+                    <h3>Charts & Graphs</h3>
+                    <p>Visualize data with column, line, pie, scatter, and advanced chart types. Customize colors, labels, and formatting.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🔍</span>
+                    <h3>Data Filtering</h3>
+                    <p>AutoFilter, Advanced Filter, and custom filters to display only the data you need for analysis.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">📋</span>
+                    <h3>Data Validation</h3>
+                    <p>Create dropdown lists, restrict data entry, and ensure data quality with validation rules and error messages.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🔄</span>
+                    <h3>Data Sorting</h3>
+                    <p>Single and multi-level sorting, custom sort orders, and sorting by color or icon for organized data presentation.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🎨</span>
+                    <h3>Conditional Formatting</h3>
+                    <p>Highlight cells based on values, create data bars, color scales, and icon sets for visual data analysis.</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-title">Data Analysis Tip</div>
+                <p>Always clean your data first! Remove duplicates, handle blank cells, and ensure consistent formatting before analysis. Use Ctrl+Shift+L to quickly toggle AutoFilter on/off.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Features Section -->
+    <section class="content-section" id="advanced">
+        <div class="container">
+            <h2 class="section-title">Advanced Excel Techniques</h2>
+            <p class="section-subtitle">Master professional-level Excel features</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <span class="card-icon">🔧</span>
+                    <h3>Macros & VBA</h3>
+                    <p>Automate repetitive tasks with recorded macros and Visual Basic for Applications (VBA) programming.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🔗</span>
+                    <h3>Power Query</h3>
+                    <p>Import, transform, and clean data from various sources including databases, web pages, and files.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">⚡</span>
+                    <h3>Power Pivot</h3>
+                    <p>Create sophisticated data models, relationships between tables, and powerful DAX calculations.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">📊</span>
+                    <h3>Array Formulas</h3>
+                    <p>Perform multiple calculations on multiple values simultaneously with dynamic arrays and spill functions.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🔐</span>
+                    <h3>Worksheet Protection</h3>
+                    <p>Lock cells, protect formulas, and secure sensitive data with password protection and user permissions.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🌐</span>
+                    <h3>Web Connections</h3>
+                    <p>Import live data from web sources, create refreshable data connections, and build dynamic dashboards.</p>
+                </div>
+            </div>
+
+            <div class="formula-section">
+                <h3>Advanced Formula Examples</h3>
+
+                <div class="formula-example">
+                    <div class="formula-title">Array Formula - Multiple Criteria Sum</div>
+                    <code class="formula-code">=SUMPRODUCT((A2:A100="Product A")*(B2:B100>100)*C2:C100)</code>
+                    <p class="formula-description">Sums values in column C where column A equals "Product A" AND column B is greater than 100</p>
+                </div>
+
+                <div class="formula-example">
+                    <div class="formula-title">Dynamic Range with OFFSET</div>
+                    <code class="formula-code">=SUM(OFFSET(A1,0,0,COUNTA(A:A),1))</code>
+                    <p class="formula-description">Creates a dynamic range that adjusts automatically as data is added or removed</p>
+                </div>
+
+                <div class="formula-example">
+                    <div class="formula-title">INDEX-MATCH (Better than VLOOKUP)</div>
+                    <code class="formula-code">=INDEX(C2:C100,MATCH(F2,A2:A100,0))</code>
+                    <p class="formula-description">More flexible lookup function that can look left or right and is more efficient</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tips & Tricks Section -->
+    <section class="content-section" id="tips">
+        <div class="container">
+            <h2 class="section-title">Pro Tips & Shortcuts</h2>
+            <p class="section-subtitle">Boost your productivity with expert techniques</p>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h4>Ctrl + Shift + Arrow Keys</h4>
+                    <p>Quickly select ranges of data from current cell to the edge of data region</p>
+                </div>
+                <div class="feature-item">
+                    <h4>F4 Key</h4>
+                    <p>Repeat last action or cycle through reference types (relative/absolute) in formulas</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Alt + Enter</h4>
+                    <p>Create line breaks within a single cell for multi-line text</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Ctrl + Shift + L</h4>
+                    <p>Toggle AutoFilter on/off for quick data filtering</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Ctrl + T</h4>
+                    <p>Convert range to Table for enhanced data management and formatting</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Ctrl + Shift + $</h4>
+                    <p>Apply currency formatting to selected cells</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Ctrl + Shift + %</h4>
+                    <p>Apply percentage formatting to selected cells</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Ctrl + Shift + #</h4>
+                    <p>Apply date formatting to selected cells</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-title">Performance Tip</div>
+                <p>Use Excel Tables instead of regular ranges for better performance and automatic formula expansion. Tables also provide structured references that make formulas more readable.</p>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-title">Error Prevention Tip</div>
+                <p>Always use IFERROR() or IFNA() to handle potential errors in formulas gracefully. Example: =IFERROR(VLOOKUP(A2,Table,2,0),"Not Found")</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Progress Tracker -->
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">Your Learning Progress</h2>
+            <p class="section-subtitle">Track your Excel mastery journey</p>
+
+            <div class="progress-section">
+                <h3>Beginner Level</h3>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Master basic navigation and data entry</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Understand cell references (relative, absolute, mixed)</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Create basic formulas and functions</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Format cells and worksheets professionally</span>
+                </div>
+
+                <h3>Intermediate Level</h3>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Master VLOOKUP and INDEX-MATCH functions</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Create and customize charts and graphs</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Build basic pivot tables and pivot charts</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Use conditional formatting effectively</span>
+                </div>
+
+                <h3>Advanced Level</h3>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Create complex array formulas and use dynamic arrays</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Record and edit macros for automation</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Use Power Query for data transformation</span>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-checkbox" onclick="toggleProgress(this)"></div>
+                    <span>Build advanced dashboards and reports</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" onclick="scrollToTop()">↑</button>
+
+    <script>
+        // Scroll to top functionality
+        window.onscroll = function() {
+            const scrollTop = document.querySelector('.scroll-top');
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        };
+
+        function scrollToTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+        // Progress tracking
+        function toggleProgress(checkbox) {
+            checkbox.classList.toggle('completed');
+            if (checkbox.classList.contains('completed')) {
+                checkbox.style.backgroundColor = 'var(--excel-accent)';
+                checkbox.innerHTML = '✓';
+                checkbox.style.color = 'white';
+            } else {
+                checkbox.style.backgroundColor = 'transparent';
+                checkbox.innerHTML = '';
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe cards for animation
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

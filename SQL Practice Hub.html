@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>SQL Practice Hub – OpenSource Tech Guides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+:root { --accent:#10b981; --accent-alt:#34d399; --accent-grad:linear-gradient(135deg,#059669,#10b981 55%,#34d399); --bg:#081310; --bg-alt:#0f1e1a; --panel:#142521; --border:#1f3730; --code:#0b1714; --text:#d4e5df; --text-soft:#8da79e; --radius:15px; --mono:'JetBrains Mono',monospace; }
+body { margin:0; font-family:'Roboto',sans-serif; background:var(--bg); color:var(--text); line-height:1.62; }
+header { position:sticky; top:0; background:rgba(8,19,16,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); z-index:70; }
+nav { max-width:1250px; margin:0 auto; padding:.85rem 1.45rem; display:flex; justify-content:space-between; align-items:center; }
+.logo { font-family:'Poppins'; font-weight:700; font-size:1.15rem; text-decoration:none; background:var(--accent-grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+ul.menu { list-style:none; display:flex; gap:1rem; margin:0; padding:0; }
+ul.menu a { color:var(--text-soft); font-size:.68rem; font-weight:600; letter-spacing:.55px; padding:.45rem .75rem; border-radius:8px; text-decoration:none; }
+ul.menu a:hover, ul.menu a.active { background:var(--panel); color:var(--text); }
+.hero { padding:4.9rem 1.45rem 3rem; background:radial-gradient(circle at 25% 25%,rgba(16,185,129,.28),transparent 60%), radial-gradient(circle at 78% 60%,rgba(52,211,153,.18),transparent 70%); }
+.hero-inner { max-width:1170px; margin:0 auto; }
+.hero h1 { font-family:'Poppins'; font-size:clamp(2.4rem,5vw,3.7rem); margin:.3rem 0 1rem; line-height:1.04; background:var(--accent-grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.hero p.lead { font-size:1.05rem; max-width:920px; color:var(--text-soft); margin:0 0 1.25rem; }
+.meta { display:flex; flex-wrap:wrap; gap:.6rem; }
+.meta span { background:var(--panel); border:1px solid var(--border); font-size:.6rem; letter-spacing:.65px; padding:.45rem .7rem; border-radius:40px; color:var(--text-soft); font-weight:600; }
+section { padding:3rem 1.5rem; }
+section.alt { background:var(--bg-alt); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.container { max-width:1170px; margin:0 auto; }
+.section-header h2 { margin:0 0 .6rem; font-family:'Poppins'; font-size:2.05rem; letter-spacing:.5px; }
+.section-header p { margin:0 0 1rem; color:var(--text-soft); }
+.grid { display:grid; gap:1.3rem; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); }
+.card { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1.05rem .95rem 1.25rem; }
+.card h3 { margin:.2rem 0 .55rem; font-size:1rem; }
+.card p { margin:0; font-size:.7rem; color:var(--text-soft); line-height:1.4; }
+.tag-row { display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.45rem; }
+.tag { background:#1e3a33; border:1px solid var(--border); font-size:.48rem; padding:.3rem .45rem; letter-spacing:.55px; text-transform:uppercase; border-radius:6px; color:var(--text-soft); }
+.split { display:grid; gap:1.7rem; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); align-items:start; }
+.panel { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1.1rem 1rem 1.25rem; }
+.panel h3 { margin:.15rem 0 .7rem; font-size:1.05rem; }
+.panel ul { margin:.3rem 0 0; padding-left:1.15rem; }
+.panel li { margin:.5rem 0; font-size:.72rem; }
+pre { background:var(--code); border:1px solid var(--border); padding:1rem 1rem 1.2rem; border-radius:12px; overflow:auto; font-family:var(--mono); font-size:.72rem; line-height:1.35; position:relative; }
+.copy-btn { position:absolute; top:7px; right:7px; background:#10201b; border:1px solid var(--border); font-size:.55rem; color:var(--text-soft); padding:.25rem .55rem; border-radius:6px; cursor:pointer; }
+.copy-btn:hover { color:var(--text); border-color:var(--accent-alt); }
+.inline { background:var(--code); padding:.2rem .42rem; border-radius:6px; font-family:var(--mono); font-size:.62rem; }
+.lab { display:grid; gap:1.4rem; grid-template-columns:repeat(auto-fit,minmax(315px,1fr)); margin-top:.9rem; }
+.tool { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:.95rem .95rem 1.2rem; }
+.tool h4 { margin:.2rem 0 .55rem; font-size:.92rem; }
+.tool textarea, .tool input { width:100%; background:var(--code); color:var(--text); border:1px solid var(--border); font-family:var(--mono); font-size:.63rem; padding:.5rem .55rem; border-radius:8px; resize:vertical; }
+.tool textarea { min-height:110px; }
+.tool button { background:var(--accent); border:none; color:#fff; font-size:.58rem; font-weight:600; letter-spacing:.5px; padding:.5rem .85rem; border-radius:8px; margin-top:.45rem; cursor:pointer; }
+.output { background:#0b1714; border:1px solid var(--border); padding:.6rem .65rem; min-height:70px; font-family:var(--mono); font-size:.62rem; border-radius:8px; margin-top:.6rem; white-space:pre-wrap; overflow:auto; }
+.checklist { display:grid; gap:.5rem; margin-top:.8rem; }
+.check-item { background:var(--panel); border:1px solid var(--border); padding:.55rem .65rem .6rem 2.05rem; border-radius:10px; position:relative; font-size:.66rem; cursor:pointer; line-height:1.4; }
+.check-item input { position:absolute; left:.72rem; top:50%; transform:translateY(-50%); width:15px; height:15px; }
+.check-item.completed { border-color:#10b981; background:linear-gradient(130deg,rgba(16,185,129,.18),transparent); }
+.qa-item { border:1px solid var(--border); border-radius:12px; background:var(--panel); margin:.75rem 0; overflow:hidden; }
+.qa-q { margin:0; padding:.75rem .9rem; font-weight:600; font-size:.63rem; cursor:pointer; position:relative; }
+.qa-q:after { content:'+'; position:absolute; right:14px; top:50%; transform:translateY(-50%); }
+.qa-item.open .qa-q:after { content:'−'; }
+.qa-a { max-height:0; overflow:hidden; transition:max-height .45s ease; padding:0 .9rem; }
+.qa-item.open .qa-a { max-height:420px; padding:0 .9rem .7rem; }
+.qa-a p { margin:.55rem 0 0; font-size:.6rem; color:var(--text-soft); }
+footer { text-align:center; padding:3rem 1.5rem 4rem; background:var(--bg-alt); margin-top:3.1rem; border-top:1px solid var(--border); }
+footer p { margin:.35rem 0; font-size:.6rem; color:var(--text-soft); }
+@media (max-width:760px){ .hero { padding:4.3rem 1.15rem 2.7rem; } .grid { grid-template-columns:1fr; } .split { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <nav>
+    <a class="logo" href="index.html">🗄 SQL Hub</a>
+    <ul class="menu">
+      <li><a href="#model" class="active">Model</a></li>
+      <li><a href="#query">Query</a></li>
+      <li><a href="#advanced">Advanced</a></li>
+      <li><a href="#indexes">Indexes</a></li>
+      <li><a href="#lab">Lab</a></li>
+      <li><a href="#cheatsheet">Cheat</a></li>
+      <li><a href="#review">Review</a></li>
+    </ul>
+  </nav>
+</header>
+<section class="hero">
+  <div class="hero-inner">
+    <h1>SQL Practice Hub</h1>
+    <p class="lead">Sharpen relational reasoning: set-based querying, joins, aggregation, windows, normalization, indexing & transaction semantics.</p>
+    <div class="meta"><span>DDL</span><span>DML</span><span>Joins</span><span>Window</span><span>Index</span><span>Txn</span></div>
+  </div>
+</section>
+<section id="model">
+  <div class="container">
+    <div class="section-header"><h2>1. Relational Model & Normalization</h2><p>Data as relations (tables) with keys ensuring integrity.</p></div>
+    <div class="grid">
+      <div class="card"><h3>Keys</h3><p>Primary key uniquely identifies row. Foreign key enforces referential link.</p><div class="tag-row"><span class="tag">Integrity</span></div></div>
+      <div class="card"><h3>Normalization</h3><p>1NF atomic, 2NF full dependency, 3NF remove transitive, BCNF stronger determinants.</p></div>
+      <div class="card"><h3>Denormalization</h3><p>Performance trade: duplicates for fewer joins; maintain with routines or views.</p></div>
+      <div class="card"><h3>Constraints</h3><p>NOT NULL, UNIQUE, CHECK, DEFAULT, FOREIGN KEY; enforce invariants at storage.</p></div>
+    </div>
+    <h3 style="margin-top:2rem">Sample Schema</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>CREATE TABLE users(
+  id SERIAL PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+CREATE TABLE orders(
+  id SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(id),
+  total_cents INT CHECK(total_cents >= 0)
+);</code></pre>
+  </div>
+</section>
+<section id="query" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>2. Core Querying & Joins</h2><p>Think in sets; express desired result not loops.</p></div>
+    <div class="split">
+      <div class="panel"><h3>JOIN Types</h3><ul><li>INNER: intersection</li><li>LEFT: preserve left</li><li>RIGHT: preserve right</li><li>FULL: union w/ nulls</li><li>CROSS: cartesian</li></ul></div>
+      <div class="panel"><h3>Filtering & Grouping</h3><ul><li>WHERE filters rows before grouping</li><li>HAVING filters groups after aggregate</li><li>ORDER BY after SELECT projection</li></ul></div>
+      <div class="panel"><h3>Window Functions</h3><ul><li>ROW_NUMBER(), RANK()</li><li>PARTITION BY groups logical window</li><li>Frame clauses refine subset</li></ul></div>
+      <div class="panel"><h3>Set Ops</h3><ul><li>UNION (distinct)</li><li>UNION ALL (no dedupe)</li><li>INTERSECT, EXCEPT</li></ul></div>
+    </div>
+    <h3 style="margin-top:2rem">JOIN Example</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>SELECT u.email, o.total_cents
+FROM users u
+JOIN orders o ON o.user_id = u.id
+WHERE o.total_cents > 5000
+ORDER BY o.total_cents DESC;</code></pre>
+  </div>
+</section>
+<section id="advanced">
+  <div class="container">
+    <div class="section-header"><h2>3. Aggregation, Windows & Transactions</h2><p>Summarize data then layer analytic context & consistency.</p></div>
+    <div class="split">
+      <div class="panel"><h3>Aggregation</h3><ul><li>COUNT(*), SUM(col), AVG()</li><li>GROUP BY keys define grain</li><li>Distinct counts expensive; sample+estimate</li></ul></div>
+      <div class="panel"><h3>Windows</h3><ul><li>SUM(val) OVER (PARTITION BY k ORDER BY t ROWS 3 PRECEDING)</li><li>Running totals & moving averages</li></ul></div>
+      <div class="panel"><h3>Transactions</h3><ul><li>BEGIN / COMMIT / ROLLBACK</li><li>Isolation: Read Uncommitted → Serializable</li><li>ACID: atomicity, consistency, isolation, durability</li></ul></div>
+      <div class="panel"><h3>Locking</h3><ul><li>Row vs table locks</li><li>MVCC reduces read contention</li><li>Deadlock detection & retry</li></ul></div>
+    </div>
+    <h3 style="margin-top:2rem">Window Example</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>SELECT user_id,
+       total_cents,
+       SUM(total_cents) OVER (PARTITION BY user_id ORDER BY id ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS rolling_3
+FROM orders;</code></pre>
+  </div>
+</section>
+<section id="indexes" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>4. Indexing & Execution Plans</h2><p>Accelerate lookups, maintain write cost awareness.</p></div>
+    <div class="split">
+      <div class="panel"><h3>Index Types</h3><ul><li>B-Tree (range, equality)</li><li>Hash (equality only)</li><li>GIN / GiST (full-text, arrays)</li></ul></div>
+      <div class="panel"><h3>Selectivity</h3><ul><li>High selectivity = few rows = better candidate</li><li>Composite index order matters (left prefix)</li></ul></div>
+      <div class="panel"><h3>Execution Plans</h3><ul><li>EXPLAIN / EXPLAIN ANALYZE</li><li>Seq Scan vs Index Scan</li><li>Filter vs Index Condition</li></ul></div>
+      <div class="panel"><h3>Anti-Patterns</h3><ul><li>Over-index (write penalty)</li><li>Functions on indexed column (unless expr index)</li><li>Leading wildcard LIKE (no use of index)</li></ul></div>
+    </div>
+    <h3 style="margin-top:2rem">Index Example</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>CREATE INDEX idx_orders_user_total ON orders(user_id,total_cents);
+EXPLAIN ANALYZE SELECT * FROM orders WHERE user_id=5 AND total_cents>1000;</code></pre>
+  </div>
+</section>
+<section id="lab">
+  <div class="container">
+    <div class="section-header"><h2>5. Interactive Lab</h2><p>Client-side simulations only.</p></div>
+    <div class="lab">
+      <div class="tool"><h4>Query Sandbox (Mock)</h4><textarea id="query" placeholder="SELECT id,email FROM users WHERE id < 3;"></textarea><button onclick="runQuery()">Run</button><div class="output" id="queryOut">(result)</div></div>
+      <div class="tool"><h4>JOIN Visualizer</h4><textarea id="joinA" placeholder="A:1,2,3"></textarea><textarea id="joinB" placeholder="B:2,3,4"></textarea><button onclick="visualJoin()">Inner Join</button><div class="output" id="joinOut">(join)</div></div>
+      <div class="tool"><h4>Normalization Analyzer</h4><textarea id="normRaw" placeholder="order(id, user_email, user_name, user_phone)"></textarea><button onclick="analyzeNorm()">Analyze</button><div class="output" id="normOut">(analysis)</div></div>
+      <div class="tool"><h4>Index Advisor</h4><textarea id="indexQ" placeholder="SELECT * FROM orders WHERE user_id=5 AND total_cents>1000;"></textarea><button onclick="adviseIndex()">Advise</button><div class="output" id="indexOut">(advice)</div></div>
+    </div>
+  </div>
+</section>
+<section id="cheatsheet" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>6. Query Patterns Cheat Sheet</h2><p>Reusable structural templates.</p></div>
+    <div class="split">
+      <div class="panel"><h3>Top-N Per Group</h3><pre><code>SELECT * FROM (
+  SELECT *, ROW_NUMBER() OVER(
+    PARTITION BY user_id ORDER BY total_cents DESC) rn
+  FROM orders
+) t WHERE rn <= 3;</code></pre></div>
+      <div class="panel"><h3>Upsert (Postgres)</h3><pre><code>INSERT INTO users(id,email)
+VALUES(1,'a@x')
+ON CONFLICT (id)
+DO UPDATE SET email=EXCLUDED.email;</code></pre></div>
+      <div class="panel"><h3>Pivot via FILTER</h3><pre><code>SELECT
+  user_id,
+  SUM(total_cents) FILTER (WHERE total_cents > 10000) AS high,
+  SUM(total_cents) FILTER (WHERE total_cents <= 10000) AS low
+FROM orders GROUP BY 1;</code></pre></div>
+      <div class="panel"><h3>Running Total</h3><pre><code>SELECT id,total_cents,
+ SUM(total_cents) OVER (ORDER BY id) run
+FROM orders;</code></pre></div>
+      <div class="panel"><h3>Gap Detection</h3><pre><code>SELECT id, prev_id, id-prev_id-1 AS gap
+FROM (
+  SELECT id, LAG(id) OVER(ORDER BY id) prev_id
+  FROM orders
+) t WHERE id-prev_id > 1;</code></pre></div>
+      <div class="panel"><h3>Percentile</h3><pre><code>SELECT percentile_cont(0.9)
+WITHIN GROUP (ORDER BY total_cents)
+FROM orders;</code></pre></div>
+    </div>
+  </div>
+</section>
+<section id="review">
+  <div class="container">
+    <div class="section-header"><h2>7. Review & Mastery</h2><p>Checklist & conceptual Q&A.</p></div>
+    <div class="split">
+      <div class="panel"><h3>Progress Checklist</h3>
+        <div class="checklist" id="checklist">
+          <label class="check-item"><input type="checkbox" data-task> Explain normalization up to 3NF</label>
+          <label class="check-item"><input type="checkbox" data-task> Choose appropriate join for scenario</label>
+          <label class="check-item"><input type="checkbox" data-task> Use window function for analytic metric</label>
+          <label class="check-item"><input type="checkbox" data-task> Interpret an EXPLAIN plan difference</label>
+          <label class="check-item"><input type="checkbox" data-task> Recommend index for selective predicate</label>
+          <label class="check-item"><input type="checkbox" data-task> Distinguish ACID properties clearly</label>
+          <label class="check-item"><input type="checkbox" data-task> Write safe upsert (conflict resolution)</label>
+          <label class="check-item"><input type="checkbox" data-task> Identify when to denormalize</label>
+        </div>
+      </div>
+      <div class="panel"><h3>Concept Q&A</h3>
+        <div id="qa">
+          <div class="qa-item"><div class="qa-q">Why window over self-join for running totals?</div><div class="qa-a"><p>Windows scan once with frame semantics; self-joins duplicate row counts & increase complexity.</p></div></div>
+          <div class="qa-item"><div class="qa-q">Primary vs unique key?</div><div class="qa-a"><p>PRIMARY KEY = NOT NULL + UNIQUE plus singular table identity; multiple UNIQUE constraints allowed.</p></div></div>
+          <div class="qa-item"><div class="qa-q">High cardinality index issues?</div><div class="qa-a"><p>Generally beneficial for selectivity; downside is write amplification & larger index memory footprint.</p></div></div>
+          <div class="qa-item"><div class="qa-q">Why analyze execution plans?</div><div class="qa-a"><p>Reveal access paths (seq vs index), join algorithms, row estimates; mismatches hint statistics problems.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer>
+  <p>&copy; 2025 OpenSource Tech Guides – SQL Practice Hub.</p>
+  <p><a href="index.html" style="color:var(--accent-alt);text-decoration:none;">Return to Portal</a></p>
+</footer>
+<script>
+// Copy
+ document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>{const code=b.nextElementSibling.innerText;navigator.clipboard.writeText(code);b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1300);}));
+// Q&A toggle
+ document.querySelectorAll('.qa-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+// Checklist progress
+ const KEY='sql_practice_hub_ck_v1'; const tasks=[...document.querySelectorAll('[data-task]')]; const saved=JSON.parse(localStorage.getItem(KEY)||'{}'); tasks.forEach((cb,i)=>{ if(saved[i]){cb.checked=true; cb.parentElement.classList.add('completed');} cb.addEventListener('change',()=>{cb.parentElement.classList.toggle('completed',cb.checked); saved[i]=cb.checked; localStorage.setItem(KEY,JSON.stringify(saved)); updateProgress();});}); function updateProgress(){ const done=tasks.filter(t=>t.checked).length; localStorage.setItem('progress:sql-practice',(done/tasks.length).toFixed(2)); window.dispatchEvent(new CustomEvent('guideProgressUpdate',{detail:{guide:'sql-practice'}})); } updateProgress();
+// Mock dataset
+ const DATA={ users:[{id:1,email:'a@x'},{id:2,email:'b@x'},{id:3,email:'c@x'}], orders:[{id:1,user_id:1,total_cents:1200},{id:2,user_id:1,total_cents:500},{id:3,user_id:2,total_cents:7600}] };
+// Very naive query runner (pattern-based)
+ function runQuery(){ const q=query.value.trim(); if(!q){ queryOut.textContent='(enter SELECT)'; return;} const lower=q.toLowerCase(); if(!lower.startsWith('select')){ queryOut.textContent='Only SELECT allowed'; return;} // simple pattern
+ if(/from\s+users/.test(lower)){ const rows=DATA.users; renderRows(rows,['id','email']); return;} if(/from\s+orders/.test(lower)){ const rows=DATA.orders; renderRows(rows,['id','user_id','total_cents']); return;} if(/join/.test(lower)){ // simple join users+orders
+ const rows=DATA.orders.map(o=>({order_id:o.id,user:DATA.users.find(u=>u.id===o.user_id)?.email,total_cents:o.total_cents})); renderRows(rows,['order_id','user','total_cents']); return;} queryOut.textContent='(pattern not recognized)'; }
+ function renderRows(rows,cols){ let out=cols.join('\t')+'\n'; rows.forEach(r=>{ out+=cols.map(c=>r[c]).join('\t')+'\n'; }); queryOut.textContent=out; }
+// Join visualizer
+ function visualJoin(){ const a=(joinA.value.match(/\d+/g)||[]).map(n=>parseInt(n)); const b=(joinB.value.match(/\d+/g)||[]).map(n=>parseInt(n)); const pairs=[]; a.forEach(x=>{ if(b.includes(x)) pairs.push(x+':'+x); }); joinOut.textContent=pairs.length? pairs.join('\n'):'(no intersection)'; }
+// Normalization analyzer
+ function analyzeNorm(){ const raw=normRaw.value.trim(); if(!raw){ normOut.textContent='(enter relation)'; return;} const cols=raw.substring(raw.indexOf('(')+1,raw.lastIndexOf(')')).split(',').map(s=>s.trim()); const suggestions=cols.filter(c=>c.includes('user_')).length? 'Suggest separate user table (user_email,user_name,user_phone) with user_id FK.': 'No obvious transitive dependency pattern.'; normOut.textContent=suggestions; }
+// Index advisor (very naive)
+ function adviseIndex(){ const q=indexQ.value.toLowerCase(); let adv='No recommendation'; if(/where\s+user_id/.test(q)&&/total_cents/.test(q)) adv='Composite index (user_id,total_cents) left-selective'; else if(/where\s+email/.test(q)) adv='Index on (email) UNIQUE'; indexOut.textContent=adv; }
+</script>
+</body>
+</html>

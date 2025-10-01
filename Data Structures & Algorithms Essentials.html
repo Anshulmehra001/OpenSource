@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Data Structures & Algorithms Essentials – OpenSource Tech Guides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --accent:#0fa9a7;
+  --accent-alt:#18c4c1;
+  --accent-grad:linear-gradient(135deg,#0fa9a7,#18c4c1 45%,#23d1ae);
+  --bg:#0d1117; --bg-alt:#161b22; --panel:#1e2530; --border:#2d333b;
+  --text:#d1d9e0; --text-soft:#8b949e; --code-bg:#11161d; --radius:14px;
+  --success:#2ea043; --warn:#d29922; --danger:#f85149; --shadow:0 10px 30px -10px rgba(0,0,0,.45);
+  --header-font:'Poppins',sans-serif; --body-font:'Roboto',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+html { scroll-behavior:smooth; }
+body { margin:0; font-family:var(--body-font); background:var(--bg); color:var(--text); line-height:1.65; }
+
+/* Header */
+.main-header { position:sticky; top:0; z-index:1000; background:rgba(13,17,23,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); }
+.nav-container { max-width:1300px; margin:0 auto; padding:.9rem 1.5rem; display:flex; align-items:center; justify-content:space-between; }
+.logo { font-family:var(--header-font); font-weight:700; font-size:1.25rem; text-decoration:none; background:var(--accent-grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.nav-menu { list-style:none; margin:0; padding:0; display:flex; gap:1.2rem; }
+.nav-menu a { text-decoration:none; color:var(--text-soft); font-size:.85rem; font-weight:600; letter-spacing:.5px; padding:.45rem .8rem; border-radius:8px; transition:.25s; }
+.nav-menu a:hover, .nav-menu a.active { background:var(--panel); color:var(--text); }
+
+/* Hero */
+.hero { padding:5.2rem 1.5rem 3rem; background:radial-gradient(circle at 30% 18%,rgba(15,169,167,.2),transparent 60%), radial-gradient(circle at 80% 50%,rgba(35,209,174,.18),transparent 65%); }
+.hero-inner { max-width:1150px; margin:0 auto; }
+.hero h1 { font-family:var(--header-font); font-size:clamp(2.4rem,5.2vw,3.8rem); line-height:1.05; margin:.35rem 0 1.1rem; background:var(--accent-grad); -webkit-background-clip:text; background-clip:text; color:transparent; letter-spacing:.5px; }
+.hero p.lead { font-size:1.15rem; max-width:860px; color:var(--text-soft); margin:0 0 1.4rem; }
+.meta-grid { display:flex; flex-wrap:wrap; gap:.9rem; margin-top:.8rem; }
+.meta-chip { background:var(--panel); border:1px solid var(--border); padding:.5rem .9rem; font-size:.7rem; border-radius:40px; letter-spacing:.8px; font-weight:600; text-transform:uppercase; color:var(--text-soft); display:flex; align-items:center; gap:.45rem; }
+
+/* Sections */
+section { padding:3rem 1.5rem; }
+section.alt { background:var(--bg-alt); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.container { max-width:1150px; margin:0 auto; }
+.section-header { margin-bottom:2.2rem; }
+.section-header h2 { font-family:var(--header-font); font-size:2.15rem; margin:0 0 .65rem; letter-spacing:.5px; }
+.section-header p { margin:0; color:var(--text-soft); font-size:1rem; }
+
+/* Cards & Panels */
+.card-grid { display:grid; gap:1.6rem; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); }
+.card { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1.3rem 1.15rem 1.35rem; position:relative; overflow:hidden; box-shadow:var(--shadow); transition:.35s; }
+.card:before { content:""; position:absolute; inset:0; background:linear-gradient(140deg,rgba(15,169,167,.12),transparent 60%); opacity:0; transition:.4s; }
+.card:hover { transform:translateY(-6px); border-color:var(--accent-alt); }
+.card:hover:before { opacity:1; }
+.card h3 { margin:.2rem 0 .75rem; font-size:1.05rem; letter-spacing:.4px; }
+.card p { margin:0; font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+.tag-row { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.6rem; }
+.tag { background:#202a32; padding:.25rem .55rem; border-radius:6px; font-size:.6rem; letter-spacing:.5px; text-transform:uppercase; border:1px solid var(--border); color:var(--text-soft); }
+
+/* Split Layout */
+.split { display:grid; gap:2rem; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); align-items:start; }
+.panel { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1.35rem 1.2rem 1.5rem; position:relative; }
+.panel h3 { margin:.1rem 0 .9rem; font-size:1.15rem; }
+.panel ul { margin:0; padding-left:1.15rem; }
+.panel li { margin:.55rem 0; }
+
+/* Code & Pre */
+pre { background:var(--code-bg); border:1px solid var(--border); padding:1rem 1rem 1.15rem; border-radius:12px; overflow:auto; font-family:var(--mono); font-size:.8rem; line-height:1.4; position:relative; }
+code.inline { background:var(--code-bg); padding:.22rem .45rem; border-radius:6px; font-family:var(--mono); font-size:.75rem; }
+.copy-btn { position:absolute; top:8px; right:8px; background:#222; color:var(--text-soft); border:1px solid var(--border); font-size:.6rem; padding:.23rem .55rem; border-radius:6px; cursor:pointer; }
+.copy-btn:hover { color:var(--text); border-color:var(--accent); }
+
+/* Tables */
+.table-wrap { overflow:auto; border:1px solid var(--border); border-radius:12px; background:var(--panel); }
+.table { width:100%; border-collapse:collapse; font-size:.72rem; }
+.table th, .table td { padding:.55rem .7rem; text-align:left; border-bottom:1px solid var(--border); }
+.table th { background:#202a32; font-weight:600; letter-spacing:.5px; text-transform:uppercase; font-size:.62rem; }
+.table tr:last-child td { border-bottom:none; }
+
+/* Interactive Lab */
+.lab { display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); margin-top:1.1rem; }
+.lab-tool { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1rem 1rem 1.2rem; }
+.lab-tool h4 { margin:.15rem 0 .7rem; font-size:1rem; }
+.lab-tool textarea, .lab-tool input { width:100%; background:var(--code-bg); border:1px solid var(--border); color:var(--text); padding:.55rem .65rem; font-family:var(--mono); font-size:.75rem; border-radius:8px; resize:vertical; }
+.lab-tool textarea { min-height:120px; }
+.lab-tool button { background:var(--accent); border:none; color:#fff; padding:.5rem .85rem; border-radius:8px; cursor:pointer; font-size:.65rem; font-weight:600; letter-spacing:.5px; margin-top:.45rem; }
+.lab-output { background:#10161d; border:1px solid var(--border); padding:.6rem .7rem; min-height:70px; font-family:var(--mono); font-size:.7rem; border-radius:8px; margin-top:.6rem; white-space:pre-wrap; overflow:auto; }
+
+/* Checklist & Q&A */
+.checklist { display:grid; gap:.55rem; margin-top:.8rem; }
+.check-item { background:var(--panel); border:1px solid var(--border); padding:.55rem .65rem .6rem 2.1rem; border-radius:10px; position:relative; font-size:.75rem; cursor:pointer; line-height:1.4; }
+.check-item input { position:absolute; left:.75rem; top:50%; transform:translateY(-50%); width:16px; height:16px; cursor:pointer; }
+.check-item.completed { border-color:var(--success); background:linear-gradient(135deg,rgba(46,160,67,.15),transparent); }
+.qa { margin-top:1.5rem; }
+.qa-item { border:1px solid var(--border); background:var(--panel); border-radius:12px; margin:.8rem 0; overflow:hidden; }
+.qa-q { margin:0; padding:.85rem 1rem; font-weight:600; font-size:.78rem; cursor:pointer; position:relative; }
+.qa-q:after { content:'+'; position:absolute; right:14px; top:50%; transform:translateY(-50%); }
+.qa-item.open .qa-q:after { content:'−'; }
+.qa-a { max-height:0; overflow:hidden; transition:max-height .5s ease; padding:0 1rem; }
+.qa-item.open .qa-a { max-height:550px; padding:0 1rem .9rem; }
+.qa-a p { margin:.7rem 0 0; font-size:.72rem; color:var(--text-soft); }
+
+.note { background:#102126; border:1px solid #1c4448; padding:.8rem 1rem; font-size:.7rem; border-radius:10px; margin:1rem 0; }
+.inline-list { display:flex; gap:.4rem; flex-wrap:wrap; }
+.inline-badge { background:#202a32; padding:.25rem .55rem; border-radius:6px; font-size:.55rem; letter-spacing:.5px; text-transform:uppercase; border:1px solid var(--border); color:var(--text-soft); }
+
+.footer { text-align:center; padding:3rem 1.5rem 4rem; background:var(--bg-alt); margin-top:3rem; border-top:1px solid var(--border); }
+.footer p { margin:.4rem 0; font-size:.7rem; color:var(--text-soft); }
+
+@media (max-width:760px){ .card-grid { grid-template-columns:1fr; } .split { grid-template-columns:1fr; } .hero { padding:4.6rem 1.1rem 2.8rem; } }
+</style>
+</head>
+<body>
+<header class="main-header">
+  <div class="nav-container">
+    <a href="index.html" class="logo">⚙️ DS & Algorithms</a>
+    <ul class="nav-menu">
+      <li><a href="#concepts" class="active">Concepts</a></li>
+      <li><a href="#structures">Structures</a></li>
+      <li><a href="#algorithms">Algorithms</a></li>
+      <li><a href="#lab">Lab</a></li>
+      <li><a href="#cheatsheet">Cheat Sheet</a></li>
+      <li><a href="#prep">Prep</a></li>
+    </ul>
+  </div>
+</header>
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Data Structures & Algorithms Essentials</h1>
+    <p class="lead">Internalize how data organization + algorithmic paradigms shape performance. Focus on mental models, complexity trade‑offs, and implementation patterns rather than rote memorization.</p>
+    <div class="meta-grid">
+      <div class="meta-chip">🧠 Big-O</div><div class="meta-chip">🧵 Recursion</div><div class="meta-chip">🗂️ Selection</div><div class="meta-chip">🔍 Searching</div><div class="meta-chip">🪜 Traversal</div><div class="meta-chip">⚡ Optimization</div>
+    </div>
+  </div>
+</section>
+
+<!-- 1 Concepts -->
+<section id="concepts">
+  <div class="container">
+    <div class="section-header">
+      <h2>1. Core Complexity Concepts</h2>
+      <p>Asymptotic reasoning is a comparative tool, not a stopwatch.</p>
+    </div>
+    <div class="split">
+      <div class="panel">
+        <h3>Asymptotic Notation</h3>
+        <ul>
+          <li><strong>O(f(n))</strong> Upper bound (worst growth ceiling)</li>
+          <li><strong>Ω(f(n))</strong> Lower bound (best guarantee)</li>
+          <li><strong>Θ(f(n))</strong> Tight bound (sandwiched)</li>
+          <li><strong>Little-o</strong> Strictly lower growth (<code class="inline">f=o(g)</code>)</li>
+          <li><strong>Amortized</strong> Average per operation over sequence</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Growth Ladder (Typical)</h3>
+        <ul>
+          <li>O(1) → O(log n) → O(n) → O(n log n) → O(n²) → O(2^n) → O(n!)</li>
+          <li>Logarithms often appear with divide & conquer or tree height</li>
+          <li>n log n is balanced partition + linear combine cost</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Space vs Time Trade-off</h3>
+        <ul>
+          <li>Caching / memoization: trade memory for fewer recomputations</li>
+          <li>Precomputation (prefix sums, sparse tables) speeds queries</li>
+          <li>Compression / streaming reduces memory at CPU cost</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2.2rem">Data Structure Selection Heuristics</h3>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Need</th><th>Best Candidates</th><th>Avoid When</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Fast membership test</td><td>Hash Set / Bloom Filter</td><td>Adversarial keys (hash attacks)</td><td>Bloom = probabilistic (false positives)</td></tr>
+          <tr><td>Sorted iteration</td><td>Balanced BST / Heap (partial)</td><td>Random-only access</td><td>Heaps only guarantee top element</td></tr>
+          <tr><td>Min/Max streaming</td><td>Heap / Monotonic Queue</td><td>Need arbitrary removal</td><td>Monotonic queue for sliding windows</td></tr>
+          <tr><td>FIFO multi-producer</td><td>Queue / Ring Buffer</td><td>Random deletions required</td><td>Ring buffer for fixed capacity</td></tr>
+          <tr><td>LRU cache</td><td>Hash Map + Doubly List</td><td>Massive key space w/ low reuse</td><td>O(1) get + put eviction</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">Optimization mindset: measure → hypothesize → change one variable → re‑measure. Choose structure by workload, not preference.</div>
+  </div>
+</section>
+
+<!-- 2 Structures -->
+<section id="structures" class="alt">
+  <div class="container">
+    <div class="section-header">
+      <h2>2. Core Data Structures</h2>
+      <p>Understand shape, operations, and cost model.</p>
+    </div>
+    <div class="card-grid">
+      <div class="card"><h3>Array</h3><p>Contiguous memory, O(1) index, expensive middle inserts (O(n)). Great for iteration & cache locality.</p><div class="tag-row"><span class="tag">O(1) access</span><span class="tag">resize cost</span></div></div>
+      <div class="card"><h3>Linked List</h3><p>Node chain w/ pointers. O(1) head insert; O(n) index; pointer overhead, poor cache locality.</p><div class="tag-row"><span class="tag">O(1) head</span><span class="tag">fragmented</span></div></div>
+      <div class="card"><h3>Stack</h3><p>LIFO: push/pop O(1). Backtracking, parsing, DFS recursion emulation. Array or linked list backed.</p><div class="tag-row"><span class="tag">call frames</span></div></div>
+      <div class="card"><h3>Queue</h3><p>FIFO: enqueue/dequeue O(1). Scheduling, BFS. Use circular buffer to avoid shifts.</p><div class="tag-row"><span class="tag">breadth</span></div></div>
+      <div class="card"><h3>Hash Table</h3><p>Average O(1) put/get; degrade to O(n) worst if collisions unmitigated. Good hashing & resizing crucial.</p><div class="tag-row"><span class="tag">amortized</span></div></div>
+      <div class="card"><h3>Binary Search Tree</h3><p>Ordered structure. Average O(log n) ops; unbalanced = O(n). Self-balancing (AVL, Red-Black) maintain log height.</p><div class="tag-row"><span class="tag">ordered</span></div></div>
+      <div class="card"><h3>Heap (Binary)</h3><p>Partial order: root min/max. Insert & extract O(log n). Useful for priority scheduling & streaming kth.</p><div class="tag-row"><span class="tag">priority</span></div></div>
+      <div class="card"><h3>Graph</h3><p>Entities (nodes) + relations (edges). Choose adjacency list vs matrix based on density.</p><div class="tag-row"><span class="tag">networks</span></div></div>
+      <div class="card"><h3>Trie (Prefix Tree)</h3><p>String keyed; O(L) lookup by length. Memory heavy; compress with radix / DAWG.</p><div class="tag-row"><span class="tag">strings</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 Algorithms -->
+<section id="algorithms">
+  <div class="container">
+    <div class="section-header">
+      <h2>3. Algorithmic Paradigms</h2>
+      <p>Patterns > isolated tricks. Generalize transformations.</p>
+    </div>
+    <div class="split">
+      <div class="panel"><h3>Sorting Spectrum</h3><ul><li><strong>Comparison Lower Bound:</strong> Ω(n log n)</li><li>Bubbles / Selection / Insertion: O(n²), tiny arrays ok</li><li>Merge: stable, O(n log n), O(n) extra space</li><li>Quick: avg O(n log n), worst O(n²) pivot risk</li><li>Heap: O(n log n), in-place, not stable</li><li>Counting/Radix: digit/key domain assumptions</li></ul></div>
+      <div class="panel"><h3>Searching Patterns</h3><ul><li>Linear scan unsorted O(n)</li><li>Binary search sorted O(log n)</li><li>Two pointers (sorted or partition problems)</li><li>Sliding window for subarray substring constraints</li><li>Binary search on answer (feasibility function)</li></ul></div>
+      <div class="panel"><h3>Recursion & Divide</h3><ul><li>Split → Solve → Combine (merge sort)</li><li>Tail recursion optimization mental model</li><li>Backtracking: explore + undo (N-Queens, subsets)</li><li>Pruning reduces exponential blow-up</li></ul></div>
+      <div class="panel"><h3>Dynamic Programming</h3><ul><li>Optimal substructure + overlapping subproblems</li><li>Top-down memo vs bottom-up table</li><li>State definition clarity > code golf</li><li>Space optimization (rolling arrays)</li></ul></div>
+      <div class="panel"><h3>Greedy Choice</h3><ul><li>Local optimum leads to global optimum (exchange argument)</li><li>Counterexample search before committing</li><li>Activity selection, interval scheduling</li></ul></div>
+      <div class="panel"><h3>Graph Traversal</h3><ul><li>BFS: shortest unweighted path</li><li>DFS: cycle detect, topological order (post-order)</li><li>Dijkstra: weighted non-negative</li><li>Union-Find: connectivity queries</li></ul></div>
+    </div>
+
+    <h3 style="margin-top:2.1rem">Classic Recurrence Examples</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>// Merge sort: T(n) = 2T(n/2) + O(n) => O(n log n)
+// Binary search: T(n) = T(n/2) + O(1) => O(log n)
+// Tower of Hanoi: T(n) = 2T(n-1) + 1 => O(2^n)
+// Master Theorem forms aid direct classification</code></pre>
+  </div>
+</section>
+
+<!-- 4 Practice Lab -->
+<section id="lab" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>4. Interactive Practice Lab</h2><p>Experiment with parameters to build intuition.</p></div>
+    <div class="lab">
+      <div class="lab-tool">
+        <h4>Complexity Growth Estimator</h4>
+        <input id="nInput" placeholder="Enter n (e.g. 128)" />
+        <button onclick="estimateComplexity()">Estimate</button>
+        <div class="lab-output" id="complexityOut">(enter n)</div>
+      </div>
+      <div class="lab-tool">
+        <h4>Sorting Step Visualizer</h4>
+        <textarea id="sortInput" placeholder="Comma numbers e.g. 5,3,8,1"></textarea>
+        <select id="algoSelect" style="width:100%;margin-top:.4rem;background:var(--code-bg);color:var(--text);border:1px solid var(--border);padding:.4rem .5rem;border-radius:8px;font-size:.7rem;">
+          <option value="bubble">Bubble</option>
+          <option value="insertion">Insertion</option>
+          <option value="merge">Merge</option>
+        </select>
+        <button onclick="runSort()">Run</button>
+        <div class="lab-output" id="sortOut">(steps)</div>
+      </div>
+      <div class="lab-tool">
+        <h4>BFS / DFS Runner</h4>
+        <textarea id="graphInput" placeholder="Adjacency list (A:B,C; B:D; C:D; D:)"></textarea>
+        <select id="traversalSelect" style="width:100%;margin-top:.4rem;background:var(--code-bg);color:var(--text);border:1px solid var(--border);padding:.4rem .5rem;border-radius:8px;font-size:.7rem;">
+          <option value="bfs">BFS</option>
+          <option value="dfs">DFS</option>
+        </select>
+        <button onclick="runTraversal()">Traverse</button>
+        <div class="lab-output" id="traversalOut">(order)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 Cheat Sheet -->
+<section id="cheatsheet">
+  <div class="container">
+    <div class="section-header"><h2>5. Complexity Cheat Sheet</h2><p>Big-O (average unless noted).</p></div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Structure</th><th>Access</th><th>Search</th><th>Insert</th><th>Delete</th></tr></thead>
+        <tbody>
+          <tr><td>Array</td><td>O(1)</td><td>O(n)</td><td>O(n)</td><td>O(n)</td></tr>
+          <tr><td>Dynamic Array (amort.)</td><td>O(1)</td><td>O(n)</td><td>O(1)</td><td>O(n)</td></tr>
+          <tr><td>Singly Linked List</td><td>O(n)</td><td>O(n)</td><td>O(1)*</td><td>O(1)*</td></tr>
+          <tr><td>Hash Table</td><td>-</td><td>O(1)</td><td>O(1)</td><td>O(1)</td></tr>
+          <tr><td>BST (balanced)</td><td>O(log n)</td><td>O(log n)</td><td>O(log n)</td><td>O(log n)</td></tr>
+          <tr><td>Heap</td><td>O(n)</td><td>O(n)</td><td>O(log n)</td><td>O(log n)</td></tr>
+          <tr><td>Trie</td><td>O(L)</td><td>O(L)</td><td>O(L)</td><td>O(L)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">*Assumes head reference (for insert/delete). Hash worst-case degrades to O(n) with poor distribution.</div>
+  </div>
+</section>
+
+<!-- 6 Prep -->
+<section id="prep" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>6. Review & Mastery Prep</h2><p>Track your progress deliberately.</p></div>
+    <div class="split">
+      <div class="panel">
+        <h3>Progress Checklist</h3>
+        <div class="checklist" id="checklist">
+          <label class="check-item"><input type="checkbox" data-task> Big-O notation fundamentals</label>
+          <label class="check-item"><input type="checkbox" data-task> Implement a dynamic array growth</label>
+          <label class="check-item"><input type="checkbox" data-task> Balanced BST operations mental model</label>
+          <label class="check-item"><input type="checkbox" data-task> Hash table collision strategies</label>
+          <label class="check-item"><input type="checkbox" data-task> Graph traversal BFS vs DFS differences</label>
+          <label class="check-item"><input type="checkbox" data-task> Sorting algorithm trade-offs</label>
+          <label class="check-item"><input type="checkbox" data-task> DP state definition + transitions</label>
+          <label class="check-item"><input type="checkbox" data-task> Greedy proof via exchange argument</label>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Concept Q&A</h3>
+        <div class="qa" id="qaBank">
+          <div class="qa-item"><div class="qa-q">Why is quicksort often faster than merge sort despite same O(n log n)?</div><div class="qa-a"><p>In-place (better cache locality), lower constant factors, no extra O(n) memory. Pivot quality influences performance.</p></div></div>
+          <div class="qa-item"><div class="qa-q">Difference between recursion and backtracking?</div><div class="qa-a"><p>Backtracking is structured recursion where you explore a decision space, undo (backtrack) partial choices to search alternatives systematically.</p></div></div>
+          <div class="qa-item"><div class="qa-q">When to use a heap over sorting entire data?</div><div class="qa-a"><p>When you only need top k elements or a streaming running min/max. Reduces cost from sorting all n to maintaining size k (O(n log k)).</p></div></div>
+          <div class="qa-item"><div class="qa-q">Dynamic programming vs memoization?</div><div class="qa-a"><p>DP often refers to bottom-up table fill order; memoization is top-down caching. Both exploit overlapping subproblems; choice influenced by natural recurrence direction & need for full table.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <p>&copy; 2025 OpenSource Tech Guides – Data Structures & Algorithms Essentials.</p>
+  <p><a href="index.html" style="color:var(--accent-alt); text-decoration:none;">Return to Portal</a></p>
+</footer>
+<script>
+// Copy buttons
+ document.querySelectorAll('[data-copy]').forEach(btn=>{btn.addEventListener('click',()=>{const code=btn.nextElementSibling.innerText;navigator.clipboard.writeText(code);btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy',1400);});});
+// Q&A toggle
+ document.querySelectorAll('.qa-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+// Checklist persistence
+ const STORAGE_KEY='ds_algo_checklist_v1';
+ const tasks=[...document.querySelectorAll('[data-task]')];
+ const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
+ tasks.forEach((cb,i)=>{ if(saved[i]){ cb.checked=true; cb.parentElement.classList.add('completed'); } cb.addEventListener('change',()=>{cb.parentElement.classList.toggle('completed',cb.checked); saved[i]=cb.checked; localStorage.setItem(STORAGE_KEY,JSON.stringify(saved)); updateCompletion(); });});
+ function updateCompletion(){ const done=tasks.filter(t=>t.checked).length; localStorage.setItem('progress:ds-algo',(done/tasks.length).toFixed(2)); notifyPortal(); }
+ updateCompletion();
+ function notifyPortal(){ const evt=new CustomEvent('guideProgressUpdate',{detail:{guide:'ds-algo'}}); window.dispatchEvent(evt); }
+
+// Complexity estimator
+ function estimateComplexity(){ const n=parseInt(document.getElementById('nInput').value||''); if(!n||n<=0){ complexityOut.textContent='Enter positive integer'; return; } const rows=[['O(1)',1],['O(log n)',Math.log2(n).toFixed(2)],['O(n)',n],['O(n log n)',(n*Math.log2(n)).toFixed(2)],['O(n^2)',n*n],['O(2^log n)',Math.pow(2,Math.log2(n)).toFixed(0)],['O(2^n)',(n>25?'(huge)':Math.pow(2,n))]]; let out='n = '+n+'\n'; rows.forEach(r=> out+=r[0].padEnd(10)+' ≈ '+r[1]+'\n'); complexityOut.textContent=out; }
+ window.estimateComplexity=estimateComplexity;
+
+// Sorting algorithms (simplified step capture)
+ function bubble(arr,steps){ let a=[...arr]; for(let i=0;i<a.length;i++){ for(let j=0;j<a.length-1-i;j++){ if(a[j]>a[j+1]) [a[j],a[j+1]]=[a[j+1],a[j]]; steps.push('swap '+j+','+(j+1)+' -> '+a.join(',')); } } return a; }
+ function insertion(arr,steps){ let a=[...arr]; for(let i=1;i<a.length;i++){ let key=a[i],j=i-1; while(j>=0 && a[j]>key){ a[j+1]=a[j]; j--; steps.push('shift -> '+a.join(',')); } a[j+1]=key; steps.push('insert '+key+' -> '+a.join(',')); } return a; }
+ function mergeSort(arr,steps){ if(arr.length<=1) return arr; const mid=Math.floor(arr.length/2); const left=mergeSort(arr.slice(0,mid),steps); const right=mergeSort(arr.slice(mid),steps); let i=0,j=0,res=[]; while(i<left.length&&j<right.length){ if(left[i]<right[j]) res.push(left[i++]); else res.push(right[j++]); } res=[...res,...left.slice(i),...right.slice(j)]; steps.push('merge -> '+res.join(',')); return res; }
+ function runSort(){ const raw=sortInput.value.trim(); if(!raw){ sortOut.textContent='(provide numbers)'; return; } const arr=raw.split(/[,\s]+/).map(Number).filter(n=>!isNaN(n)); const algo=algoSelect.value; const steps=[]; let sorted=[]; if(algo==='bubble') sorted=bubble(arr,steps); else if(algo==='insertion') sorted=insertion(arr,steps); else sorted=mergeSort(arr,steps); sortOut.textContent='steps:\n'+steps.join('\n')+'\nfinal:'+sorted.join(','); }
+ window.runSort=runSort;
+
+// Graph traversal
+ function parseGraph(str){ const map={}; str.split(/;|\n/).map(s=>s.trim()).filter(Boolean).forEach(pair=>{ const [node,rest]=pair.split(':'); const adj=(rest||'').split(/,/).map(x=>x.trim()).filter(Boolean); map[node.trim()]=adj; }); return map; }
+ function bfs(g,start){ const q=[start], seen=new Set([start]), order=[]; while(q.length){ const v=q.shift(); order.push(v); (g[v]||[]).forEach(n=>{ if(!seen.has(n)){ seen.add(n); q.push(n);} }); } return order; }
+ function dfs(g,start){ const stack=[start], seen=new Set(), order=[]; while(stack.length){ const v=stack.pop(); if(seen.has(v)) continue; seen.add(v); order.push(v); const adj=[...(g[v]||[])].reverse(); adj.forEach(n=>{ if(!seen.has(n)) stack.push(n); }); } return order; }
+ function runTraversal(){ const g=parseGraph(graphInput.value); const start=Object.keys(g)[0]; if(!start){ traversalOut.textContent='(invalid graph input)'; return; } const method=traversalSelect.value; const order=(method==='bfs'?bfs(g,start):dfs(g,start)); traversalOut.textContent=method.toUpperCase()+': '+order.join(' -> '); }
+ window.runTraversal=runTraversal;
+</script>
+</body>
+</html>

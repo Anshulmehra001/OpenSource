@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ultimate Microsoft Word Mastery Guide</title>
+    <style>
+        /* --- General Styling & Layout --- */
+        :root {
+            --primary-color: #0d1117;
+            --secondary-color: #161b22;
+            --word-accent: #2b579a; /* Microsoft Word Blue */
+            --word-secondary: #1f4788;
+            --green-accent: #238636;
+            --red-accent: #da3633;
+            --yellow-accent: #e3b341;
+            --text-color: #c9d1d9;
+            --border-color: #30363d;
+            --header-font: 'Poppins', sans-serif;
+            --body-font: 'Roboto', sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;700&display=swap');
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--body-font);
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            background-color: rgba(22, 27, 34, 0.8);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-family: var(--header-font);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--word-accent);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--word-accent);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(135deg, var(--word-accent), var(--word-secondary));
+            padding: 4rem 0;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-family: var(--header-font);
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-description {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* --- Content Sections --- */
+        .content-section {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-family: var(--header-font);
+            font-size: 2.5rem;
+            color: var(--word-accent);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        }
+
+        /* --- Cards Grid --- */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--word-accent), var(--word-secondary));
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(43, 87, 154, 0.2);
+            border-color: var(--word-accent);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card h3 {
+            font-family: var(--header-font);
+            color: var(--word-accent);
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+
+        /* --- Feature Lists --- */
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .feature-item {
+            background-color: rgba(43, 87, 154, 0.1);
+            border-left: 4px solid var(--word-accent);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .feature-item h4 {
+            color: var(--word-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Step by Step Guide --- */
+        .step-guide {
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: rgba(43, 87, 154, 0.05);
+        }
+
+        .step-number {
+            background: var(--word-accent);
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            color: var(--word-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Tips & Tricks --- */
+        .tip-box {
+            background: linear-gradient(135deg, rgba(43, 87, 154, 0.1), rgba(31, 71, 136, 0.1));
+            border: 1px solid var(--word-accent);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .tip-box::before {
+            content: '💡';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background-color: var(--secondary-color);
+            padding: 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .tip-title {
+            color: var(--word-accent);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Keyboard Shortcuts --- */
+        .shortcut-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .shortcut-item {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .shortcut-key {
+            background-color: var(--word-accent);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        /* --- Document Templates --- */
+        .template-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .template-card {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--word-accent);
+        }
+
+        .template-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
+
+            .shortcut-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- Scroll to Top Button --- */
+        .scroll-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--word-accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(43, 87, 154, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <a href="#" class="logo">📝 Word Mastery</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#basics">Basics</a></li>
+                    <li><a href="#formatting">Formatting</a></li>
+                    <li><a href="#advanced">Advanced</a></li>
+                    <li><a href="#templates">Templates</a></li>
+                    <li><a href="#shortcuts">Shortcuts</a></li>
+                    <li><a href="#tips">Pro Tips</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>The Ultimate Microsoft Word Guide</h1>
+            <p class="hero-subtitle">Master Document Creation & Professional Writing</p>
+            <p class="hero-description">
+                Become a Microsoft Word expert with our comprehensive guide covering everything from basic document 
+                creation to advanced formatting, mail merge, macros, and professional document design. Perfect for 
+                students, professionals, and anyone who wants to create stunning documents efficiently.
+            </p>
+        </div>
+    </section>
+
+    <!-- Word Basics Section -->
+    <section class="content-section" id="basics">
+        <div class="container">
+            <h2 class="section-title">Word Fundamentals</h2>
+            <p class="section-subtitle">Master the essential building blocks of Microsoft Word</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <span class="card-icon">📄</span>
+                    <h3>Document Basics</h3>
+                    <p>Learn to create, open, save, and manage Word documents. Understand the interface, ribbons, and basic navigation.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">⌨️</span>
+                    <h3>Text Entry & Editing</h3>
+                    <p>Master efficient typing, text selection, copy/paste, find & replace, and basic editing techniques for productivity.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">📐</span>
+                    <h3>Page Setup & Layout</h3>
+                    <p>Configure margins, page orientation, paper size, headers/footers, and page breaks for professional documents.</p>
+                </div>
+            </div>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h4>Document Views</h4>
+                    <p>Print Layout, Web Layout, Outline, Draft views for different editing purposes</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Zoom & Navigation</h4>
+                    <p>Zoom controls, Navigation Pane, Go To function for large documents</p>
+                </div>
+                <div class="feature-item">
+                    <h4>AutoSave & Versions</h4>
+                    <p>Automatic saving, document recovery, version history management</p>
+                </div>
+                <div class="feature-item">
+                    <h4>File Formats</h4>
+                    <p>.docx, .pdf, .rtf, .txt formats and their appropriate use cases</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formatting Section -->
+    <section class="content-section" id="formatting">
+        <div class="container">
+            <h2 class="section-title">Text Formatting & Styling</h2>
+            <p class="section-subtitle">Create professional-looking documents with advanced formatting</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <span class="card-icon">🎨</span>
+                    <h3>Character Formatting</h3>
+                    <p>Font selection, size, color, bold, italic, underline, subscript, superscript, and text effects for emphasis.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">📝</span>
+                    <h3>Paragraph Formatting</h3>
+                    <p>Alignment, indentation, spacing, line breaks, and paragraph borders for structured content.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">📋</span>
+                    <h3>Styles & Themes</h3>
+                    <p>Built-in styles, custom styles, style sets, and document themes for consistent formatting.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">📊</span>
+                    <h3>Lists & Numbering</h3>
+                    <p>Bullet points, numbered lists, multilevel lists, and custom numbering schemes.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">📐</span>
+                    <h3>Tables & Columns</h3>
+                    <p>Insert tables, format cells, merge/split cells, table styles, and newspaper-style columns.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🖼️</span>
+                    <h3>Images & Graphics</h3>
+                    <p>Insert pictures, shapes, SmartArt, charts, text wrapping, and image formatting options.</p>
+                </div>
+            </div>
+
+            <div class="step-guide">
+                <h3>Step-by-Step: Creating Professional Headers</h3>
+                
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Insert Header</h4>
+                        <p>Go to Insert → Header & Footer → Header → Choose a header style</p>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Add Content</h4>
+                        <p>Type your document title, add page numbers, date, or company logo</p>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Format Text</h4>
+                        <p>Select text and apply formatting: font, size, color, alignment</p>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Close Header</h4>
+                        <p>Click "Close Header and Footer" or double-click in the document body</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-title">Formatting Tip</div>
+                <p>Use Styles instead of manual formatting! Create a custom style once and apply it consistently throughout your document. This saves time and ensures uniform appearance.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Features Section -->
+    <section class="content-section" id="advanced">
+        <div class="container">
+            <h2 class="section-title">Advanced Word Features</h2>
+            <p class="section-subtitle">Master professional document creation tools</p>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <span class="card-icon">📑</span>
+                    <h3>Table of Contents</h3>
+                    <p>Automatic TOC generation, custom styles, clickable navigation, and updating content dynamically.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">📧</span>
+                    <h3>Mail Merge</h3>
+                    <p>Create personalized letters, emails, labels, and envelopes using data from Excel or other sources.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🔗</span>
+                    <h3>References & Citations</h3>
+                    <p>Footnotes, endnotes, bibliography, cross-references, and academic citation styles (APA, MLA).</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🔍</span>
+                    <h3>Review & Comments</h3>
+                    <p>Track changes, add comments, compare documents, and collaborate with multiple reviewers.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🔧</span>
+                    <h3>Forms & Fields</h3>
+                    <p>Create fillable forms, text fields, checkboxes, dropdown lists, and protect form structure.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">⚡</span>
+                    <h3>Macros & Automation</h3>
+                    <p>Record macros, automate repetitive tasks, and create custom commands for efficiency.</p>
+                </div>
+            </div>
+
+            <div class="step-guide">
+                <h3>Creating an Automatic Table of Contents</h3>
+                
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Apply Heading Styles</h4>
+                        <p>Select your headings and apply Heading 1, Heading 2, Heading 3 styles from the Home ribbon</p>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Position Cursor</h4>
+                        <p>Click where you want the Table of Contents (usually at the beginning of your document)</p>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Insert TOC</h4>
+                        <p>Go to References → Table of Contents → Choose an automatic style</p>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Update TOC</h4>
+                        <p>Right-click the TOC and select "Update Field" whenever you make changes to headings</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Templates Section -->
+    <section class="content-section" id="templates">
+        <div class="container">
+            <h2 class="section-title">Document Templates</h2>
+            <p class="section-subtitle">Professional templates for every need</p>
+
+            <div class="template-showcase">
+                <div class="template-card">
+                    <span class="template-icon">📄</span>
+                    <h3>Resume/CV</h3>
+                    <p>Professional resume templates with modern designs and ATS-friendly formatting.</p>
+                </div>
+
+                <div class="template-card">
+                    <span class="template-icon">💼</span>
+                    <h3>Business Letter</h3>
+                    <p>Formal business correspondence with proper letterhead and professional layout.</p>
+                </div>
+
+                <div class="template-card">
+                    <span class="template-icon">📊</span>
+                    <h3>Report Template</h3>
+                    <p>Structured reports with cover pages, executive summary, and professional formatting.</p>
+                </div>
+
+                <div class="template-card">
+                    <span class="template-icon">📋</span>
+                    <h3>Meeting Minutes</h3>
+                    <p>Organized templates for recording meeting discussions, decisions, and action items.</p>
+                </div>
+
+                <div class="template-card">
+                    <span class="template-icon">📑</span>
+                    <h3>Academic Paper</h3>
+                    <p>Research papers with proper citations, formatting for APA/MLA styles.</p>
+                </div>
+
+                <div class="template-card">
+                    <span class="template-icon">🎉</span>
+                    <h3>Event Flyer</h3>
+                    <p>Eye-catching flyers and invitations with graphics and professional layouts.</p>
+                </div>
+            </div>
+
+            <div class="step-guide">
+                <h3>Creating Your Custom Template</h3>
+                
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Design Document</h4>
+                        <p>Create your document with all formatting, styles, and placeholder content</p>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Save as Template</h4>
+                        <p>File → Save As → Choose "Word Template (*.dotx)" as file type</p>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Choose Location</h4>
+                        <p>Save to Templates folder or custom location for easy access</p>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Use Template</h4>
+                        <p>File → New → Search for your template or browse Personal templates</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Keyboard Shortcuts Section -->
+    <section class="content-section" id="shortcuts">
+        <div class="container">
+            <h2 class="section-title">Essential Keyboard Shortcuts</h2>
+            <p class="section-subtitle">Speed up your Word workflow with these time-saving shortcuts</p>
+
+            <div class="shortcut-grid">
+                <div class="shortcut-item">
+                    <span>New Document</span>
+                    <span class="shortcut-key">Ctrl + N</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Open Document</span>
+                    <span class="shortcut-key">Ctrl + O</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Save Document</span>
+                    <span class="shortcut-key">Ctrl + S</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Print Document</span>
+                    <span class="shortcut-key">Ctrl + P</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Bold Text</span>
+                    <span class="shortcut-key">Ctrl + B</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Italic Text</span>
+                    <span class="shortcut-key">Ctrl + I</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Underline Text</span>
+                    <span class="shortcut-key">Ctrl + U</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Find Text</span>
+                    <span class="shortcut-key">Ctrl + F</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Replace Text</span>
+                    <span class="shortcut-key">Ctrl + H</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Select All</span>
+                    <span class="shortcut-key">Ctrl + A</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Undo Action</span>
+                    <span class="shortcut-key">Ctrl + Z</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Redo Action</span>
+                    <span class="shortcut-key">Ctrl + Y</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Center Align</span>
+                    <span class="shortcut-key">Ctrl + E</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Left Align</span>
+                    <span class="shortcut-key">Ctrl + L</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Right Align</span>
+                    <span class="shortcut-key">Ctrl + R</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Justify Text</span>
+                    <span class="shortcut-key">Ctrl + J</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Insert Hyperlink</span>
+                    <span class="shortcut-key">Ctrl + K</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Page Break</span>
+                    <span class="shortcut-key">Ctrl + Enter</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Spell Check</span>
+                    <span class="shortcut-key">F7</span>
+                </div>
+
+                <div class="shortcut-item">
+                    <span>Thesaurus</span>
+                    <span class="shortcut-key">Shift + F7</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pro Tips Section -->
+    <section class="content-section" id="tips">
+        <div class="container">
+            <h2 class="section-title">Pro Tips & Best Practices</h2>
+            <p class="section-subtitle">Expert techniques for professional document creation</p>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h4>Use Styles Consistently</h4>
+                    <p>Create and use paragraph styles for headings, body text, and special formatting to maintain consistency</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Master Navigation Pane</h4>
+                    <p>Use View → Navigation Pane to quickly jump between headings in long documents</p>
+                </div>
+                <div class="feature-item">
+                    <h4>AutoCorrect Customization</h4>
+                    <p>Add commonly misspelled words and create shortcuts for frequently used text</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Quick Parts Library</h4>
+                    <p>Save frequently used text blocks, headers, and signatures as Quick Parts for instant insertion</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Document Comparison</h4>
+                    <p>Use Review → Compare to see differences between document versions side by side</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Password Protection</h4>
+                    <p>Protect sensitive documents with passwords: File → Info → Protect Document</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-title">Performance Tip</div>
+                <p>For large documents with many images, use "Link to File" instead of embedding images to keep file size manageable and improve performance.</p>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-title">Collaboration Tip</div>
+                <p>Use "Track Changes" when collaborating. Enable it from Review → Track Changes, and all edits will be recorded for review and approval.</p>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-title">Accessibility Tip</div>
+                <p>Use the Accessibility Checker (Review → Check Accessibility) to ensure your documents are readable by screen readers and assistive technologies.</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <span class="card-icon">⚡</span>
+                    <h3>Productivity Hacks</h3>
+                    <p>AutoText, Building Blocks, and macros to automate repetitive tasks and speed up document creation.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🎯</span>
+                    <h3>Professional Design</h3>
+                    <p>Typography principles, white space usage, and visual hierarchy for documents that make an impact.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🔒</span>
+                    <h3>Security Features</h3>
+                    <p>Document encryption, digital signatures, and access controls to protect sensitive information.</p>
+                </div>
+
+                <div class="card">
+                    <span class="card-icon">🌐</span>
+                    <h3>Cloud Integration</h3>
+                    <p>OneDrive integration, real-time collaboration, and sharing options for modern workflows.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" onclick="scrollToTop()">↑</button>
+
+    <script>
+        // Scroll to top functionality
+        window.onscroll = function() {
+            const scrollTop = document.querySelector('.scroll-top');
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        };
+
+        function scrollToTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe cards for animation
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

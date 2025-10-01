@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>API Design & Development Guide – OpenSource Tech Guides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+:root { --accent:#9c27b0; --accent-alt:#ba68c8; --accent-grad:linear-gradient(135deg,#7b1fa2,#9c27b0 55%,#ba68c8); --bg:#0f0f17; --bg-alt:#1a1a2e; --panel:#252544; --border:#383861; --code:#141420; --text:#e8eaed; --text-soft:#a0a3bd; --radius:15px; --mono:'JetBrains Mono',monospace; }
+body { margin:0; font-family:'Roboto',sans-serif; background:var(--bg); color:var(--text); line-height:1.65; }
+header { position:sticky; top:0; background:rgba(15,15,23,.86); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); z-index:60; }
+nav { max-width:1250px; margin:0 auto; padding:.85rem 1.4rem; display:flex; justify-content:space-between; align-items:center; }
+.logo { font-family:'Poppins'; font-weight:700; font-size:1.15rem; text-decoration:none; background:var(--accent-grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+ul.menu { list-style:none; display:flex; gap:1rem; margin:0; padding:0; }
+ul.menu a { color:var(--text-soft); font-size:.68rem; font-weight:600; letter-spacing:.55px; padding:.45rem .75rem; border-radius:8px; text-decoration:none; }
+ul.menu a:hover, ul.menu a.active { background:var(--panel); color:var(--text); }
+.hero { padding:4.9rem 1.5rem 3rem; background:radial-gradient(circle at 25% 25%,rgba(156,39,176,.28),transparent 60%), radial-gradient(circle at 78% 60%,rgba(186,104,200,.18),transparent 70%); }
+.hero-inner { max-width:1150px; margin:0 auto; }
+.hero h1 { font-family:'Poppins'; font-size:clamp(2.4rem,5vw,3.7rem); margin:.3rem 0 1rem; line-height:1.04; background:var(--accent-grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.hero p.lead { font-size:1.05rem; max-width:920px; color:var(--text-soft); margin:0 0 1.25rem; }
+.meta { display:flex; flex-wrap:wrap; gap:.6rem; }
+.meta span { background:var(--panel); border:1px solid var(--border); font-size:.6rem; letter-spacing:.65px; padding:.45rem .7rem; border-radius:40px; color:var(--text-soft); font-weight:600; }
+section { padding:3rem 1.5rem; }
+section.alt { background:var(--bg-alt); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.container { max-width:1170px; margin:0 auto; }
+.section-header h2 { margin:0 0 .6rem; font-family:'Poppins'; font-size:2.05rem; letter-spacing:.5px; }
+.section-header p { margin:0 0 1rem; color:var(--text-soft); }
+.grid { display:grid; gap:1.3rem; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); }
+.card { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1.2rem 1.1rem 1.35rem; }
+.card h3 { margin:.2rem 0 .7rem; font-size:1.05rem; }
+.card p { margin:0; font-size:.72rem; color:var(--text-soft); line-height:1.45; }
+.card ul { margin:.6rem 0 0; padding-left:1.2rem; font-size:.7rem; }
+.card li { margin:.4rem 0; }
+.tag-row { display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.6rem; }
+.tag { background:#4a148c; border:1px solid var(--border); font-size:.5rem; padding:.3rem .5rem; letter-spacing:.55px; text-transform:uppercase; border-radius:6px; color:var(--text-soft); }
+.split { display:grid; gap:1.7rem; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); align-items:start; }
+.panel { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1.2rem 1.1rem 1.35rem; }
+.panel h3 { margin:.15rem 0 .8rem; font-size:1.1rem; }
+.panel ul { margin:.3rem 0 0; padding-left:1.2rem; }
+.panel li { margin:.5rem 0; font-size:.75rem; }
+pre { background:var(--code); border:1px solid var(--border); padding:1.1rem 1.1rem 1.25rem; border-radius:12px; overflow:auto; font-family:var(--mono); font-size:.74rem; line-height:1.4; position:relative; }
+.copy-btn { position:absolute; top:8px; right:8px; background:#1e1e2f; border:1px solid var(--border); font-size:.55rem; color:var(--text-soft); padding:.25rem .55rem; border-radius:6px; cursor:pointer; }
+.copy-btn:hover { color:var(--text); border-color:var(--accent-alt); }
+.inline { background:var(--code); padding:.2rem .45rem; border-radius:6px; font-family:var(--mono); font-size:.65rem; }
+.lab { display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); margin-top:.9rem; }
+.tool { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1rem 1rem 1.2rem; }
+.tool h4 { margin:.2rem 0 .6rem; font-size:.95rem; }
+.tool textarea, .tool input, .tool select { width:100%; background:var(--code); color:var(--text); border:1px solid var(--border); font-family:var(--mono); font-size:.65rem; padding:.55rem .6rem; border-radius:8px; resize:vertical; }
+.tool textarea { min-height:120px; }
+.tool button { background:var(--accent); border:none; color:#fff; font-size:.6rem; font-weight:600; letter-spacing:.5px; padding:.5rem .9rem; border-radius:8px; margin-top:.5rem; cursor:pointer; }
+.output { background:#141420; border:1px solid var(--border); padding:.6rem .7rem; min-height:80px; font-family:var(--mono); font-size:.64rem; border-radius:8px; margin-top:.6rem; white-space:pre-wrap; overflow:auto; }
+.checklist { display:grid; gap:.55rem; margin-top:.8rem; }
+.check-item { background:var(--panel); border:1px solid var(--border); padding:.6rem .7rem .65rem 2.1rem; border-radius:10px; position:relative; font-size:.68rem; cursor:pointer; line-height:1.4; }
+.check-item input { position:absolute; left:.75rem; top:50%; transform:translateY(-50%); width:15px; height:15px; }
+.check-item.completed { border-color:#9c27b0; background:linear-gradient(130deg,rgba(156,39,176,.18),transparent); }
+.qa-item { border:1px solid var(--border); border-radius:12px; background:var(--panel); margin:.8rem 0; overflow:hidden; }
+.qa-q { margin:0; padding:.8rem 1rem; font-weight:600; font-size:.65rem; cursor:pointer; position:relative; }
+.qa-q:after { content:'+'; position:absolute; right:15px; top:50%; transform:translateY(-50%); }
+.qa-item.open .qa-q:after { content:'−'; }
+.qa-a { max-height:0; overflow:hidden; transition:max-height .5s ease; padding:0 1rem; }
+.qa-item.open .qa-a { max-height:600px; padding:0 1rem .8rem; }
+.qa-a p { margin:.6rem 0 0; font-size:.62rem; color:var(--text-soft); }
+footer { text-align:center; padding:3rem 1.5rem 4rem; background:var(--bg-alt); margin-top:3.2rem; border-top:1px solid var(--border); }
+footer p { margin:.35rem 0; font-size:.62rem; color:var(--text-soft); }
+.status-grid { display:grid; gap:.8rem; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); margin:1rem 0; }
+.status-card { background:var(--panel); border:1px solid var(--border); padding:.8rem; border-radius:8px; text-align:center; }
+.status-code { font-size:1.2rem; font-weight:700; margin-bottom:.3rem; }
+.status-2xx { color:#4caf50; }
+.status-3xx { color:#ff9800; }
+.status-4xx { color:#f44336; }
+.status-5xx { color:#9c27b0; }
+@media (max-width:760px){ .hero { padding:4.3rem 1.15rem 2.7rem; } .grid { grid-template-columns:1fr; } .split { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <nav>
+    <a class="logo" href="index.html">🚀 API Guide</a>
+    <ul class="menu">
+      <li><a href="#design" class="active">Design</a></li>
+      <li><a href="#rest">REST</a></li>
+      <li><a href="#graphql">GraphQL</a></li>
+      <li><a href="#auth">Auth</a></li>
+      <li><a href="#testing">Testing</a></li>
+      <li><a href="#docs">Docs</a></li>
+      <li><a href="#lab">Lab</a></li>
+      <li><a href="#review">Review</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1>API Design & Development</h1>
+    <p class="lead">Master modern API development: RESTful design patterns, GraphQL implementation, authentication strategies, testing methodologies, documentation, and performance optimization techniques.</p>
+    <div class="meta"><span>REST</span><span>GraphQL</span><span>OAuth</span><span>Testing</span><span>Documentation</span><span>Performance</span></div>
+  </div>
+</section>
+
+<section id="design">
+  <div class="container">
+    <div class="section-header"><h2>1. API Design Principles</h2><p>Foundational concepts for creating maintainable, scalable, and developer-friendly APIs.</p></div>
+    <div class="grid">
+      <div class="card">
+        <h3>Design-First Approach</h3>
+        <p>Start with API specification before implementation to ensure consistency and enable parallel development.</p>
+        <ul>
+          <li>Define API contract using OpenAPI/Swagger</li>
+          <li>Validate design with stakeholders early</li>
+          <li>Generate client SDKs and server stubs</li>
+          <li>Mock APIs for frontend development</li>
+          <li>Version control API specifications</li>
+        </ul>
+        <div class="tag-row"><span class="tag">Strategy</span></div>
+      </div>
+      
+      <div class="card">
+        <h3>Resource-Oriented Design</h3>
+        <p>Model APIs around resources (nouns) rather than actions (verbs) for intuitive and predictable interfaces.</p>
+        <ul>
+          <li>Use clear, consistent resource names</li>
+          <li>Implement standard CRUD operations</li>
+          <li>Support resource hierarchies and relationships</li>
+          <li>Use appropriate HTTP methods</li>
+          <li>Design for idempotency where applicable</li>
+        </ul>
+        <div class="tag-row"><span class="tag">Resources</span></div>
+      </div>
+      
+      <div class="card">
+        <h3>Consistency & Standards</h3>
+        <p>Establish and follow conventions across all API endpoints for predictable developer experience.</p>
+        <ul>
+          <li>Consistent naming conventions (camelCase/snake_case)</li>
+          <li>Standard error response formats</li>
+          <li>Uniform pagination patterns</li>
+          <li>Common filtering and sorting parameters</li>
+          <li>Standardized date/time formats (ISO 8601)</li>
+        </ul>
+        <div class="tag-row"><span class="tag">Standards</span></div>
+      </div>
+      
+      <div class="card">
+        <h3>Versioning Strategy</h3>
+        <p>Plan for API evolution without breaking existing clients through thoughtful versioning approaches.</p>
+        <ul>
+          <li>URL versioning: /v1/users, /v2/users</li>
+          <li>Header versioning: Accept: application/vnd.api+json;version=1</li>
+          <li>Semantic versioning for breaking changes</li>
+          <li>Backward compatibility considerations</li>
+          <li>Deprecation policies and migration paths</li>
+        </ul>
+        <div class="tag-row"><span class="tag">Versioning</span></div>
+      </div>
+      
+      <div class="card">
+        <h3>Error Handling</h3>
+        <p>Provide clear, actionable error messages with appropriate HTTP status codes and consistent structure.</p>
+        <ul>
+          <li>Use appropriate HTTP status codes</li>
+          <li>Structured error response format</li>
+          <li>Human-readable error messages</li>
+          <li>Error codes for programmatic handling</li>
+          <li>Validation error details</li>
+        </ul>
+        <div class="tag-row"><span class="tag">Errors</span></div>
+      </div>
+      
+      <div class="card">
+        <h3>Performance Considerations</h3>
+        <p>Design APIs with performance in mind: efficient data transfer, caching, and scalability patterns.</p>
+        <ul>
+          <li>Implement pagination for large datasets</li>
+          <li>Support field selection (sparse fieldsets)</li>
+          <li>Use compression (gzip, brotli)</li>
+          <li>HTTP caching headers and ETags</li>
+          <li>Rate limiting and throttling</li>
+        </ul>
+        <div class="tag-row"><span class="tag">Performance</span></div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2.5rem">HTTP Status Code Reference</h3>
+    <div class="status-grid">
+      <div class="status-card"><div class="status-code status-2xx">200</div>OK - Success</div>
+      <div class="status-card"><div class="status-code status-2xx">201</div>Created</div>
+      <div class="status-card"><div class="status-code status-2xx">204</div>No Content</div>
+      <div class="status-card"><div class="status-code status-3xx">301</div>Moved Permanently</div>
+      <div class="status-card"><div class="status-code status-3xx">304</div>Not Modified</div>
+      <div class="status-card"><div class="status-code status-4xx">400</div>Bad Request</div>
+      <div class="status-card"><div class="status-code status-4xx">401</div>Unauthorized</div>
+      <div class="status-card"><div class="status-code status-4xx">403</div>Forbidden</div>
+      <div class="status-card"><div class="status-code status-4xx">404</div>Not Found</div>
+      <div class="status-card"><div class="status-code status-4xx">422</div>Unprocessable Entity</div>
+      <div class="status-card"><div class="status-code status-4xx">429</div>Too Many Requests</div>
+      <div class="status-card"><div class="status-code status-5xx">500</div>Internal Server Error</div>
+    </div>
+  </div>
+</section>
+
+<section id="rest" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>2. RESTful API Development</h2><p>Deep dive into REST architecture principles and implementation best practices.</p></div>
+    
+    <div class="split">
+      <div class="panel">
+        <h3>REST Constraints</h3>
+        <ul>
+          <li><strong>Client-Server:</strong> Separation of concerns</li>
+          <li><strong>Stateless:</strong> Each request contains all needed info</li>
+          <li><strong>Cacheable:</strong> Responses explicitly cacheable or not</li>
+          <li><strong>Uniform Interface:</strong> Consistent interaction patterns</li>
+          <li><strong>Layered System:</strong> Hierarchical architecture</li>
+          <li><strong>Code on Demand:</strong> Optional client-side execution</li>
+        </ul>
+      </div>
+      
+      <div class="panel">
+        <h3>HTTP Methods Usage</h3>
+        <ul>
+          <li><strong>GET:</strong> Retrieve resource(s), idempotent, cacheable</li>
+          <li><strong>POST:</strong> Create resource, non-idempotent</li>
+          <li><strong>PUT:</strong> Create/replace resource, idempotent</li>
+          <li><strong>PATCH:</strong> Partial update, not necessarily idempotent</li>
+          <li><strong>DELETE:</strong> Remove resource, idempotent</li>
+          <li><strong>HEAD:</strong> GET without response body</li>
+          <li><strong>OPTIONS:</strong> Discover allowed methods</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2rem">RESTful API Example</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>// User Management API
+
+// Get all users (with pagination)
+GET /api/v1/users?page=1&limit=20&sort=created_at&order=desc
+Response: 200 OK
+{
+  "data": [
+    {
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "email": "user@example.com",
+      "name": "John Doe",
+      "created_at": "2023-10-01T12:00:00Z",
+      "updated_at": "2023-10-15T14:30:00Z"
+    }
+  ],
+  "pagination": {
+    "current_page": 1,
+    "per_page": 20,
+    "total_pages": 5,
+    "total_count": 100
+  },
+  "links": {
+    "next": "/api/v1/users?page=2&limit=20",
+    "last": "/api/v1/users?page=5&limit=20"
+  }
+}
+
+// Get specific user
+GET /api/v1/users/123e4567-e89b-12d3-a456-426614174000
+Response: 200 OK
+{
+  "data": {
+    "id": "123e4567-e89b-12d3-a456-426614174000",
+    "email": "user@example.com",
+    "name": "John Doe",
+    "profile": {
+      "bio": "Software Developer",
+      "avatar_url": "https://example.com/avatars/123.jpg"
+    },
+    "created_at": "2023-10-01T12:00:00Z",
+    "updated_at": "2023-10-15T14:30:00Z"
+  }
+}
+
+// Create new user
+POST /api/v1/users
+Content-Type: application/json
+{
+  "email": "newuser@example.com",
+  "name": "Jane Smith",
+  "password": "securePassword123!"
+}
+Response: 201 Created
+Location: /api/v1/users/456e7890-e89b-12d3-a456-426614174001
+
+// Update user
+PATCH /api/v1/users/123e4567-e89b-12d3-a456-426614174000
+Content-Type: application/json
+{
+  "name": "John Smith"
+}
+Response: 200 OK
+
+// Delete user
+DELETE /api/v1/users/123e4567-e89b-12d3-a456-426614174000
+Response: 204 No Content
+
+// Error response example
+GET /api/v1/users/invalid-id
+Response: 400 Bad Request
+{
+  "error": {
+    "code": "INVALID_USER_ID",
+    "message": "User ID must be a valid UUID",
+    "details": {
+      "field": "id",
+      "provided": "invalid-id"
+    }
+  }
+}</code></pre>
+
+    <h3 style="margin-top:2rem">Advanced REST Patterns</h3>
+    <div class="grid">
+      <div class="card">
+        <h3>HATEOAS</h3>
+        <p>Hypermedia as the Engine of Application State - Include navigation links in responses.</p>
+        <ul>
+          <li>Self-descriptive messages</li>
+          <li>Discoverable API navigation</li>
+          <li>Reduced client-server coupling</li>
+          <li>Dynamic relationship exploration</li>
+        </ul>
+      </div>
+      
+      <div class="card">
+        <h3>Content Negotiation</h3>
+        <p>Support multiple representation formats based on client preferences.</p>
+        <ul>
+          <li>Accept header: application/json, text/xml</li>
+          <li>Accept-Language: en-US, es-ES</li>
+          <li>Accept-Encoding: gzip, deflate, br</li>
+          <li>Custom media types for versioning</li>
+        </ul>
+      </div>
+      
+      <div class="card">
+        <h3>Caching Strategies</h3>
+        <p>Implement HTTP caching for improved performance and reduced server load.</p>
+        <ul>
+          <li>Cache-Control headers</li>
+          <li>ETags for conditional requests</li>
+          <li>Last-Modified timestamps</li>
+          <li>Vary header for content negotiation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="graphql">
+  <div class="container">
+    <div class="section-header"><h2>3. GraphQL API Development</h2><p>Modern API approach with flexible queries, strong typing, and efficient data fetching.</p></div>
+    
+    <div class="split">
+      <div class="panel">
+        <h3>GraphQL Advantages</h3>
+        <ul>
+          <li>Single endpoint for all operations</li>
+          <li>Client-specified data requirements</li>
+          <li>Strong type system with schema</li>
+          <li>Real-time subscriptions</li>
+          <li>Introspection and tooling</li>
+          <li>Reduced over-fetching/under-fetching</li>
+        </ul>
+      </div>
+      
+      <div class="panel">
+        <h3>Core Concepts</h3>
+        <ul>
+          <li><strong>Schema:</strong> Type definitions and operations</li>
+          <li><strong>Queries:</strong> Read operations</li>
+          <li><strong>Mutations:</strong> Write operations</li>
+          <li><strong>Subscriptions:</strong> Real-time updates</li>
+          <li><strong>Resolvers:</strong> Data fetching functions</li>
+          <li><strong>Context:</strong> Shared request information</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2rem">GraphQL Schema Example</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code># GraphQL Schema Definition
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  posts: [Post!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  content: String!
+  author: User!
+  comments: [Comment!]!
+  publishedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Comment {
+  id: ID!
+  content: String!
+  author: User!
+  post: Post!
+  createdAt: DateTime!
+}
+
+type Query {
+  user(id: ID!): User
+  users(first: Int, after: String): UserConnection
+  post(id: ID!): Post
+  posts(
+    first: Int
+    after: String
+    filter: PostFilter
+    orderBy: PostOrderBy
+  ): PostConnection
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): CreateUserPayload!
+  updateUser(id: ID!, input: UpdateUserInput!): UpdateUserPayload!
+  deleteUser(id: ID!): DeleteUserPayload!
+  
+  createPost(input: CreatePostInput!): CreatePostPayload!
+  publishPost(id: ID!): PublishPostPayload!
+  addComment(input: AddCommentInput!): AddCommentPayload!
+}
+
+type Subscription {
+  postAdded(authorId: ID): Post
+  commentAdded(postId: ID!): Comment
+}
+
+input CreateUserInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
+input PostFilter {
+  authorId: ID
+  published: Boolean
+  search: String
+}
+
+enum PostOrderBy {
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  TITLE_ASC
+  TITLE_DESC
+}
+
+# Pagination types
+type UserConnection {
+  edges: [UserEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserEdge {
+  node: User!
+  cursor: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}</code></pre>
+
+    <h3 style="margin-top:2rem">GraphQL Query Examples</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code># Fetch user with posts and comments
+query GetUserWithPosts($userId: ID!) {
+  user(id: $userId) {
+    id
+    name
+    email
+    posts(first: 10) {
+      edges {
+        node {
+          id
+          title
+          publishedAt
+          comments(first: 5) {
+            edges {
+              node {
+                id
+                content
+                author {
+                  name
+                }
+                createdAt
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+# Create new post mutation
+mutation CreatePost($input: CreatePostInput!) {
+  createPost(input: $input) {
+    post {
+      id
+      title
+      content
+      author {
+        name
+      }
+      createdAt
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
+
+# Subscribe to new comments
+subscription CommentAdded($postId: ID!) {
+  commentAdded(postId: $postId) {
+    id
+    content
+    author {
+      name
+    }
+    createdAt
+  }
+}</code></pre>
+
+    <h3 style="margin-top:2rem">GraphQL Best Practices</h3>
+    <div class="grid">
+      <div class="card">
+        <h3>N+1 Problem Solutions</h3>
+        <ul>
+          <li>DataLoader for batching</li>
+          <li>Query complexity analysis</li>
+          <li>Depth limiting</li>
+          <li>Query allowlisting</li>
+        </ul>
+      </div>
+      
+      <div class="card">
+        <h3>Security Considerations</h3>
+        <ul>
+          <li>Query depth limiting</li>
+          <li>Query complexity scoring</li>
+          <li>Rate limiting per user/IP</li>
+          <li>Field-level authorization</li>
+        </ul>
+      </div>
+      
+      <div class="card">
+        <h3>Performance Optimization</h3>
+        <ul>
+          <li>Persistent queries</li>
+          <li>Automatic persisted queries (APQ)</li>
+          <li>Response caching</li>
+          <li>Federation for microservices</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="auth" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>4. Authentication & Authorization</h2><p>Secure API access with modern authentication patterns and authorization strategies.</p></div>
+    
+    <div class="split">
+      <div class="panel">
+        <h3>Authentication Methods</h3>
+        <ul>
+          <li><strong>JWT:</strong> Stateless tokens with claims</li>
+          <li><strong>OAuth 2.0:</strong> Delegated authorization</li>
+          <li><strong>API Keys:</strong> Simple service-to-service auth</li>
+          <li><strong>Session Cookies:</strong> Traditional web auth</li>
+          <li><strong>SAML:</strong> Enterprise single sign-on</li>
+          <li><strong>OpenID Connect:</strong> Identity layer over OAuth</li>
+        </ul>
+      </div>
+      
+      <div class="panel">
+        <h3>Authorization Patterns</h3>
+        <ul>
+          <li><strong>RBAC:</strong> Role-based access control</li>
+          <li><strong>ABAC:</strong> Attribute-based access control</li>
+          <li><strong>ACL:</strong> Access control lists</li>
+          <li><strong>Policy-based:</strong> Rule-driven decisions</li>
+          <li><strong>Resource-based:</strong> Object-level permissions</li>
+          <li><strong>Hierarchical:</strong> Inherited permissions</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2rem">JWT Authentication Implementation</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code># JWT Token Structure
+# Header.Payload.Signature
+
+# Header
+{
+  "alg": "RS256",
+  "typ": "JWT",
+  "kid": "key-id-1"
+}
+
+# Payload (Claims)
+{
+  "sub": "user-123",           # Subject (user ID)
+  "iss": "https://api.example.com",  # Issuer
+  "aud": "mobile-app",         # Audience
+  "exp": 1698765432,           # Expiration timestamp
+  "iat": 1698661432,           # Issued at timestamp
+  "jti": "token-uuid",         # JWT ID (for revocation)
+  "scope": "read write",       # Permissions
+  "roles": ["user", "premium"], # User roles
+  "email": "user@example.com"  # Custom claims
+}
+
+# Authentication Flow
+POST /api/v1/auth/login
+{
+  "email": "user@example.com",
+  "password": "securePassword123!"
+}
+
+Response: 200 OK
+{
+  "access_token": "eyJhbGciOiJSUzI1NiIs...",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "refresh_token": "refresh_token_value",
+  "scope": "read write"
+}
+
+# Using JWT in requests
+Authorization: Bearer eyJhbGciOiJSUzI1NiIs...
+
+# Token refresh
+POST /api/v1/auth/refresh
+{
+  "refresh_token": "refresh_token_value"
+}
+
+Response: 200 OK
+{
+  "access_token": "new_access_token",
+  "expires_in": 3600
+}</code></pre>
+
+    <h3 style="margin-top:2rem">OAuth 2.0 Flows</h3>
+    <div class="grid">
+      <div class="card">
+        <h3>Authorization Code Flow</h3>
+        <p>Most secure flow for web applications with server-side component.</p>
+        <ul>
+          <li>User redirected to authorization server</li>
+          <li>Authorization code exchanged for tokens</li>
+          <li>Supports PKCE for additional security</li>
+          <li>Refresh tokens for long-lived access</li>
+        </ul>
+        <div class="tag-row"><span class="tag">Web Apps</span></div>
+      </div>
+      
+      <div class="card">
+        <h3>Client Credentials Flow</h3>
+        <p>Server-to-server authentication without user involvement.</p>
+        <ul>
+          <li>Direct token exchange with credentials</li>
+          <li>Machine-to-machine communication</li>
+          <li>API service authentication</li>
+          <li>No refresh tokens needed</li>
+        </ul>
+        <div class="tag-row"><span class="tag">M2M</span></div>
+      </div>
+      
+      <div class="card">
+        <h3>Device Code Flow</h3>
+        <p>Authentication for devices without web browsers or limited input.</p>
+        <ul>
+          <li>Device displays user code</li>
+          <li>User authorizes on separate device</li>
+          <li>Polling for authorization status</li>
+          <li>Smart TVs, IoT devices, CLIs</li>
+        </ul>
+        <div class="tag-row"><span class="tag">IoT</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="testing">
+  <div class="container">
+    <div class="section-header"><h2>5. API Testing Strategies</h2><p>Comprehensive testing approaches for reliable and robust API implementations.</p></div>
+    
+    <div class="split">
+      <div class="panel">
+        <h3>Testing Pyramid</h3>
+        <ul>
+          <li><strong>Unit Tests:</strong> Individual function testing</li>
+          <li><strong>Integration Tests:</strong> Component interaction</li>
+          <li><strong>Contract Tests:</strong> API specification compliance</li>
+          <li><strong>End-to-End Tests:</strong> Full workflow testing</li>
+          <li><strong>Performance Tests:</strong> Load and stress testing</li>
+          <li><strong>Security Tests:</strong> Vulnerability scanning</li>
+        </ul>
+      </div>
+      
+      <div class="panel">
+        <h3>Testing Tools</h3>
+        <ul>
+          <li><strong>Postman:</strong> Manual and automated testing</li>
+          <li><strong>Insomnia:</strong> REST and GraphQL client</li>
+          <li><strong>Jest/Mocha:</strong> JavaScript testing frameworks</li>
+          <li><strong>Pact:</strong> Consumer-driven contract testing</li>
+          <li><strong>Artillery:</strong> Performance testing</li>
+          <li><strong>Newman:</strong> Postman CLI runner</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2rem">Test Examples</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>// Unit Test Example (Jest)
+describe('User API', () => {
+  describe('POST /users', () => {
+    it('should create user with valid data', async () => {
+      const userData = {
+        email: 'test@example.com',
+        name: 'Test User',
+        password: 'SecurePass123!'
+      };
+      
+      const response = await request(app)
+        .post('/api/v1/users')
+        .send(userData)
+        .expect(201);
+        
+      expect(response.body.data).toMatchObject({
+        email: userData.email,
+        name: userData.name
+      });
+      expect(response.body.data.id).toBeDefined();
+      expect(response.body.data.password).toBeUndefined();
+    });
+    
+    it('should return 400 for invalid email', async () => {
+      const userData = {
+        email: 'invalid-email',
+        name: 'Test User',
+        password: 'SecurePass123!'
+      };
+      
+      const response = await request(app)
+        .post('/api/v1/users')
+        .send(userData)
+        .expect(400);
+        
+      expect(response.body.error.code).toBe('INVALID_EMAIL');
+    });
+  });
+});
+
+// Integration Test Example
+describe('User Integration Tests', () => {
+  beforeEach(async () => {
+    await clearDatabase();
+    await seedTestData();
+  });
+  
+  it('should handle complete user lifecycle', async () => {
+    // Create user
+    const createResponse = await request(app)
+      .post('/api/v1/users')
+      .send(testUserData)
+      .expect(201);
+      
+    const userId = createResponse.body.data.id;
+    
+    // Get user
+    await request(app)
+      .get(`/api/v1/users/${userId}`)
+      .expect(200);
+      
+    // Update user
+    await request(app)
+      .patch(`/api/v1/users/${userId}`)
+      .send({ name: 'Updated Name' })
+      .expect(200);
+      
+    // Delete user
+    await request(app)
+      .delete(`/api/v1/users/${userId}`)
+      .expect(204);
+      
+    // Verify deletion
+    await request(app)
+      .get(`/api/v1/users/${userId}`)
+      .expect(404);
+  });
+});
+
+# Performance Test Example (Artillery)
+config:
+  target: 'https://api.example.com'
+  phases:
+    - duration: 60
+      arrivalRate: 10
+    - duration: 120
+      arrivalRate: 50
+    - duration: 60
+      arrivalRate: 100
+  
+scenarios:
+  - name: 'User API Load Test'
+    requests:
+      - get:
+          url: '/api/v1/users'
+          headers:
+            Authorization: 'Bearer {{ $randomString() }}'
+      - post:
+          url: '/api/v1/users'
+          json:
+            email: '{{ $randomString() }}@example.com'
+            name: '{{ $randomString() }}'</code></pre>
+  </div>
+</section>
+
+<section id="docs" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>6. API Documentation & Developer Experience</h2><p>Create comprehensive documentation that enables developer success and API adoption.</p></div>
+    
+    <div class="split">
+      <div class="panel">
+        <h3>Documentation Types</h3>
+        <ul>
+          <li><strong>API Reference:</strong> Endpoint specifications</li>
+          <li><strong>Getting Started:</strong> Quick setup guides</li>
+          <li><strong>Tutorials:</strong> Step-by-step walkthroughs</li>
+          <li><strong>Code Examples:</strong> Language-specific samples</li>
+          <li><strong>SDKs:</strong> Generated client libraries</li>
+          <li><strong>Postman Collections:</strong> Interactive examples</li>
+        </ul>
+      </div>
+      
+      <div class="panel">
+        <h3>Documentation Tools</h3>
+        <ul>
+          <li><strong>OpenAPI/Swagger:</strong> Specification standard</li>
+          <li><strong>Redoc:</strong> Beautiful API documentation</li>
+          <li><strong>Stoplight:</strong> Design-first API platform</li>
+          <li><strong>GitBook:</strong> Collaborative documentation</li>
+          <li><strong>Postman:</strong> Collection documentation</li>
+          <li><strong>Insomnia:</strong> Design and documentation</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2rem">OpenAPI Specification Example</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>openapi: 3.0.3
+info:
+  title: User Management API
+  description: A comprehensive API for user management operations
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: api-support@example.com
+    url: https://example.com/support
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.example.com/v1
+    description: Production server
+  - url: https://staging-api.example.com/v1
+    description: Staging server
+
+security:
+  - bearerAuth: []
+  - apiKey: []
+
+paths:
+  /users:
+    get:
+      summary: List users
+      description: Retrieve a paginated list of users with optional filtering
+      operationId: getUsers
+      tags:
+        - Users
+      parameters:
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Number of users per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: search
+          in: query
+          description: Search term for filtering users
+          required: false
+          schema:
+            type: string
+            maxLength: 100
+      responses:
+        '200':
+          description: Users retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersResponse'
+              examples:
+                success:
+                  summary: Successful response
+                  value:
+                    data:
+                      - id: "123e4567-e89b-12d3-a456-426614174000"
+                        email: "user@example.com"
+                        name: "John Doe"
+                        created_at: "2023-10-01T12:00:00Z"
+                    pagination:
+                      current_page: 1
+                      per_page: 20
+                      total_pages: 5
+                      total_count: 100
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    post:
+      summary: Create user
+      description: Create a new user account
+      operationId: createUser
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+            examples:
+              valid_user:
+                summary: Valid user creation
+                value:
+                  email: "newuser@example.com"
+                  name: "Jane Smith"
+                  password: "SecurePass123!"
+      responses:
+        '201':
+          description: User created successfully
+          headers:
+            Location:
+              description: URL of the created user
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: User already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - email
+        - name
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique user identifier
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: "user@example.com"
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: User's full name
+          example: "John Doe"
+        created_at:
+          type: string
+          format: date-time
+          description: User creation timestamp
+          example: "2023-10-01T12:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: User last update timestamp
+          example: "2023-10-15T14:30:00Z"
+
+    CreateUserRequest:
+      type: object
+      required:
+        - email
+        - name
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: "user@example.com"
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: User's full name
+          example: "John Doe"
+        password:
+          type: string
+          minLength: 8
+          maxLength: 128
+          description: User's password (minimum 8 characters)
+          example: "SecurePass123!"
+
+  responses:
+    BadRequest:
+      description: Bad request - Invalid input data
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+      description: Unauthorized - Invalid or missing authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key</code></pre>
+  </div>
+</section>
+
+<section id="lab">
+  <div class="container">
+    <div class="section-header"><h2>7. Interactive API Labs</h2><p>Practice API development concepts with hands-on tools and simulators.</p></div>
+    <div class="lab">
+      <div class="tool">
+        <h4>OpenAPI Generator</h4>
+        <input id="apiTitle" placeholder="API Title" value="User API" />
+        <input id="apiVersion" placeholder="Version" value="1.0.0" />
+        <select id="resourceType">
+          <option value="users">Users</option>
+          <option value="products">Products</option>
+          <option value="orders">Orders</option>
+          <option value="posts">Posts</option>
+        </select>
+        <button onclick="generateOpenAPI()">Generate OpenAPI Spec</button>
+        <div class="output" id="openApiOut">(Generated OpenAPI specification will appear here)</div>
+      </div>
+      
+      <div class="tool">
+        <h4>JWT Token Decoder</h4>
+        <textarea id="jwtToken" placeholder="Paste JWT token here (eyJ...)"></textarea>
+        <button onclick="decodeJWT()">Decode JWT</button>
+        <div class="output" id="jwtOut">(Decoded JWT payload will appear here)</div>
+      </div>
+      
+      <div class="tool">
+        <h4>API Response Generator</h4>
+        <select id="responseType">
+          <option value="success">Success Response</option>
+          <option value="error">Error Response</option>
+          <option value="pagination">Paginated Response</option>
+        </select>
+        <input id="resourceName" placeholder="Resource name (e.g., user)" />
+        <button onclick="generateResponse()">Generate Response</button>
+        <div class="output" id="responseOut">(Generated API response will appear here)</div>
+      </div>
+      
+      <div class="tool">
+        <h4>Rate Limiting Calculator</h4>
+        <input id="requestsPerMinute" placeholder="Requests per minute" type="number" />
+        <input id="burstSize" placeholder="Burst size" type="number" />
+        <input id="windowSize" placeholder="Window size (minutes)" type="number" />
+        <button onclick="calculateRateLimit()">Calculate Limits</button>
+        <div class="output" id="rateLimitOut">(Rate limiting analysis will appear here)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="review" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>8. API Mastery Review</h2><p>Comprehensive assessment of API development skills and best practices.</p></div>
+    <div class="split">
+      <div class="panel">
+        <h3>Mastery Checklist</h3>
+        <div class="checklist" id="checklist">
+          <label class="check-item"><input type="checkbox" data-task> Design RESTful APIs following resource-oriented principles</label>
+          <label class="check-item"><input type="checkbox" data-task> Implement proper HTTP status codes and error handling</label>
+          <label class="check-item"><input type="checkbox" data-task> Create GraphQL schemas with efficient resolvers</label>
+          <label class="check-item"><input type="checkbox" data-task> Implement JWT-based authentication and authorization</label>
+          <label class="check-item"><input type="checkbox" data-task> Write comprehensive API tests (unit, integration, e2e)</label>
+          <label class="check-item"><input type="checkbox" data-task> Create detailed OpenAPI documentation</label>
+          <label class="check-item"><input type="checkbox" data-task> Implement API versioning and backward compatibility</label>
+          <label class="check-item"><input type="checkbox" data-task> Design pagination and filtering for large datasets</label>
+          <label class="check-item"><input type="checkbox" data-task> Implement rate limiting and security measures</label>
+          <label class="check-item"><input type="checkbox" data-task> Optimize API performance with caching strategies</label>
+        </div>
+      </div>
+      
+      <div class="panel">
+        <h3>Expert Q&A</h3>
+        <div id="qa">
+          <div class="qa-item">
+            <div class="qa-q">When should you choose GraphQL over REST?</div>
+            <div class="qa-a">
+              <p>Choose GraphQL when you need flexible data fetching, have multiple client types with different data needs, want to reduce over-fetching, need real-time subscriptions, or work with complex, interconnected data. REST is better for simpler CRUD operations, caching requirements, or when you need mature tooling ecosystem.</p>
+            </div>
+          </div>
+          
+          <div class="qa-item">
+            <div class="qa-q">How do you handle API versioning without breaking clients?</div>
+            <div class="qa-a">
+              <p>Use semantic versioning, maintain backward compatibility for minor versions, provide clear deprecation timelines, support multiple API versions simultaneously, use content negotiation for version selection, and implement gradual migration strategies with proper documentation.</p>
+            </div>
+          </div>
+          
+          <div class="qa-item">
+            <div class="qa-q">What are the key considerations for API rate limiting?</div>
+            <div class="qa-a">
+              <p>Consider business requirements, user tiers, endpoint sensitivity, burst vs sustained load, fair usage policies, rate limit algorithms (token bucket, sliding window), proper error responses (429 status), and rate limit headers for client guidance.</p>
+            </div>
+          </div>
+          
+          <div class="qa-item">
+            <div class="qa-q">How do you secure APIs against common vulnerabilities?</div>
+            <div class="qa-a">
+              <p>Implement proper authentication/authorization, validate all inputs, use HTTPS everywhere, protect against injection attacks, implement rate limiting, use CORS correctly, validate JWT tokens properly, sanitize outputs, and regularly update dependencies.</p>
+            </div>
+          </div>
+          
+          <div class="qa-item">
+            <div class="qa-q">What strategies improve API performance at scale?</div>
+            <div class="qa-a">
+              <p>Implement caching (HTTP, Redis, CDN), optimize database queries, use pagination and filtering, implement compression, use async processing for heavy operations, implement circuit breakers, monitor performance metrics, and scale horizontally with load balancing.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 OpenSource Tech Guides – API Design & Development Guide.</p>
+  <p><a href="index.html" style="color:var(--accent-alt);text-decoration:none;">Return to Portal</a></p>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+// Register checklist with shared utility
+registerChecklist('api_design_development_ck_v1','[data-task]','api-design-development');
+
+// OpenAPI Generator
+function generateOpenAPI() {
+  const title = document.getElementById('apiTitle').value.trim() || 'API';
+  const version = document.getElementById('apiVersion').value.trim() || '1.0.0';
+  const resource = document.getElementById('resourceType').value;
+  
+  const spec = `openapi: 3.0.3
+info:
+  title: ${title}
+  version: ${version}
+  description: RESTful API for ${resource} management
+
+servers:
+  - url: https://api.example.com/v1
+
+paths:
+  /${resource}:
+    get:
+      summary: List ${resource}
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: ${resource} list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/${resource.charAt(0).toUpperCase() + resource.slice(1, -1)}'
+    post:
+      summary: Create ${resource.slice(0, -1)}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Create${resource.charAt(0).toUpperCase() + resource.slice(1, -1)}Request'
+      responses:
+        '201':
+          description: ${resource.slice(0, -1)} created
+
+  /${resource}/{id}:
+    get:
+      summary: Get ${resource.slice(0, -1)}
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ${resource.slice(0, -1)} details
+        '404':
+          description: ${resource.slice(0, -1)} not found
+
+components:
+  schemas:
+    ${resource.charAt(0).toUpperCase() + resource.slice(1, -1)}:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time`;
+  
+  document.getElementById('openApiOut').textContent = spec;
+}
+
+// JWT Decoder
+function decodeJWT() {
+  const token = document.getElementById('jwtToken').value.trim();
+  const output = document.getElementById('jwtOut');
+  
+  if (!token) {
+    output.textContent = 'Please provide a JWT token';
+    return;
+  }
+  
+  try {
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      throw new Error('Invalid JWT format');
+    }
+    
+    const header = JSON.parse(atob(parts[0].replace(/-/g, '+').replace(/_/g, '/')));
+    const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+    
+    const decoded = {
+      header: header,
+      payload: payload,
+      signature: parts[2]
+    };
+    
+    output.textContent = JSON.stringify(decoded, null, 2);
+  } catch (error) {
+    output.textContent = `Error decoding JWT: ${error.message}`;
+  }
+}
+
+// Response Generator
+function generateResponse() {
+  const type = document.getElementById('responseType').value;
+  const resourceName = document.getElementById('resourceName').value.trim() || 'item';
+  const output = document.getElementById('responseOut');
+  
+  let response;
+  
+  switch (type) {
+    case 'success':
+      response = {
+        data: {
+          id: "123e4567-e89b-12d3-a456-426614174000",
+          name: `Sample ${resourceName}`,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }
+      };
+      break;
+      
+    case 'error':
+      response = {
+        error: {
+          code: `INVALID_${resourceName.toUpperCase()}`,
+          message: `The ${resourceName} data provided is invalid`,
+          details: {
+            field: "name",
+            issue: "required field missing"
+          }
+        }
+      };
+      break;
+      
+    case 'pagination':
+      response = {
+        data: [
+          {
+            id: "123e4567-e89b-12d3-a456-426614174000",
+            name: `Sample ${resourceName} 1`
+          },
+          {
+            id: "456e7890-e89b-12d3-a456-426614174001",
+            name: `Sample ${resourceName} 2`
+          }
+        ],
+        pagination: {
+          current_page: 1,
+          per_page: 20,
+          total_pages: 5,
+          total_count: 100
+        },
+        links: {
+          next: `/api/v1/${resourceName}s?page=2`,
+          last: `/api/v1/${resourceName}s?page=5`
+        }
+      };
+      break;
+  }
+  
+  output.textContent = JSON.stringify(response, null, 2);
+}
+
+// Rate Limiting Calculator
+function calculateRateLimit() {
+  const requestsPerMinute = parseInt(document.getElementById('requestsPerMinute').value) || 60;
+  const burstSize = parseInt(document.getElementById('burstSize').value) || 10;
+  const windowSize = parseInt(document.getElementById('windowSize').value) || 1;
+  
+  const requestsPerSecond = requestsPerMinute / 60;
+  const requestsPerHour = requestsPerMinute * 60;
+  const requestsPerDay = requestsPerHour * 24;
+  
+  const analysis = `Rate Limiting Analysis:
+
+Configured Limits:
+- ${requestsPerMinute} requests per minute
+- Burst size: ${burstSize} requests
+- Window size: ${windowSize} minute(s)
+
+Calculated Rates:
+- ${requestsPerSecond.toFixed(2)} requests per second
+- ${requestsPerHour} requests per hour
+- ${requestsPerDay} requests per day
+
+Recommendations:
+- Use token bucket algorithm for burst handling
+- Implement sliding window for fair distribution
+- Return rate limit headers:
+  X-RateLimit-Limit: ${requestsPerMinute}
+  X-RateLimit-Remaining: (dynamic)
+  X-RateLimit-Reset: (timestamp)
+
+HTTP 429 Response:
+{
+  "error": {
+    "code": "RATE_LIMIT_EXCEEDED",
+    "message": "Rate limit exceeded. Try again in ${60/requestsPerMinute} seconds"
+  }
+}`;
+  
+  document.getElementById('rateLimitOut').textContent = analysis;
+}
+
+// Make functions global
+window.generateOpenAPI = generateOpenAPI;
+window.decodeJWT = decodeJWT;
+window.generateResponse = generateResponse;
+window.calculateRateLimit = calculateRateLimit;
+</script>
+</body>
+</html>

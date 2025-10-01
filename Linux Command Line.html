@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Linux Command Line Essentials – OpenSource Tech Guides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --accent:#4caf50; --accent-alt:#66d06c; --accent-grad:linear-gradient(135deg,#3e9e46,#66d06c 60%,#9be27e);
+  --bg:#0d1117; --bg-alt:#161b22; --panel:#1d242e; --border:#2d333b; --code-bg:#10161d;
+  --text:#d1d9e0; --text-soft:#8b949e; --radius:14px; --shadow:0 10px 30px -10px rgba(0,0,0,.45);
+  --header-font:'Poppins',sans-serif; --body-font:'Roboto',sans-serif; --mono:'JetBrains Mono',monospace;
+  --green:#2ea043; --red:#f85149; --blue:#388bfd; --yellow:#d29922; --orange:#ff9800;
+}
+html { scroll-behavior:smooth; }
+body { margin:0; font-family:var(--body-font); background:var(--bg); color:var(--text); line-height:1.65; }
+
+.main-header { position:sticky; top:0; z-index:1000; background:rgba(13,17,23,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); }
+.nav-container { max-width:1300px; margin:0 auto; padding:.9rem 1.5rem; display:flex; justify-content:space-between; align-items:center; }
+.logo { font-family:var(--header-font); font-weight:700; font-size:1.25rem; text-decoration:none; background:var(--accent-grad); -webkit-background-clip:text; background-clip:text; color:transparent; letter-spacing:.5px; }
+.nav-menu { list-style:none; margin:0; padding:0; display:flex; gap:1.2rem; }
+.nav-menu a { text-decoration:none; color:var(--text-soft); font-size:.85rem; font-weight:600; letter-spacing:.5px; padding:.45rem .8rem; border-radius:8px; transition:.25s; }
+.nav-menu a:hover, .nav-menu a.active { background:var(--panel); color:var(--text); }
+
+.hero { padding:5.2rem 1.5rem 3rem; background:radial-gradient(circle at 28% 20%,rgba(76,175,80,.25),transparent 60%), radial-gradient(circle at 80% 55%,rgba(155,226,126,.18),transparent 70%); }
+.hero-inner { max-width:1150px; margin:0 auto; }
+.hero h1 { font-family:var(--header-font); font-size:clamp(2.4rem,5.2vw,3.8rem); line-height:1.05; margin:.35rem 0 1.1rem; background:var(--accent-grad); -webkit-background-clip:text; background-clip:text; color:transparent; letter-spacing:.5px; }
+.hero p.lead { font-size:1.12rem; max-width:860px; color:var(--text-soft); margin:0 0 1.4rem; }
+.meta-grid { display:flex; flex-wrap:wrap; gap:.8rem; margin-top:.8rem; }
+.meta-chip { background:var(--panel); border:1px solid var(--border); padding:.5rem .85rem; font-size:.65rem; border-radius:40px; letter-spacing:.8px; font-weight:600; text-transform:uppercase; color:var(--text-soft); display:flex; align-items:center; gap:.45rem; }
+
+section { padding:3rem 1.5rem; }
+section.alt { background:var(--bg-alt); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.container { max-width:1150px; margin:0 auto; }
+.section-header { margin-bottom:2.2rem; }
+.section-header h2 { font-family:var(--header-font); font-size:2.15rem; margin:0 0 .65rem; letter-spacing:.5px; }
+.section-header p { margin:0; color:var(--text-soft); font-size:1rem; }
+
+.card-grid { display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
+.card { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem 1.1rem 1.35rem; position:relative; overflow:hidden; box-shadow:var(--shadow); transition:.35s; }
+.card:before { content:""; position:absolute; inset:0; background:linear-gradient(140deg,rgba(76,175,80,.12),transparent 55%); opacity:0; transition:.4s; }
+.card:hover { transform:translateY(-6px); border-color:var(--accent-alt); }
+.card:hover:before { opacity:1; }
+.card h3 { margin:.15rem 0 .7rem; font-size:1.05rem; }
+.card p { margin:0; font-size:.8rem; color:var(--text-soft); line-height:1.45; }
+.tag-row { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.55rem; }
+.tag { background:#273139; padding:.25rem .55rem; border-radius:6px; font-size:.55rem; letter-spacing:.5px; text-transform:uppercase; border:1px solid var(--border); color:var(--text-soft); }
+
+.split { display:grid; gap:2rem; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); align-items:start; }
+.panel { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1.3rem 1.15rem 1.4rem; position:relative; }
+.panel h3 { margin:.1rem 0 .8rem; font-size:1.1rem; }
+.panel ul { margin:0; padding-left:1.1rem; }
+.panel li { margin:.5rem 0; }
+
+pre { background:var(--code-bg); border:1px solid var(--border); padding:1rem 1rem 1.15rem; border-radius:12px; overflow:auto; font-family:var(--mono); font-size:.78rem; line-height:1.35; position:relative; }
+code.inline { background:var(--code-bg); padding:.22rem .45rem; border-radius:6px; font-family:var(--mono); font-size:.7rem; }
+.copy-btn { position:absolute; top:8px; right:8px; background:#222; color:var(--text-soft); border:1px solid var(--border); font-size:.55rem; padding:.23rem .55rem; border-radius:6px; cursor:pointer; }
+.copy-btn:hover { color:var(--text); border-color:var(--accent-alt); }
+
+.lab { display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); margin-top:1.1rem; }
+.lab-tool { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1rem 1rem 1.2rem; }
+.lab-tool h4 { margin:.15rem 0 .7rem; font-size:1rem; }
+.lab-tool textarea, .lab-tool input { width:100%; background:var(--code-bg); border:1px solid var(--border); color:var(--text); padding:.55rem .65rem; font-family:var(--mono); font-size:.7rem; border-radius:8px; resize:vertical; }
+.lab-tool textarea { min-height:120px; }
+.lab-tool button { background:var(--accent); border:none; color:#fff; padding:.5rem .85rem; border-radius:8px; cursor:pointer; font-size:.6rem; font-weight:600; letter-spacing:.5px; margin-top:.45rem; }
+.lab-output { background:#10161d; border:1px solid var(--border); padding:.6rem .7rem; min-height:70px; font-family:var(--mono); font-size:.68rem; border-radius:8px; margin-top:.6rem; white-space:pre-wrap; overflow:auto; }
+
+.checklist { display:grid; gap:.55rem; margin-top:.8rem; }
+.check-item { background:var(--panel); border:1px solid var(--border); padding:.55rem .65rem .6rem 2.1rem; border-radius:10px; position:relative; font-size:.7rem; cursor:pointer; line-height:1.4; }
+.check-item input { position:absolute; left:.75rem; top:50%; transform:translateY(-50%); width:15px; height:15px; cursor:pointer; }
+.check-item.completed { border-color:var(--green); background:linear-gradient(135deg,rgba(46,160,67,.15),transparent); }
+.qa { margin-top:1.5rem; }
+.qa-item { border:1px solid var(--border); background:var(--panel); border-radius:12px; margin:.8rem 0; overflow:hidden; }
+.qa-q { margin:0; padding:.8rem 1rem; font-weight:600; font-size:.72rem; cursor:pointer; position:relative; }
+.qa-q:after { content:'+'; position:absolute; right:14px; top:50%; transform:translateY(-50%); }
+.qa-item.open .qa-q:after { content:'−'; }
+.qa-a { max-height:0; overflow:hidden; transition:max-height .5s ease; padding:0 1rem; }
+.qa-item.open .qa-a { max-height:500px; padding:0 1rem .8rem; }
+.qa-a p { margin:.6rem 0 0; font-size:.68rem; color:var(--text-soft); }
+
+.footer { text-align:center; padding:3rem 1.5rem 4rem; background:var(--bg-alt); margin-top:3rem; border-top:1px solid var(--border); }
+.footer p { margin:.4rem 0; font-size:.65rem; color:var(--text-soft); }
+
+@media (max-width:760px){ .card-grid { grid-template-columns:1fr; } .split { grid-template-columns:1fr; } .hero { padding:4.6rem 1.1rem 2.8rem; } }
+</style>
+</head>
+<body>
+<header class="main-header">
+  <div class="nav-container">
+    <a class="logo" href="index.html">💻 Linux CLI</a>
+    <ul class="nav-menu">
+      <li><a href="#navigation" class="active">Nav</a></li>
+      <li><a href="#files">Files</a></li>
+      <li><a href="#processes">Processes</a></li>
+      <li><a href="#networking">Net</a></li>
+      <li><a href="#lab">Lab</a></li>
+      <li><a href="#cheatsheet">Cheat</a></li>
+      <li><a href="#prep">Prep</a></li>
+    </ul>
+  </div>
+</header>
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Linux Command Line Essentials</h1>
+    <p class="lead">Master navigation, file operations, permissions, processes, networking, scripting, and productivity primitives. Focus on composability and the philosophy: small tools, combined power.</p>
+    <div class="meta-grid">
+      <div class="meta-chip">📂 FS</div><div class="meta-chip">🔐 Perms</div><div class="meta-chip">⚙️ Processes</div><div class="meta-chip">🌐 Networking</div><div class="meta-chip">🧩 Pipes</div><div class="meta-chip">🚀 Productivity</div>
+    </div>
+  </div>
+</section>
+
+<!-- 1 Navigation -->
+<section id="navigation">
+  <div class="container">
+    <div class="section-header"><h2>1. Navigation & Environment</h2><p>Understand where you are & how context changes.</p></div>
+    <div class="card-grid">
+      <div class="card"><h3>Filesystem Hierarchy</h3><p>Root <code class="inline">/</code> → bin (binaries), etc (config), var (logs/state), home (users), tmp (ephemeral).</p><div class="tag-row"><span class="tag">FHS</span></div></div>
+      <div class="card"><h3>Shell Types</h3><p>Bash (ubiquitous), Zsh (features), Fish (friendly). POSIX sh minimal baseline for scripts.</p><div class="tag-row"><span class="tag">bash</span></div></div>
+      <div class="card"><h3>Env Vars</h3><p><code class="inline">PATH</code> search path; <code class="inline">HOME</code> user dir; export to make available to child processes.</p><div class="tag-row"><span class="tag">PATH</span></div></div>
+      <div class="card"><h3>Hidden Files</h3><p>Start with dot (.gitignore). Often config. Use <code class="inline">ls -a</code> to list.</p><div class="tag-row"><span class="tag">dotfiles</span></div></div>
+    </div>
+
+    <h3 style="margin-top:2rem">Core Navigation Commands</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>pwd        # print working directory
+ls -lah    # list (long, all, human sizes)
+cd /etc    # change directory
+cd -       # jump back
+file name  # detect file type
+which bash # path to executable
+clear      # reset view</code></pre>
+  </div>
+</section>
+
+<!-- 2 Files -->
+<section id="files" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>2. Files, Text & Permissions</h2><p>Manipulate content safely & inspect metadata.</p></div>
+    <div class="split">
+      <div class="panel"><h3>Creation & Inspection</h3><ul><li><code class="inline">touch a.txt</code> create/update timestamp</li><li><code class="inline">cat file</code> print contents</li><li><code class="inline">less file</code> page through large content</li><li><code class="inline">head -n 20</code>, <code class="inline">tail -f</code></li></ul></div>
+      <div class="panel"><h3>Editing</h3><ul><li>nano (simple), vim (modal power), code (VS Code remote)</li><li>Learn at least basic vim: <code class="inline">i</code> insert, <code class="inline">:wq</code> write/quit, <code class="inline">dd</code> delete line.</li></ul></div>
+      <div class="panel"><h3>Permissions</h3><ul><li>r=4 w=2 x=1; <code class="inline">chmod 755 script.sh</code></li><li>Symbolic: <code class="inline">chmod u+x file</code></li><li>Ownership: <code class="inline">chown user:group</code></li></ul></div>
+    </div>
+
+    <h3 style="margin-top:2.1rem">Finding & Searching</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>find . -name "*.log" -mtime -1
+grep -R "ERROR" logs/
+rg pattern src/              # ripgrep (faster)
+ag pattern                   # the_silver_searcher
+xargs -0 rm < files.txt      # null-safe batch remove
+locate config.yaml           # database index</code></pre>
+  </div>
+</section>
+
+<!-- 3 Processes -->
+<section id="processes">
+  <div class="container">
+    <div class="section-header"><h2>3. Processes & Resource Monitoring</h2><p>Observe, prioritize & control execution.</p></div>
+    <div class="split">
+      <div class="panel"><h3>Listing</h3><ul><li><code class="inline">ps aux</code> snapshot</li><li><code class="inline">top</code> dynamic view (<code class="inline">htop</code> improved)</li><li><code class="inline">pgrep nginx</code> PID lookup</li></ul></div>
+      <div class="panel"><h3>Signals</h3><ul><li><code class="inline">kill -TERM pid</code> graceful</li><li><code class="inline">kill -KILL pid</code> force</li><li><code class="inline">kill -STOP / -CONT</code> pause/resume</li></ul></div>
+      <div class="panel"><h3>Scheduling</h3><ul><li><code class="inline">cron</code> recurring: <code class="inline">crontab -e</code></li><li><code class="inline">at 14:30</code> one-time job</li><li><code class="inline">nice / renice</code> adjust priority</li></ul></div>
+    </div>
+
+    <h3 style="margin-top:2rem">Background & Foreground</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>./script.sh &      # run in background
+jobs               # list
+fg %1              # bring job 1 foreground
+nohup long.sh &    # survive hangup
+sleep 100 & disown # detach fully</code></pre>
+  </div>
+</section>
+
+<!-- 4 Networking -->
+<section id="networking" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>4. Networking & Transfers</h2><p>Inspect connectivity, latency & move data.</p></div>
+    <div class="split">
+      <div class="panel"><h3>Inspection</h3><ul><li><code class="inline">ip a</code> interfaces</li><li><code class="inline">ss -tulpen</code> listening sockets</li><li><code class="inline">dig example.com</code> DNS resolution</li></ul></div>
+      <div class="panel"><h3>Connectivity</h3><ul><li><code class="inline">ping host</code> reachability</li><li><code class="inline">curl -I https://site</code> headers</li><li><code class="inline">traceroute host</code> path hops</li></ul></div>
+      <div class="panel"><h3>Transfers</h3><ul><li><code class="inline">scp file user@host:/path</code></li><li><code class="inline">rsync -av --progress src/ dest/</code></li><li><code class="inline">wget URL</code> download</li></ul></div>
+    </div>
+
+    <h3 style="margin-top:2.1rem">cURL Patterns</h3>
+    <pre><button class="copy-btn" data-copy>Copy</button><code>curl -s https://api/service | jq '.items[]'
+curl -X POST -H 'Content-Type: application/json' \
+  -d '{"name":"demo"}' https://api/service
+curl -L -O https://host/file.tar.gz
+curl -I https://site --http2</code></pre>
+  </div>
+</section>
+
+<!-- 5 Lab -->
+<section id="lab">
+  <div class="container">
+    <div class="section-header"><h2>5. Interactive Practice Lab</h2><p>Simulated shell transformations (no real OS exec here).</p></div>
+    <div class="lab">
+      <div class="lab-tool">
+        <h4>Pipe Builder</h4>
+        <textarea id="pipeInput" placeholder="cat access.log | grep ERROR | sort | uniq -c | sort -nr"></textarea>
+        <button onclick="analyzePipe()">Analyze</button>
+        <div class="lab-output" id="pipeOut">(analysis)</div>
+      </div>
+      <div class="lab-tool">
+        <h4>Permission Calculator</h4>
+        <input id="permUser" placeholder="u=rwx" />
+        <input id="permGroup" placeholder="g=rx" />
+        <input id="permOther" placeholder="o=rx" />
+        <button onclick="calcPerm()">Calc</button>
+        <div class="lab-output" id="permOut">(mode)</div>
+      </div>
+      <div class="lab-tool">
+        <h4>Crontab Explainer</h4>
+        <input id="cronExpr" placeholder="*/15 * * * *" />
+        <button onclick="explainCron()">Explain</button>
+        <div class="lab-output" id="cronOut">(cron meaning)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 Cheat Sheet -->
+<section id="cheatsheet" class="alt">
+  <div class="container">
+    <div class="section-header"><h2>6. Command Cheat Sheet</h2><p>High leverage commands grouped by intent.</p></div>
+    <div class="split">
+      <div class="panel"><h3>Compression</h3><pre><code>tar -czf archive.tgz dir/
+zip -r archive.zip dir/
+gzip file   # replaces with file.gz
+tar -xvf file.tar</code></pre></div>
+      <div class="panel"><h3>Disk & Usage</h3><pre><code>du -sh *          # folder sizes
+ncdu              # interactive usage
+df -h             # mounted usage
+lsblk             # block devices</code></pre></div>
+      <div class="panel"><h3>Permissions & Identity</h3><pre><code>id                 # user info
+whoami             # current user
+umask              # default mask
+sudo !!            # repeat prev as root</code></pre></div>
+      <div class="panel"><h3>Networking</h3><pre><code>nc -zv host 80     # port check
+watch -n1 'ss -s'  # socket stats
+tcpdump -ni any port 443
+ssh -i key.pem user@host</code></pre></div>
+      <div class="panel"><h3>Arch / System</h3><pre><code>uname -a           # kernel info
+lsb_release -a     # distro
+lscpu              # CPU details
+free -h            # memory</code></pre></div>
+      <div class="panel"><h3>Productivity</h3><pre><code>history | tail -20
+alias gs='git status'
+watch -n5 'df -h | grep nvme'
+CTRL+R  # reverse search</code></pre></div>
+    </div>
+    <div class="note" style="background:#203023;border:1px solid #304a33;color:#b1e3c2;">Principle: Compose simple tools with pipes. If you repeat it twice, automate it (alias, function, script).</div>
+  </div>
+</section>
+
+<!-- 7 Prep -->
+<section id="prep">
+  <div class="container">
+    <div class="section-header"><h2>7. Mastery Review</h2><p>Track operational fluency.</p></div>
+    <div class="split">
+      <div class="panel">
+        <h3>Progress Checklist</h3>
+        <div class="checklist" id="checklist">
+          <label class="check-item"><input type="checkbox" data-task> Navigate tree & relative vs absolute paths</label>
+          <label class="check-item"><input type="checkbox" data-task> Search files with find + grep combo</label>
+          <label class="check-item"><input type="checkbox" data-task> Interpret ls -lah output</label>
+          <label class="check-item"><input type="checkbox" data-task> Modify permissions with chmod symbolic</label>
+          <label class="check-item"><input type="checkbox" data-task> Monitor processes with top/htop</label>
+          <label class="check-item"><input type="checkbox" data-task> Use pipes and redirection</label>
+          <label class="check-item"><input type="checkbox" data-task> Transfer files with scp/rsync</label>
+          <label class="check-item"><input type="checkbox" data-task> Write & schedule a cron job</label>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Concept Q&A</h3>
+        <div class="qa" id="qaBank">
+          <div class="qa-item"><div class="qa-q">Difference between hard link and soft link?</div><div class="qa-a"><p>Hard link points to same inode (same data). Symlink points to path; breaks if target removed. Hard links can't span filesystems or link dirs (usually).</p></div></div>
+          <div class="qa-item"><div class="qa-q">Why use pipes over temp files?</div><div class="qa-a"><p>Streams keep data in memory/pipe buffer, reduce I/O, support composability, and encourage single-purpose tools.</p></div></div>
+          <div class="qa-item"><div class="qa-q">What does chmod 750 mean?</div><div class="qa-a"><p>User rwx (7), group rx (5), others none (0): only owner executes; group reads/executes.</p></div></div>
+          <div class="qa-item"><div class="qa-q">When prefer rsync over scp?</div><div class="qa-a"><p>rsync handles delta transfers, resume, compression, and preserves permissions efficiently; scp always re-copies full files.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <p>&copy; 2025 OpenSource Tech Guides – Linux Command Line Essentials.</p>
+  <p><a href="index.html" style="color:var(--accent-alt); text-decoration:none;">Return to Portal</a></p>
+</footer>
+<script>
+// Register checklist with shared utility
+registerChecklist('linux_cli_checklist_v1','[data-task]','linux-cli');
+// Pipe analyzer (split by | and annotate)
+function analyzePipe(){ const raw=pipeInput.value.trim(); if(!raw){ pipeOut.textContent='(provide pipeline)'; return; } const parts=raw.split('|').map(p=>p.trim()); let out='Pipeline stages:\n'; parts.forEach((p,i)=>{ out+= (i+1)+'. '+p+'\n'; }); out+='Total stages: '+parts.length; pipeOut.textContent=out; }
+window.analyzePipe=analyzePipe;
+// Permission calculator
+function calcPerm(){ function parse(segment){ const map={r:4,w:2,x:1}; let total=0; (segment.split('=')[1]||'').split('').forEach(c=> total+=map[c]||0 ); return total; } const u=parse(permUser.value||'u='); const g=parse(permGroup.value||'g='); const o=parse(permOther.value||'o='); permOut.textContent=`${u}${g}${o}`; }
+window.calcPerm=calcPerm;
+// Cron explainer (basic)
+function explainCron(){ const expr=cronExpr.value.trim(); if(!expr){ cronOut.textContent='(expr?)'; return; } const parts=expr.split(/\s+/); if(parts.length<5){ cronOut.textContent='Need 5 fields'; return; } const map=['minute','hour','day of month','month','day of week']; let out=''; parts.slice(0,5).forEach((p,i)=>{ out+=map[i]+': '+p+'\n'; }); cronOut.textContent=out; }
+window.explainCron=explainCron;
+</script>
+</body>
+</html>
